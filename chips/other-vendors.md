@@ -934,3 +934,52 @@ The CH57x/CH58x/CH585 parts are attractive because everything *except the radio*
 - Persistent Systems MPU5 — https://www.persistentsystems.com/mpu5/
 - Rajant Kinetic Mesh — https://rajant.com/
 - Silvus Technologies StreamCaster — https://www.silvustechnologies.com/products/
+
+
+---
+
+## Long-tail sweep — Cycle 10
+
+*Round 8 — last call.* This is a deliberate final pass for any net-new wireless silicon still missing after nine cycles and eight long-tail rounds. The honest headline up front: **the long tail is now largely exhausted.** Every part the scope named as a candidate is already catalogued — Qualcomm **FastConnect 7900** (Cycle 5, tier 0, the first Wi-Fi 7 + BT + UWB single-die combo), the **Filogic** line including 330/830/860/880 = MT7920/MT7986/MT7990/MT7996 ([`chips/mediatek-ralink.md`](mediatek-ralink.md)), **ESP32-C61** production (2.4 GHz Wi-Fi 6, ESP-IDF CSI path — [`chips/espressif.md`](espressif.md), [`chips/risc-v-wifi.md`](risc-v-wifi.md)), the new **nRF54L/H** RADIO generation ([`chips/ble-154-thread.md`](ble-154-thread.md), and the `nordic-nrf52` record here), and the newest **HaLow** parts Morse Micro **MM8108** (CES 2025) and Newracom **NRC7394** ([`docs/halow-subghz.md`](../docs/halow-subghz.md)). Re-verifying that closure was most of the work of this round, and it is the main finding: breadth is saturated.
+
+Two genuinely un-catalogued parts of real value survived the sweep, plus a short honest list of closed stragglers that do **not** warrant records.
+
+### Net-new entries
+
+| id | part(s) | bands | radios | tier | RE path |
+|---|---|---|---|---|---|
+| `nordic-nrf7002` | nRF7002 / nRF7001 / nRF7000 | 2.4 GHz, 5 GHz | Wi-Fi 6 companion IC | 1 | **Open portable driver source** (`nrf_wifi`) + nRF Connect SDK monitor/raw-TX; RF firmware is a signed patch blob |
+| `nxp-rw61x` | RW612 / RW610 | 2.4 GHz, 5 GHz | Wi-Fi 6 + BLE 5.4 + 802.15.4, **on one MCU die** | 1 | Cortex-M33 host is open (MCUXpresso); `moal`/`mlan`-derived net-monitor; PHY/CAU firmware closed |
+
+#### `nordic-nrf7002` — Nordic nRF70 Wi-Fi 6 companion IC (the open-driver outlier)
+
+Nordic's **nRF70 series** is a *pure Wi-Fi 6 (802.11ax) companion IC* — not a standalone SoC. It attaches over **SPI/QSPI** to a host MCU (typically an nRF5340/nRF54 BLE SoC or an nRF91 cellular SiP, but any host works) and complies with 802.11a/b/g/n/ac/ax. Part split:
+
+- **nRF7002** — dual-band **2.4 GHz + 5 GHz**, full Station / SoftAP / Wi-Fi Direct.
+- **nRF7001** — 2.4 GHz only, Station/SoftAP.
+- **nRF7000** — **scan-only** (Wi-Fi-based locationing via SSID sniffing of nearby APs); no Station/SoftAP.
+
+Why it earns a record when most companion radios are tier-0 dead ends: **Nordic publishes the driver as portable source.** The [`nrfconnect/nrf_wifi`](https://github.com/nrfconnect/nrf_wifi) repo carries the full stack — bus (`bal`), hardware-abstraction (`hal`), UMAC/FMAC firmware *interface* (`fw_if/umac_if`), and OS shims — with Zephyr integration in nRF Connect SDK. That is unusually far up the openness ladder for a merchant Wi-Fi part: you can read exactly how the host drives the radio. The ceiling is that the actual **RF/lower-MAC firmware is a signed binary patch** (`nrf70.bin`, loaded at init) — the PHY internals are not source, so this is not raw-IQ. But nRF Connect SDK ships two features that put it firmly at **tier 1**: a **Promiscuous/Monitor RX mode** and a **Raw IEEE 802.11 packet TX** ("raw TX / injection") path, both documented and buildable. No public CSI export exists for the nRF70, so tier 2 is not claimed. Hardware: **nRF7002-DK**, **nRF7002-EB/EK** expansion shields, and the nRF7002-based Thingy platforms. Status **reported** (monitor/raw-TX are vendor-documented SDK features; not independently CSI/injection-verified in this catalog).
+
+#### `nxp-rw61x` — NXP RW612 / RW610 tri-radio wireless *MCU* (do not confuse with IW612)
+
+The **RW61x** is a **monolithic wireless microcontroller**: an Arm **Cortex-M33 @ ~260 MHz** *and* a 1×1 tri-radio on the same die — **Wi-Fi 6 (802.11ax)**, **Bluetooth LE 5.4**, and **802.15.4** (Thread/Zigbee/Matter). This is the key distinction from the already-catalogued **`nxp-iw61x` (IW611/IW612)**: IW61x is a *companion radio* that needs an external host (i.MX etc.); RW61x **is** the host — the application CPU is on the radio die. Split: **RW612** is dual-band **2.4 GHz + 5 GHz**, **RW610** is **2.4 GHz-only**; otherwise identical. Development is via NXP's **MCUXpresso SDK** with FreeRTOS/Zephyr, and the Wi-Fi driver descends from the NXP/Marvell **`moal`/`mlan`** ("mwifiex" lineage) stack, which historically exposes a net-monitor/promiscuous path — hence **tier 1**. The Cortex-M33 firmware is fully your own code and reversible with standard MCUXpresso + Ghidra; the **PHY/CAU (crypto-accelerator) and radio firmware remain closed**, so no CSI or raw-IQ path exists. Hardware: **RD-RW612-BGA** / **FRDM-RW612** eval boards. Status **reported** — the mwifiex-family monitor path is well-precedented but was not re-verified on RW61x silicon for this catalog.
+
+### Closed stragglers noted but NOT catalogued (no RE path = no value here)
+
+- **Qualcomm QCC730** — 2024 ultra-low-power single-stream Wi-Fi-for-IoT part (a companion to a host MCU, Qualcomm's answer to the DA16200/ESP32 low-power niche). Entirely closed — signed firmware, no public SDK internals, no monitor path. It would be a **tier-0** record with zero repurposing surface, so it is left as a note rather than padded into an entry.
+- **Telink W91** — a newer RISC-V Wi-Fi 6 SoC. Public tooling and availability are too thin to responsibly assign specs or a tier; flagged for a future cycle if a real SDK and community bring-up materialise, not minted on marketing alone.
+- **Off-theme floor (unchanged from Cycle 9):** dedicated single-purpose datalink/baseband parts (avionics VDL, marine AIS ICs, satellite-IoT SBD modems) are not general wireless SoCs repurposable via firmware RE and remain out of scope.
+
+**Bottom line for Cycle 10:** the catalog's breadth is genuinely saturated. The only additions worth making are the **nRF7002** (notable specifically because Nordic ships open *driver* source and a documented monitor + raw-TX path — the most-open merchant Wi-Fi 6 companion IC in the catalog) and the **RW612/RW610** (notable for being a Wi-Fi-6 tri-radio with the CPU on-die, distinct from the IW612 companion). Everything else in the residual long tail is either already recorded or a closed tier-0 dead end. Honest recommendation stands: for a hackable Wi-Fi 6 target reach for **ESP32-C5/C6/C61** (CSI, tier 2) or, if you want open driver internals over an SPI companion, the **nRF7002**.
+
+#### References
+
+- Nordic nRF7002 product page — https://www.nordicsemi.com/Products/nRF7002
+- Nordic nRF70 series overview — https://www.nordicsemi.com/Products/Wi-Fi
+- `nrf_wifi` open driver source — https://github.com/nrfconnect/nrf_wifi
+- nRF Connect SDK Wi-Fi (monitor / raw TX) docs — https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/protocols/wifi/index.html
+- NXP RW612 wireless MCU — https://www.nxp.com/products/RW612
+- NXP RW610 wireless MCU — https://www.nxp.com/products/RW610
+- MCUXpresso SDK for RW61x — https://www.nxp.com/design/software/development-software/mcuxpresso-software-and-tools
+- Qualcomm QCC730 (Wi-Fi for IoT) — https://www.qualcomm.com/products/internet-of-things/networking/wi-fi-networking

@@ -15263,6 +15263,68 @@
     "notes": "2024 successor to nRF52. Documented multiprotocol RADIO with a 4 Mbps proprietary GFSK mode (highest of the family). radio_test/DTM in nRF Connect SDK."
   },
   {
+    "id": "nordic-nrf7002",
+    "vendor": "Nordic Semiconductor",
+    "family": "nRF70",
+    "aliases": [
+      "nRF70 series",
+      "nRF7002",
+      "nRF7001",
+      "nRF7000"
+    ],
+    "part_numbers": [
+      "nRF7002",
+      "nRF7001",
+      "nRF7000"
+    ],
+    "standards": [
+      "IEEE 802.11ax (Wi-Fi 6)",
+      "IEEE 802.11a/b/g/n/ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "Closed nRF70 wireless processor; host driver is portable C source",
+      "re_tooling": [
+        "nRF Connect SDK",
+        "Zephyr",
+        "nrf_wifi driver source",
+        "Ghidra"
+      ]
+    },
+    "common_hardware": [
+      "nRF7002-DK",
+      "nRF7002-EB expansion board",
+      "nRF7002-EK shield",
+      "Thingy platforms with nRF7002"
+    ],
+    "key_projects": [
+      {
+        "name": "nrf_wifi (open portable Wi-Fi driver)",
+        "url": "https://github.com/nrfconnect/nrf_wifi"
+      },
+      {
+        "name": "nRF Connect SDK",
+        "url": "https://github.com/nrfconnect/sdk-nrf"
+      }
+    ],
+    "status": "reported",
+    "notes": "Pure Wi-Fi 6 companion IC over SPI/QSPI to a host MCU (nRF5340/nRF54/nRF91 or third-party). nRF7002 = dual-band 2.4+5 GHz; nRF7001 = 2.4 GHz only; nRF7000 = scan/locationing only. Unusual openness: Nordic publishes the full driver (bal/hal/umac_if) as portable source, and nRF Connect SDK ships documented Promiscuous/Monitor RX and Raw IEEE 802.11 TX (injection) features -> tier 1. RF/lower-MAC firmware is a signed binary patch (nrf70.bin), so no raw-IQ and no public CSI export (tier 2 not claimed). Net-new to the catalog.",
+    "references": [
+      "https://www.nordicsemi.com/Products/nRF7002",
+      "https://github.com/nrfconnect/nrf_wifi",
+      "https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/protocols/wifi/index.html"
+    ]
+  },
+  {
     "id": "nordic-nrf9151-sip",
     "vendor": "Nordic Semiconductor",
     "family": "nRF91 cellular-IoT SiP",
@@ -15679,6 +15741,61 @@
     ],
     "status": "verified",
     "notes": "Multimode BLE + 802.15.4 (concurrent). Connectivity Test/RF test (CW, PRBS, PER), DTM, and 802.15.4 promiscuous mode. GenFSK is an explicitly generic configurable 2.4 GHz FSK link. USB-KW41Z is a factory 802.15.4/BLE sniffer dongle."
+  },
+  {
+    "id": "nxp-rw61x",
+    "vendor": "NXP",
+    "family": "RW61x",
+    "aliases": [
+      "RW612",
+      "RW610"
+    ],
+    "part_numbers": [
+      "RW612",
+      "RW610"
+    ],
+    "standards": [
+      "IEEE 802.11ax (Wi-Fi 6)",
+      "IEEE 802.11n",
+      "Bluetooth LE 5.4",
+      "IEEE 802.15.4 (Thread/Zigbee/Matter)"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Arm Cortex-M33 ~260 MHz application core on-die + closed PHY/CAU and radio firmware",
+      "re_tooling": [
+        "MCUXpresso SDK",
+        "FreeRTOS/Zephyr",
+        "Ghidra (Cortex-M33)"
+      ]
+    },
+    "common_hardware": [
+      "RD-RW612-BGA eval board",
+      "FRDM-RW612",
+      "RW612 tri-radio designs"
+    ],
+    "key_projects": [
+      {
+        "name": "MCUXpresso SDK (RW61x)",
+        "url": "https://www.nxp.com/products/RW612"
+      }
+    ],
+    "status": "reported",
+    "notes": "Monolithic wireless MCU: Cortex-M33 host AND a 1x1 tri-radio (Wi-Fi 6 + BLE 5.4 + 802.15.4) on one die -- distinct from the companion-radio IW611/IW612 (nxp-iw61x), which needs an external host. RW612 = dual-band 2.4+5 GHz; RW610 = 2.4 GHz only. Driver descends from NXP/Marvell moal/mlan (mwifiex lineage) with a precedented net-monitor/promiscuous path -> tier 1. Application firmware is your own reversible code; PHY/CAU/radio firmware closed, so no CSI or raw-IQ. Net-new to the catalog.",
+    "references": [
+      "https://www.nxp.com/products/RW612",
+      "https://www.nxp.com/products/RW610",
+      "https://www.nxp.com/design/software/development-software/mcuxpresso-software-and-tools"
+    ]
   },
   {
     "id": "nxp-s32r274",

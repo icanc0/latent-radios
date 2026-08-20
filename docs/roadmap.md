@@ -28,7 +28,8 @@ Cycles keep running as long as there are un‑cataloged parts — which is forev
 | 7 | Open‑firmware classics (OpenFWWF · carl9170 · AX‑CSI) · Linux/Android stack integration · 802.11 standards ref · history · comparison tables · FAQ · datasheet audit | ✅ done — +14 modules, 13 files |
 | 8 | Module integrators (Murata/AMPAK/AzureWave/Laird) · SoC‑integrated & IoT/M2M Wi‑Fi · retro lineage (Prism2/HostAP · rt2x00) · gesture/occupancy CSI · sensing limits · audit 2 · awesome‑tools · troubleshooting | ✅ done — +73 modules, 14 files |
 | 9 | Consolidation: unified verification summary · kernel‑source cross‑check · Nexus 5 reference build · CSI calibration · testbed & repro checklist · sensing‑app catalog · ethics · sweep 7 | ✅ done — +7 modules, 13 files |
-| 10+ | Polish / site‑ification, remaining long‑tail, deeper per‑chip RE, ongoing re‑verification — running on the loop | queued |
+| 10 | Modern‑HW walkthroughs (MT7921/25 · AX210+FeitCSI · PlutoSDR) · multi‑antenna AoA · real‑time CSI viz · Wi‑Fi 7 sensing frontier · changelog · final sweep (long‑tail exhausted: +2) | ✅ done — 8 agents, +2 modules |
+| 11+ | Polish / site‑ification / re‑verification — the long‑tail is effectively exhausted at ~600 modules | queued |
 
 ## Vendor / family queue (feeds future cycles)
 
