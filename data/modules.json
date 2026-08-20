@@ -1,1 +1,6289 @@
-[]
+[
+  {
+    "id": "airspy-r2-hfplus",
+    "vendor": "Airspy",
+    "family": "Airspy R2 / Mini / HF+ Discovery",
+    "aliases": [
+      "Airspy"
+    ],
+    "part_numbers": [
+      "Airspy R2",
+      "Airspy Mini",
+      "HF+ Discovery"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "LPC4370 Cortex-M4 (open firmware) + R820T2 / polyphase-HR front-end",
+      "openness": "open",
+      "re_tooling": [
+        "libairspy"
+      ]
+    },
+    "references": [
+      "https://airspy.com/",
+      "https://airspy.com/airspy-hf-discovery/"
+    ],
+    "status": "verified",
+    "notes": "RX-only 12-bit (R2/Mini, 24-1800MHz) or high-DR HF/VHF (HF+ Discovery). Reference receive tier."
+  },
+  {
+    "id": "analog-adalm-pluto",
+    "vendor": "Analog Devices",
+    "family": "ADALM-PLUTO (PlutoSDR)",
+    "aliases": [
+      "Pluto",
+      "PlutoSDR"
+    ],
+    "part_numbers": [
+      "ADALM-PLUTO",
+      "AD9363",
+      "AD9364",
+      "Zynq-7010"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "arbitrary-waveform",
+      "passive-radar"
+    ],
+    "firmware": {
+      "arch": "Zynq-7010 dual Cortex-A9 + FPGA, AD9363 transceiver",
+      "openness": "open",
+      "re_tooling": [
+        "libiio",
+        "GNU Radio",
+        "IIO-Oscilloscope"
+      ]
+    },
+    "references": [
+      "https://wiki.analog.com/university/tools/pluto",
+      "https://www.rtl-sdr.com/adalm-pluto-new-149-tx-capable-sdr-325-3800-mhz-range-12-bit-adc-20-mhz-bandwidth/"
+    ],
+    "status": "verified",
+    "notes": "325MHz-3.8GHz (hack: ~70MHz-6GHz via AD9364 re-ID), 12-bit, 20MHz BW, full-duplex 1x1. Go-to full-duplex transceiver for Wi-Fi-sensing researchers."
+  },
+  {
+    "id": "broadcom-bcm4306",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (SoftMAC / b43)",
+    "aliases": [
+      "AirForce 54g",
+      "bcm43xx"
+    ],
+    "part_numbers": [
+      "BCM4306"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 microcode (custom 16-bit RISC), host-driven MAC, no on-die ARM",
+      "openness": "open",
+      "re_tooling": [
+        "b43-tools",
+        "OpenFWWF"
+      ]
+    },
+    "common_hardware": [
+      "Linksys WMP54G",
+      "Dell TrueMobile 1300",
+      "Apple AirPort (early)",
+      "numerous mini-PCI/PCI cards"
+    ],
+    "key_projects": [
+      {
+        "name": "OpenFWWF (open D11 firmware)",
+        "url": "http://netweb.ing.unibs.it/~openfwwf/"
+      },
+      {
+        "name": "b43 driver",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+      }
+    ],
+    "references": [
+      "http://netweb.ing.unibs.it/~openfwwf/",
+      "https://github.com/fullstory/openfwwf",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+    ],
+    "status": "verified",
+    "notes": "SoftMAC 11g part with a fully open replacement microcode (OpenFWWF), compiled with b43-tools. Genuine open-firmware MAC (tier 5 by openness), but the 11g PHY offers no CSI/IQ path."
+  },
+  {
+    "id": "broadcom-bcm4318",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (SoftMAC / b43)",
+    "aliases": [
+      "AirForce One 54g"
+    ],
+    "part_numbers": [
+      "BCM4318"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 microcode, host-driven MAC, no on-die ARM",
+      "openness": "open",
+      "re_tooling": [
+        "b43-tools",
+        "OpenFWWF"
+      ]
+    },
+    "common_hardware": [
+      "Linksys WPC54G v3",
+      "Belkin F5D7010",
+      "many 2006-era laptops / mini-PCI"
+    ],
+    "key_projects": [
+      {
+        "name": "OpenFWWF",
+        "url": "http://netweb.ing.unibs.it/~openfwwf/"
+      }
+    ],
+    "references": [
+      "http://netweb.ing.unibs.it/~openfwwf/",
+      "https://github.com/fullstory/openfwwf"
+    ],
+    "status": "verified",
+    "notes": "Primary chip OpenFWWF was tested on (4306 & 4318). Open MAC firmware; used to prototype custom MAC protocols. b43 gives native monitor+injection."
+  },
+  {
+    "id": "broadcom-bcm4321",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (SoftMAC / b43)",
+    "part_numbers": [
+      "BCM4321"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n (draft)"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 microcode (proprietary), host-driven MAC",
+      "openness": "closed",
+      "re_tooling": [
+        "b43-tools"
+      ]
+    },
+    "common_hardware": [
+      "Apple AirPort Extreme (draft-n)",
+      "Dell Wireless 1500",
+      "various draft-n cards"
+    ],
+    "key_projects": [
+      {
+        "name": "b43 driver",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+      }
+    ],
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html",
+      "https://wiki.debian.org/bcm43xx"
+    ],
+    "status": "verified",
+    "notes": "Draft-11n MIMO SoftMAC part. Runs under b43 with proprietary ucode (not covered by OpenFWWF), so monitor/injection only."
+  },
+  {
+    "id": "broadcom-bcm43224",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (SoftMAC / b43)",
+    "part_numbers": [
+      "BCM43224"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 microcode (proprietary), host-driven MAC",
+      "openness": "closed",
+      "re_tooling": [
+        "b43-tools"
+      ]
+    },
+    "common_hardware": [
+      "Dell Wireless 1520",
+      "Apple BCM943224 mini-PCIe",
+      "2010-era laptops"
+    ],
+    "key_projects": [
+      {
+        "name": "b43 driver",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+      }
+    ],
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+    ],
+    "status": "verified",
+    "notes": "2x2 11n dual-band SoftMAC. Native mac80211 monitor+injection; proprietary ucode (OpenFWWF never ported)."
+  },
+  {
+    "id": "broadcom-bcm43225",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (SoftMAC / b43)",
+    "part_numbers": [
+      "BCM43225"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 microcode (proprietary), host-driven MAC",
+      "openness": "closed",
+      "re_tooling": [
+        "b43-tools"
+      ]
+    },
+    "common_hardware": [
+      "Dell Wireless 1502",
+      "many low-cost 2.4GHz 11n cards"
+    ],
+    "key_projects": [
+      {
+        "name": "b43 driver",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+      }
+    ],
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+    ],
+    "status": "verified",
+    "notes": "2x2 2.4GHz 11n SoftMAC. b43 monitor+injection; proprietary ucode only."
+  },
+  {
+    "id": "broadcom-bcm4329",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "part_numbers": [
+      "BCM4329"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-M3",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Apple iPhone 4",
+      "iPad 1",
+      "Amazon Kindle",
+      "Samsung Galaxy Tab"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "reported",
+    "notes": "Early combo FullMAC part. Historical Nexmon/RE interest; Cortex-M3. Limited modern tooling."
+  },
+  {
+    "id": "broadcom-bcm4330",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "part_numbers": [
+      "BCM4330"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-M3",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Samsung Galaxy S3",
+      "Asus Nexus 7 (2012)",
+      "BeagleBone Black wireless variants"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "reported",
+    "notes": "1x1 dual-band 11n combo. Experimental Nexmon support; Cortex-M3."
+  },
+  {
+    "id": "broadcom-bcm4334",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "part_numbers": [
+      "BCM4334"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-M3",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Samsung Galaxy S4 (GT-i9500)",
+      "Apple iPhone 5c / 5s",
+      "Galaxy Note 3"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "reported",
+    "notes": "1x1 11n low-power combo. Experimental Nexmon; Cortex-M3."
+  },
+  {
+    "id": "broadcom-bcm4335",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "part_numbers": [
+      "BCM4335",
+      "BCM4335C0"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-R4",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Samsung Galaxy S4 LTE-A",
+      "HTC One (M7)",
+      "Nexus 7 (2013)",
+      "LG G2"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon",
+      "https://www.maki.tu-darmstadt.de/media/sfb_maki/forschung_8/awards/Nexmon_2017.pdf"
+    ],
+    "status": "reported",
+    "notes": "First-gen 1x1 11ac. Early Nexmon monitor/injection targets; Cortex-R4. Less maintained than 4339."
+  },
+  {
+    "id": "broadcom-bcm4339",
+    "vendor": "Broadcom",
+    "family": "BCM4339",
+    "aliases": [
+      "BCM4339"
+    ],
+    "part_numbers": [
+      "BCM4339"
+    ],
+    "common_hardware": [
+      "Nexus 5 (LG)"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a/b/g/n/ac"
+    ],
+    "sdr_tier": 4,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "arbitrary-waveform",
+      "raw-iq"
+    ],
+    "firmware": {
+      "arch": "ARM Cortex-R4-class + Broadcom D11 ucode",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "b43-tools",
+        "ghidra",
+        "ida",
+        "radare2"
+      ]
+    },
+    "status": "reported",
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      },
+      {
+        "name": "wisec2017_nexmon_jammer_demo_firmware",
+        "url": "https://github.com/seemoo-lab/wisec2017_nexmon_jammer_demo_firmware"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon",
+      "https://dl.acm.org/doi/10.1145/3098243.3098253",
+      "https://github.com/seemoo-lab/wisec2017_nexmon_jammer_reproducibility"
+    ],
+    "notes": "Tier-4 evidence chip: the WiSec 2017 reactive-jamming work loaded firmware that transmits arbitrary IQ-buffer waveforms out the front-end (reactive + acknowledging jammer, adaptive power). Verified for monitor/injection/CSI; arbitrary-TX/jamming is reported (paper + demo firmware, not a turnkey nexutil feature)."
+  },
+  {
+    "id": "broadcom-bcm43430",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "aliases": [
+      "BCM43430a1",
+      "BCM43438"
+    ],
+    "part_numbers": [
+      "BCM43430",
+      "BCM43430a1"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-M3 (ROM at ~0x800000)",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Raspberry Pi 3B",
+      "Raspberry Pi Zero W",
+      "Raspberry Pi Compute Module 3"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon/blob/master/README.md"
+    ],
+    "status": "verified",
+    "notes": "Single-stream 2.4GHz-only 11n (Pi 3B / Zero W). Nexmon monitor+injection verified (fw 7_45_41_46). Cortex-M3, ROM at upper address. Not in the official nexmon_csi list."
+  },
+  {
+    "id": "broadcom-bcm43436",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "aliases": [
+      "BCM43436b0",
+      "BCM43436b03"
+    ],
+    "part_numbers": [
+      "BCM43436"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-M3",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Raspberry Pi Zero 2 W"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon/blob/master/README.md"
+    ],
+    "status": "verified",
+    "notes": "The silicon in the Pi Zero 2 W. Nexmon monitor+injection verified (fw 9_88_4_65). 2.4GHz single-stream 11n, Cortex-M3."
+  },
+  {
+    "id": "broadcom-bcm43455c0",
+    "vendor": "Broadcom",
+    "family": "BCM43455",
+    "aliases": [
+      "BCM43455c0",
+      "CYW43455"
+    ],
+    "part_numbers": [
+      "BCM43455",
+      "CYW43455"
+    ],
+    "common_hardware": [
+      "Raspberry Pi 3B+",
+      "Raspberry Pi 4B",
+      "Raspberry Pi CM4",
+      "Raspberry Pi 5"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a/b/g/n/ac"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "ARM Cortex-R/M-class + Broadcom D11 ucode",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "b43-tools",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      },
+      {
+        "name": "nexmon_csi",
+        "url": "https://github.com/seemoo-lab/nexmon_csi"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon",
+      "https://github.com/seemoo-lab/nexmon_csi",
+      "https://dl.acm.org/doi/10.1145/3349623.3355477"
+    ],
+    "notes": "The default Wi-Fi-sensing platform. Nexmon unlocks monitor/injection plus per-subcarrier CSI up to 80 MHz (int16 interleaved real/imag) and spectral scan on the Raspberry Pi's on-board Wi-Fi. Firmware version string (e.g. 7_45_154/189/206) must match the shipped blob."
+  },
+  {
+    "id": "broadcom-bcm43455c0-nexmon-csi",
+    "vendor": "Broadcom",
+    "family": "BCM434xx (Nexmon)",
+    "aliases": [
+      "Nexmon CSI",
+      "Pi CSI"
+    ],
+    "part_numbers": [
+      "BCM4339",
+      "BCM43455c0",
+      "BCM4358",
+      "BCM4366c0",
+      "BCM4365"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 ucode + ARM Cortex-R/M",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Raspberry Pi 3B+/4 (43455c0)",
+      "Nexus 5 (4339)",
+      "Nexus 6P (4358)",
+      "Asus RT-AC86U (4366c0, 4x4)"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon_csi",
+        "url": "https://github.com/seemoo-lab/nexmon_csi"
+      },
+      {
+        "name": "MobiSys'18 extractor",
+        "url": "https://github.com/seemoo-lab/mobisys2018_nexmon_channel_state_information_extractor"
+      }
+    ],
+    "sdr_tier_rationale": "Per-subcarrier CSI up to 80 MHz (up to 4x4 on RT-AC86U) via Nexmon firmware patch; delivered as UDP/pcap.",
+    "status": "verified",
+    "references": [
+      "https://github.com/seemoo-lab/nexmon_csi",
+      "https://github.com/seemoo-lab/mobisys2018_nexmon_channel_state_information_extractor",
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "notes": "The canonical firmware-RE CSI path; runs on cheap Pis, phones, routers. See ../chips/broadcom-cypress.md and ../projects/nexmon.md."
+  },
+  {
+    "id": "broadcom-bcm4356",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "part_numbers": [
+      "BCM4356"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-R4",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Motorola Nexus 6 (shamu)",
+      "Dell Venue tablets",
+      "various 2x2 laptops"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "reported",
+    "notes": "2x2 11ac in the Nexus 6 (distinct from 4358 in Nexus 6P). Nexmon injection reported; CSI porting plausible given Cortex-R4 sibling status to 4358."
+  },
+  {
+    "id": "broadcom-bcm4358",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "part_numbers": [
+      "BCM4358"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-R4",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Huawei Nexus 6P (angler)",
+      "Samsung Galaxy S6 / S6 edge",
+      "Samsung Galaxy Note 5"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon_csi",
+        "url": "https://github.com/seemoo-lab/nexmon_csi"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon/blob/master/README.md",
+      "https://github.com/seemoo-lab/nexmon_csi/blob/master/README.md"
+    ],
+    "status": "verified",
+    "notes": "2x2 11ac (Nexus 6P). Nexmon monitor/inject (fw 7_112_201_3_sta) and nexmon_csi (fw 7_112_300_14_sta, 80MHz, 2 streams) verified. Cortex-R4. Distinct from BCM4356 in Nexus 6."
+  },
+  {
+    "id": "broadcom-bcm4359",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "part_numbers": [
+      "BCM4359"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-R4",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Samsung Galaxy S8 / S8+ (some SKUs)",
+      "Samsung Galaxy Note 8",
+      "Galaxy Tab S4"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "reported",
+    "notes": "2x2 11ac. Community nexmon monitor/injection patches exist; CSI ports attempted. Cortex-R4."
+  },
+  {
+    "id": "broadcom-bcm43596",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC)",
+    "part_numbers": [
+      "BCM43596",
+      "BCM43596D"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "high-end 802.11ac routers",
+      "802.11ad companion designs"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "theoretical",
+    "notes": "2x2 11ac part sometimes paired with 802.11ad radios. No public Nexmon port; listed for completeness and future RE."
+  },
+  {
+    "id": "broadcom-bcm4366c0",
+    "vendor": "Broadcom",
+    "family": "BCM4366",
+    "aliases": [
+      "BCM4366c0"
+    ],
+    "part_numbers": [
+      "BCM4366"
+    ],
+    "common_hardware": [
+      "Asus RT-AC86U router"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a/b/g/n/ac"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "ARM + Broadcom D11 ucode",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "b43-tools",
+        "ghidra"
+      ]
+    },
+    "status": "verified",
+    "key_projects": [
+      {
+        "name": "nexmon_csi",
+        "url": "https://github.com/seemoo-lab/nexmon_csi"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon_csi",
+      "https://dl.acm.org/doi/10.1145/3349623.3355477"
+    ],
+    "notes": "Router-class 4x4 MIMO CSI at 80 MHz via nexmon_csi (firmware 10_10_122_20). Float-style CSI encoding (sign/exponent/mantissa) rather than the int16 format used by bcm4339/bcm43455c0."
+  },
+  {
+    "id": "broadcom-bcm4375",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "aliases": [
+      "BCM4375b1"
+    ],
+    "part_numbers": [
+      "BCM4375",
+      "BCM4375b1"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM Cortex-M7",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Samsung Galaxy S10 / S10+",
+      "Samsung Galaxy S20 / S20+ / Ultra",
+      "Galaxy Note 10"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon/blob/master/README.md",
+      "https://github.com/seemoo-lab/nexmon/commit/6c5f780be089e5a3be44a37799963651a3f3ec14"
+    ],
+    "status": "verified",
+    "notes": "2x2 Wi-Fi 6 (Galaxy S10/S20). Nexmon monitor+injection verified (S20 fw 18_41_8_9_sta) on rooted, SELinux-permissive devices; CSI ported by community. Newer Cortex-M7-class core."
+  },
+  {
+    "id": "broadcom-bcm4387",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC, Apple-custom)",
+    "part_numbers": [
+      "BCM4387"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + ARM (Apple-customized firmware, PCIe)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "iPhone 12 / 13 series",
+      "Apple Silicon Macs (M1/M2)",
+      "iPad Pro"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon (RE reference)",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "theoretical",
+    "notes": "Apple's customized Broadcom Wi-Fi 6. Same D11+ARM lineage but locked-down, PCIe-attached, Apple firmware signing — no public Nexmon monitor/inject. Reverse-engineering only (e.g. via Asahi/brcmfmac efforts)."
+  },
+  {
+    "id": "broadcom-bcm4389",
+    "vendor": "Broadcom",
+    "family": "BCM43xx (FullMAC / Nexmon)",
+    "aliases": [
+      "BCM4389c1"
+    ],
+    "part_numbers": [
+      "BCM4389",
+      "BCM4389c1"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Broadcom D11 PHY microcode + dual ARM Cortex-M-class cores",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Google Pixel 6 / 7 / 7 Pro",
+      "Samsung Galaxy S21 (some SKUs)"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon/blob/master/README.md"
+    ],
+    "status": "verified",
+    "notes": "2x2 Wi-Fi 6E (Pixel 7). Nexmon monitor+injection verified (fw 20_101_57) on Magisk-rooted devices. 6GHz-capable. CSI not yet upstream."
+  },
+  {
+    "id": "celeno-cl6000",
+    "vendor": "Celeno",
+    "family": "CL2x4x / CL6000 Denali",
+    "aliases": [
+      "CL2440",
+      "CL2444",
+      "CL6020",
+      "CL6025",
+      "Denali",
+      "Wi-Fi Doppler"
+    ],
+    "part_numbers": [
+      "CL2440",
+      "CL2444",
+      "CL6020",
+      "CL6025"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "csi",
+      "radar",
+      "fmcw"
+    ],
+    "firmware": {
+      "arch": "Celeno proprietary Wi-Fi + Doppler engine",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Wi-Fi Doppler client/AP reference designs",
+      "smart-home presence/fall-detection modules"
+    ],
+    "key_projects": [
+      {
+        "name": "Celeno Wi-Fi Doppler Imaging announcement (Renesas)",
+        "url": "https://www.renesas.com/en/about/newsroom/celeno-announces-new-innovation-wi-fi-doppler-imaging"
+      }
+    ],
+    "status": "reported",
+    "notes": "Built-in Wi-Fi Doppler radar mode (WFD) detects presence, falls, gestures, even breathing through walls in 5/6 GHz. The purest Wi-Fi-as-radar product in the catalog, but the Doppler engine is a closed proprietary feature with no public API, firmware, or RE tooling: tier 2 by capability but locked.",
+    "references": [
+      "https://www.renesas.com/en/about/newsroom/celeno-announces-new-innovation-wi-fi-doppler-imaging",
+      "https://www.prnewswire.com/news-releases/celenos-wi-fi-doppler-imaging-technology-wins-the-2019-best-wi-fi-innovation-award-at-wi-fi-now-london-conference-300958215.html"
+    ]
+  },
+  {
+    "id": "cypress-cyw43012",
+    "vendor": "Cypress/Infineon",
+    "family": "CYW43xx (low-power FullMAC)",
+    "aliases": [
+      "BCM43012"
+    ],
+    "part_numbers": [
+      "BCM43012",
+      "CYW43012"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "Broadcom/Cypress D11 microcode + ARM Cortex-M3 (low-power)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "wearables",
+      "battery IoT modules",
+      "Murata combo modules"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon (RE reference)",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "theoretical",
+    "notes": "Ultra-low-power 1x1 combo aimed at wearables/IoT. Cypress/Infineon SDK gives partial documentation; no confirmed Nexmon monitor/CSI. Candidate for future porting."
+  },
+  {
+    "id": "cypress-cyw4373",
+    "vendor": "Cypress/Infineon",
+    "family": "CYW43xx (USB FullMAC combo)",
+    "aliases": [
+      "CYW4373E"
+    ],
+    "part_numbers": [
+      "CYW4373",
+      "CYW4373E"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "Cypress D11 microcode + ARM (USB-attached)",
+      "openness": "closed",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Murata Type 1YN module",
+      "USB Wi-Fi/BT combo dongles",
+      "Raspberry Pi add-on HATs"
+    ],
+    "key_projects": [
+      {
+        "name": "brcmfmac driver",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "theoretical",
+    "notes": "1x1 11ac USB combo driven by brcmfmac. Same D11+ARM family; monitor/injection plausible via a Nexmon port but unproven. Attractive because USB-attached and cheap."
+  },
+  {
+    "id": "cypress-cyw89459",
+    "vendor": "Cypress/Infineon",
+    "family": "CYW43xx (automotive)",
+    "part_numbers": [
+      "CYW89459"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac",
+      "802.11p"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "arch": "Cypress D11 microcode + ARM (automotive-qualified)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "automotive V2X / telematics modules",
+      "in-vehicle infotainment"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "theoretical",
+    "notes": "Automotive-grade 2x2 11ac with 802.11p (DSRC/V2X). Same lineage; no public RE. Cataloged for future 802.11p-repurposing interest."
+  },
+  {
+    "id": "espressif-esp32",
+    "vendor": "Espressif",
+    "family": "ESP32",
+    "aliases": [
+      "ESP32-WROOM-32",
+      "ESP32-WROVER",
+      "ESP32-DevKitC"
+    ],
+    "part_numbers": [
+      "ESP32-D0WD",
+      "ESP32-WROOM-32",
+      "ESP32-WROOM-32E",
+      "ESP32-WROVER-B",
+      "ESP32-DevKitC",
+      "ESP32-PICO-D4"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "Bluetooth Classic",
+      "BLE 4.2"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa LX6 (dual-core, 240 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "ghidra",
+        "ida",
+        "openocd",
+        "gdb"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-DevKitC",
+      "ESP32-WROOM-32",
+      "TTGO T-Display",
+      "M5Stack Core",
+      "Heltec WiFi Kit 32"
+    ],
+    "key_projects": [
+      {
+        "name": "ESP32-CSI-Tool (StevenMHernandez)",
+        "url": "https://github.com/StevenMHernandez/ESP32-CSI-Tool"
+      },
+      {
+        "name": "Wi-ESP CSI Tool",
+        "url": "https://wrlab.github.io/Wi-ESP/"
+      },
+      {
+        "name": "esp32-80211-tx (Jeija, raw injection)",
+        "url": "https://github.com/Jeija/esp32-80211-tx"
+      },
+      {
+        "name": "espressif/esp-csi (esp-radar sensing)",
+        "url": "https://github.com/espressif/esp-csi"
+      }
+    ],
+    "status": "verified",
+    "notes": "The reference CSI platform: built-in esp_wifi_set_csi_config/esp_wifi_set_csi_rx_cb yields per-subcarrier complex CSI (up to 52-64 usable subcarriers HT20). Raw TX via esp_wifi_80211_tx, promiscuous RX with rx_ctrl (RSSI/noise/rate/timestamp). No FFT/spectral or IQ API -> hard tier-2 ceiling. Wi-Fi MAC/PHY shipped as closed libpp/libnet80211/libphy blobs.",
+    "references": [
+      "https://github.com/StevenMHernandez/ESP32-CSI-Tool",
+      "https://stevenmhernandez.github.io/ESP32-CSI-Tool/",
+      "https://wrlab.github.io/Wi-ESP/",
+      "https://academic.oup.com/jcde/article/7/5/644/5837600",
+      "https://github.com/Jeija/esp32-80211-tx",
+      "https://github.com/espressif/esp-csi"
+    ]
+  },
+  {
+    "id": "espressif-esp32-c2",
+    "vendor": "Espressif",
+    "family": "ESP32-C2",
+    "aliases": [
+      "ESP8684",
+      "ESP32-C2-DevKitM-1"
+    ],
+    "part_numbers": [
+      "ESP32-C2",
+      "ESP8684",
+      "ESP8684-WROOM-01",
+      "ESP32-C2-DevKitM-1"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "BLE 5.0"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "32-bit RISC-V single-core (120 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-C2-DevKitM-1",
+      "ESP8684 modules"
+    ],
+    "key_projects": [],
+    "status": "reported",
+    "notes": "Cost-optimized, thin RAM/flash. Monitor + raw TX verified. CSI is limited/unverified: the C2 is notably absent from Espressif's canonical CSI-support enumeration (ESP32/S2/C3/S3/C5/C6/C61). Treat CSI as reported at best on this SKU.",
+    "references": [
+      "https://docs.espressif.com/projects/esp-idf/en/v5.2/esp32c2/api-guides/wifi.html"
+    ]
+  },
+  {
+    "id": "espressif-esp32-c3",
+    "vendor": "Espressif",
+    "family": "ESP32-C3",
+    "aliases": [
+      "ESP32-C3-WROOM-02",
+      "XIAO ESP32-C3",
+      "ESP32-C3-DevKitM-1"
+    ],
+    "part_numbers": [
+      "ESP32-C3",
+      "ESP32-C3-WROOM-02",
+      "ESP32-C3-MINI-1",
+      "ESP32-C3-DevKitM-1",
+      "ESP8685"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "BLE 5.0"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "32-bit RISC-V single-core (RV32IMC, 160 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "ghidra",
+        "ida",
+        "openocd"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-C3-DevKitM-1",
+      "XIAO ESP32-C3",
+      "LOLIN C3 mini",
+      "ESP32-C3 Super Mini"
+    ],
+    "key_projects": [
+      {
+        "name": "ESP32-CSI-Tool",
+        "url": "https://github.com/StevenMHernandez/ESP32-CSI-Tool"
+      },
+      {
+        "name": "espressif/esp-csi",
+        "url": "https://github.com/espressif/esp-csi"
+      }
+    ],
+    "status": "verified",
+    "notes": "First RISC-V Espressif Wi-Fi part; cheapest reliable CSI node. Full CSI/monitor/raw-TX support. Open RV32 core toolchain, closed Wi-Fi PHY blob (same tier-2 ceiling).",
+    "references": [
+      "https://github.com/espressif/esp-csi",
+      "https://docs.espressif.com/projects/esp-idf/en/v5.2/esp32c3/api-guides/wifi.html"
+    ]
+  },
+  {
+    "id": "espressif-esp32-c5",
+    "vendor": "Espressif",
+    "family": "ESP32-C5",
+    "aliases": [
+      "ESP32-C5-DevKitC-1",
+      "ESP32-C5-WROOM-1",
+      "XIAO ESP32-C5"
+    ],
+    "part_numbers": [
+      "ESP32-C5",
+      "ESP32-C5-WROOM-1",
+      "ESP32-C5-DevKitC-1"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac",
+      "802.11ax",
+      "BLE 5.0",
+      "802.15.4"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "32-bit RISC-V single-core (240 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-C5-DevKitC-1",
+      "ESP32-C5-WROOM-1",
+      "Waveshare ESP32-C5 WiFi6 kit",
+      "XIAO ESP32-C5"
+    ],
+    "key_projects": [
+      {
+        "name": "espressif/esp-csi",
+        "url": "https://github.com/espressif/esp-csi"
+      }
+    ],
+    "status": "verified",
+    "notes": "Espressif's first dual-band 2.4+5 GHz Wi-Fi 6 (802.11ax) part. CSI supported on BOTH bands per Espressif's support list -> the accessible route to 5 GHz CSI without a Broadcom/Intel firmware jailbreak, a genuinely new hobbyist capability. Wi-Fi 6 HE-LTF CSI is newer; expect the same maturing-quirk risk as the C6.",
+    "references": [
+      "https://www.espressif.com/en/products/socs/esp32-c5",
+      "https://github.com/espressif/esp-csi",
+      "https://www.waveshare.com/esp32-c5-wifi6-kit-n16r4.htm"
+    ]
+  },
+  {
+    "id": "espressif-esp32-c6",
+    "vendor": "Espressif",
+    "family": "ESP32-C6",
+    "aliases": [
+      "ESP32-C6-WROOM-1",
+      "XIAO ESP32-C6",
+      "ESP32-C6-DevKitC-1"
+    ],
+    "part_numbers": [
+      "ESP32-C6",
+      "ESP32-C6-WROOM-1",
+      "ESP32-C6-MINI-1",
+      "ESP32-C6-DevKitC-1"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ax",
+      "BLE 5.0",
+      "802.15.4"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "32-bit RISC-V HP core (160 MHz) + LP core; RV32IMAC",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "ghidra",
+        "ida",
+        "openocd"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-C6-DevKitC-1",
+      "ESP32-C6-WROOM-1",
+      "XIAO ESP32-C6",
+      "ESP32-C6 Super Mini"
+    ],
+    "key_projects": [
+      {
+        "name": "espressif/esp-csi",
+        "url": "https://github.com/espressif/esp-csi"
+      },
+      {
+        "name": "IDF issue #14271 (HE/L-LTF CSI quirks)",
+        "url": "https://github.com/espressif/esp-idf/issues/14271"
+      }
+    ],
+    "status": "verified",
+    "notes": "2.4 GHz Wi-Fi 6 (802.11ax) + BLE 5 + 802.15.4 (Thread/Zigbee/Matter). CSI/monitor/TX supported. HE CSI has documented rough edges: IDF #14271 reports missing L-LTF data and wrong HT-LTF subcarrier ordering in the callback. HT (11n) CSI is solid; HE CSI is evolving.",
+    "references": [
+      "https://docs.espressif.com/projects/esp-idf/en/v5.2/esp32c6/api-guides/wifi.html",
+      "https://github.com/espressif/esp-idf/issues/14271",
+      "https://github.com/espressif/esp-csi"
+    ]
+  },
+  {
+    "id": "espressif-esp32-csi",
+    "vendor": "Espressif",
+    "family": "ESP32 CSI",
+    "aliases": [
+      "ESP32 CSI Toolkit",
+      "esp-csi",
+      "Wi-ESP"
+    ],
+    "part_numbers": [
+      "ESP32",
+      "ESP32-S2",
+      "ESP32-S3",
+      "ESP32-C3",
+      "ESP32-C5",
+      "ESP32-C6"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ax"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Xtensa LX6/LX7 (ESP32/S-series) or RISC-V (C-series); Wi-Fi MAC closed blob, CSI via public API",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "ESP32 DevKitC",
+      "ESP32-C6 dev boards",
+      "$3-5 modules"
+    ],
+    "key_projects": [
+      {
+        "name": "ESP32-CSI-Tool (Hernandez)",
+        "url": "https://github.com/StevenMHernandez/ESP32-CSI-Tool"
+      },
+      {
+        "name": "esp-csi (official)",
+        "url": "https://github.com/espressif/esp-csi"
+      }
+    ],
+    "sdr_tier_rationale": "Native ESP-IDF wifi_csi_info_t exposes up to 52/64 subcarriers (L-LTF/HT-LTF), 1x1; no firmware reversing needed.",
+    "status": "verified",
+    "references": [
+      "https://github.com/StevenMHernandez/ESP32-CSI-Tool",
+      "https://github.com/espressif/esp-csi",
+      "https://academic.oup.com/jcde/article/7/5/644/5837600"
+    ],
+    "notes": "Only Tier-2 path with an official vendor CSI API. C6 adds Wi-Fi 6 but has known LTF ordering quirks (esp-idf #14271). See ../chips/espressif.md."
+  },
+  {
+    "id": "espressif-esp32-h2",
+    "vendor": "Espressif",
+    "family": "ESP32-H2",
+    "aliases": [
+      "ESP32-H2-DevKitM-1",
+      "ESP32-H2-WROOM"
+    ],
+    "part_numbers": [
+      "ESP32-H2",
+      "ESP32-H2-MINI-1",
+      "ESP32-H2-WROOM-03",
+      "ESP32-H2-DevKitM-1"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.15.4",
+      "Thread",
+      "Zigbee",
+      "Matter",
+      "BLE 5.0"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "32-bit RISC-V single-core (96 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-H2-DevKitM-1",
+      "ESP32-H2-WROOM-03"
+    ],
+    "key_projects": [],
+    "status": "verified",
+    "notes": "NO Wi-Fi radio -> no Wi-Fi CSI, out of the core Wi-Fi-SDR thesis. Included for completeness: it offers raw 802.15.4 frame RX/TX at 2.4 GHz (a different-standard analog of monitor/injection) plus BLE 5. Catalogued at the floor for Wi-Fi purposes.",
+    "references": [
+      "https://www.espressif.com/en/products/socs/esp32-h2",
+      "https://docs.espressif.com/projects/esp-idf/en/v5.2/esp32h2/api-guides/index.html"
+    ]
+  },
+  {
+    "id": "espressif-esp32-s2",
+    "vendor": "Espressif",
+    "family": "ESP32-S2",
+    "aliases": [
+      "ESP32-S2-WROOM",
+      "ESP32-S2-Saola",
+      "Wemos S2 mini"
+    ],
+    "part_numbers": [
+      "ESP32-S2",
+      "ESP32-S2-WROOM",
+      "ESP32-S2-WROVER",
+      "ESP32-S2-Saola-1",
+      "ESP32-S2-Kaluga-1"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa LX7 (single-core, 240 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "ghidra",
+        "ida",
+        "openocd"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-S2-Saola-1",
+      "ESP32-S2-WROOM",
+      "Wemos/LOLIN S2 mini",
+      "ESP32-S2-Kaluga-1"
+    ],
+    "key_projects": [
+      {
+        "name": "ESP32-CSI-Tool",
+        "url": "https://github.com/StevenMHernandez/ESP32-CSI-Tool"
+      }
+    ],
+    "status": "verified",
+    "notes": "Wi-Fi only (no Bluetooth). Full CSI/monitor/raw-TX API parity with ESP32. Native USB-OTG makes it a clean USB-tethered CSI capture dongle.",
+    "references": [
+      "https://github.com/StevenMHernandez/ESP32-CSI-Tool",
+      "https://docs.espressif.com/projects/esp-idf/en/v5.2/esp32s2/api-guides/wifi.html"
+    ]
+  },
+  {
+    "id": "espressif-esp32-s3",
+    "vendor": "Espressif",
+    "family": "ESP32-S3",
+    "aliases": [
+      "ESP32-S3-WROOM-1",
+      "XIAO ESP32-S3",
+      "ESP32-S3-DevKitC-1"
+    ],
+    "part_numbers": [
+      "ESP32-S3",
+      "ESP32-S3-WROOM-1",
+      "ESP32-S3-WROOM-2",
+      "ESP32-S3-DevKitC-1",
+      "ESP32-S3-BOX"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "BLE 5.0"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa LX7 (dual-core + vector/SIMD DSP, 240 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "esp-dl",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-S3-DevKitC-1",
+      "ESP32-S3-WROOM-1",
+      "XIAO ESP32-S3",
+      "ESP32-S3-BOX-3",
+      "Freenove S3"
+    ],
+    "key_projects": [
+      {
+        "name": "ESP32-CSI-Tool",
+        "url": "https://github.com/StevenMHernandez/ESP32-CSI-Tool"
+      },
+      {
+        "name": "espressif/esp-csi",
+        "url": "https://github.com/espressif/esp-csi"
+      }
+    ],
+    "status": "verified",
+    "notes": "Same CSI/monitor/TX APIs as ESP32; the LX7 vector extensions make on-device CSI feature extraction and TinyML sensing (motion/respiration classifiers) viable without offloading.",
+    "references": [
+      "https://github.com/espressif/esp-csi",
+      "https://docs.espressif.com/projects/esp-idf/en/v5.2/esp32s3/api-guides/wifi.html"
+    ]
+  },
+  {
+    "id": "espressif-esp8266",
+    "vendor": "Espressif",
+    "family": "ESP8266",
+    "aliases": [
+      "ESP-12",
+      "ESP-12E",
+      "ESP-12F",
+      "ESP-01",
+      "NodeMCU",
+      "Wemos D1 mini"
+    ],
+    "part_numbers": [
+      "ESP8266EX",
+      "ESP-01",
+      "ESP-12E",
+      "ESP-12F",
+      "ESP-07"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa L106 (single-core, 80/160 MHz)",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "esp-idf",
+        "esp8266-rtos-sdk",
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "ESP-01",
+      "ESP-12E/F",
+      "NodeMCU v1",
+      "Wemos/LOLIN D1 mini",
+      "Sonoff (ESP8285)"
+    ],
+    "key_projects": [
+      {
+        "name": "ESP8266 RTOS SDK esp_wifi_set_csi_rx_cb (ESP-FAQ)",
+        "url": "https://docs.espressif.com/projects/esp-faq/en/latest/software-framework/wifi.html"
+      }
+    ],
+    "status": "reported",
+    "notes": "Monitor + injection are the classic, verified use (deauth/sniffer platform). CSI is documented in Espressif's ESP-FAQ via esp_wifi_set_csi_rx_cb() but the mainstream CSI toolkits (ESP32-CSI-Tool, Wi-ESP) are all ESP32; ESP8266 CSI is reported, not community-proven. No spectral/IQ access. Wi-Fi PHY is a closed blob.",
+    "references": [
+      "https://docs.espressif.com/projects/esp-faq/en/latest/software-framework/wifi.html",
+      "https://github.com/espressif/ESP8266_RTOS_SDK"
+    ]
+  },
+  {
+    "id": "ettus-usrp",
+    "vendor": "Ettus Research",
+    "family": "USRP B200/B210/N210/N310",
+    "part_numbers": [
+      "USRP B200",
+      "USRP B210",
+      "USRP N210",
+      "USRP N310",
+      "AD9361",
+      "AD9364",
+      "AD9371"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "arbitrary-waveform",
+      "passive-radar",
+      "radar"
+    ],
+    "firmware": {
+      "arch": "AD936x/AD9371 transceiver + Spartan/Kintex/Zynq FPGA (open UHD, large FPGA on N310)",
+      "openness": "open",
+      "re_tooling": [
+        "UHD",
+        "GNU Radio",
+        "RFNoC"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "UHD / Ettus KB",
+        "url": "https://kb.ettus.com/"
+      }
+    ],
+    "references": [
+      "https://www.ettus.com/all-products/ub210-kit/",
+      "https://kb.ettus.com/B200/B210/B200mini/B205mini/B206mini"
+    ],
+    "status": "verified",
+    "notes": "Research-standard. B200/B210 70MHz-6GHz 56MHz BW 12-bit; N310 4x4 10MHz-6GHz up to 100MHz/ch 14-bit. Far end of the yardstick; instrument-grade open PHY."
+  },
+  {
+    "id": "greatscott-hackrf-one",
+    "vendor": "Great Scott Gadgets",
+    "family": "HackRF One",
+    "aliases": [
+      "HackRF"
+    ],
+    "part_numbers": [
+      "HackRF One",
+      "MAX2837",
+      "MAX5864"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "arbitrary-waveform",
+      "monitor",
+      "injection",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "NXP LPC43xx Cortex-M4/M0 (open firmware)",
+      "openness": "open",
+      "re_tooling": [
+        "hackrf tools",
+        "GNU Radio"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "HackRF",
+        "url": "https://greatscottgadgets.com/hackrf/"
+      }
+    ],
+    "references": [
+      "https://greatscottgadgets.com/hackrf/",
+      "https://hackrf.readthedocs.io/en/latest/hackrf_one.html"
+    ],
+    "status": "verified",
+    "notes": "1MHz-6GHz, 20MHz BW, 8-bit, half-duplex TX/RX. Canonical open TX-capable hacker SDR; the arbitrary-waveform reference."
+  },
+  {
+    "id": "greatscottgadgets-ubertooth-one",
+    "vendor": "Great Scott Gadgets",
+    "family": "Ubertooth (CC2400 + LPC17xx)",
+    "aliases": [
+      "Ubertooth One",
+      "CC2400"
+    ],
+    "part_numbers": [
+      "Ubertooth One",
+      "CC2400",
+      "LPC1756"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth LE",
+      "Bluetooth Classic (BR, partial)"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "spectral-scan",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "ARM Cortex-M3 (NXP LPC1756) + CC2400 transceiver",
+      "openness": "open",
+      "re_tooling": [
+        "gcc-arm",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Ubertooth One"
+    ],
+    "key_projects": [
+      {
+        "name": "Project Ubertooth",
+        "url": "https://github.com/greatscottgadgets/ubertooth"
+      },
+      {
+        "name": "Ubertooth documentation",
+        "url": "https://ubertooth.readthedocs.io/en/latest/"
+      }
+    ],
+    "status": "verified",
+    "notes": "Open 2.4 GHz platform: CC2400 transceiver + LPC1756 Cortex-M3, fully open firmware (bluetooth_rxtx). Sniffs BLE, partial BT Classic (BR), and runs ubertooth-specan, a real spectrum-analyzer/spectral-scan across 2.4 GHz via CC2400 RSSI sweeps (tier 3). Because the firmware is yours, the CC2400's PHY telemetry is fully exposed.",
+    "references": [
+      "https://github.com/greatscottgadgets/ubertooth",
+      "https://ubertooth.readthedocs.io/en/latest/"
+    ]
+  },
+  {
+    "id": "ti-cc1111-yardstick",
+    "vendor": "Great Scott Gadgets",
+    "family": "CC111x/CC251x + RfCat",
+    "aliases": [
+      "CC1111",
+      "YARD Stick One",
+      "CC1110",
+      "CC2510",
+      "CC2511"
+    ],
+    "part_numbers": [
+      "CC1111",
+      "CC1110",
+      "CC2510",
+      "CC2511"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "2-FSK",
+      "GFSK",
+      "MSK",
+      "ASK",
+      "OOK"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "arbitrary-waveform",
+      "spectral-scan",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "8051 core + CC1101-class radio + USB",
+      "openness": "open",
+      "re_tooling": [
+        "rfcat",
+        "sdcc"
+      ]
+    },
+    "common_hardware": [
+      "YARD Stick One",
+      "IM-Me",
+      "TI Chronos watch"
+    ],
+    "key_projects": [
+      {
+        "name": "YARD Stick One",
+        "url": "https://greatscottgadgets.com/yardstickone/"
+      },
+      {
+        "name": "RfCat",
+        "url": "https://github.com/atlas0fd00m/rfcat"
+      }
+    ],
+    "status": "verified",
+    "notes": "CC1111 = CC1101 radio + 8051 + USB. YARD Stick One runs RfCat (open firmware) exposing the transceiver from an interactive Python shell: 2-FSK/GFSK/MSK/ASK/OOK, raw register access, RSSI-sweep spectrum. RfCat also supports CC1110/CC2510/CC2511.",
+    "references": [
+      "https://greatscottgadgets.com/yardstickone/",
+      "https://github.com/atlas0fd00m/rfcat"
+    ]
+  },
+  {
+    "id": "intel-ax200-ax201",
+    "vendor": "Intel",
+    "family": "AX200 (Cyclone Peak)",
+    "aliases": [
+      "Intel Wi-Fi 6 AX200",
+      "Intel Wi-Fi 6 AX201",
+      "AX200NGW",
+      "Killer Wi-Fi 6 AX1650"
+    ],
+    "part_numbers": [
+      "AX200NGW",
+      "AX201NGW",
+      "AX1650"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel LMAC + UMAC firmware (signed); iwlwifi-cc-a0 ucode",
+      "openness": "patchable",
+      "re_tooling": [
+        "AX-CSI (modified firmware + iwlwifi patch)",
+        "FeitCSI",
+        "PicoScenes",
+        "CSIKit"
+      ]
+    },
+    "common_hardware": [
+      "Intel Wi-Fi 6 AX200 discrete M.2/mini-PCIe",
+      "AX201 CNVi (10th-gen+ laptops)"
+    ],
+    "key_projects": [
+      {
+        "name": "AX-CSI (Gringoli et al., WiNTECH'21)",
+        "url": "https://dl.acm.org/doi/10.1145/3477086.3480833"
+      },
+      {
+        "name": "FeitCSI",
+        "url": "https://github.com/KuskoSoft/FeitCSI"
+      },
+      {
+        "name": "PicoScenes",
+        "url": "https://ps.zpj.io/"
+      },
+      {
+        "name": "CSIKit",
+        "url": "https://github.com/Gi-z/CSIKit"
+      }
+    ],
+    "references": [
+      "https://dl.acm.org/doi/10.1145/3477086.3480833",
+      "https://ans.unibs.it/assets/documents/axcsi.pdf",
+      "https://feitcsi.kuskosoft.com/",
+      "https://github.com/KuskoSoft/FeitCSI"
+    ],
+    "status": "verified",
+    "notes": "Wi-Fi 6 (11ax) 2x2. First post-5300 Intel CSI, via AX-CSI (research), FeitCSI (turn-key, MIT, GUI/CLI, also frame injection) and PicoScenes (multi-NIC, up to 27 concurrent). CSI for all OFDM formats 11a/g/n/ac/ax; AX-CSI handles up to 160 MHz HE / ~1992 subcarriers per packet; FeitCSI up to 512 subcarriers at 16-bit signed. Firmware is closed/signed - tools ride the vendor's own CSI/debug host-command surface. Ceiling tier 2 (frame-level injection does not raise the tier)."
+  },
+  {
+    "id": "intel-ax210-ax211",
+    "vendor": "Intel",
+    "family": "AX210 (Typhoon Peak)",
+    "aliases": [
+      "Intel Wi-Fi 6E AX210",
+      "Intel Wi-Fi 6E AX211",
+      "AX210NGW",
+      "Killer AX1675"
+    ],
+    "part_numbers": [
+      "AX210NGW",
+      "AX211NGW",
+      "AX1675"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel LMAC + UMAC firmware (signed); iwlwifi-ty-a0 ucode",
+      "openness": "patchable",
+      "re_tooling": [
+        "AX-CSI",
+        "FeitCSI",
+        "PicoScenes",
+        "CSIKit"
+      ]
+    },
+    "common_hardware": [
+      "Intel Wi-Fi 6E AX210 discrete M.2",
+      "AX211 CNVi (12th-gen+ laptops)"
+    ],
+    "key_projects": [
+      {
+        "name": "PicoScenes 6 GHz CSI",
+        "url": "https://zpj.io/wifi-sensing-in-the-6-ghz-band_eng/"
+      },
+      {
+        "name": "FeitCSI",
+        "url": "https://github.com/KuskoSoft/FeitCSI"
+      },
+      {
+        "name": "AX-CSI",
+        "url": "https://ans.unibs.it/assets/documents/axcsi.pdf"
+      }
+    ],
+    "references": [
+      "https://zpj.io/wifi-sensing-in-the-6-ghz-band_eng/",
+      "https://feitcsi.kuskosoft.com/",
+      "https://ps.zpj.io/"
+    ],
+    "status": "verified",
+    "notes": "Wi-Fi 6E: adds the 6 GHz band (5945-7125 MHz) and 160 MHz channels. Intel's most capable sensing NIC today. PicoScenes is (per its authors) the first/only public platform doing 11ax CSI + packet injection in 6 GHz on the AX210; FeitCSI also captures 6 GHz CSI. Same closed/signed firmware model as AX200. Ceiling tier 2."
+  },
+  {
+    "id": "intel-ax210-csi",
+    "vendor": "Intel",
+    "family": "Wi-Fi 6E AX200/AX210 (iwlwifi)",
+    "aliases": [
+      "AX-CSI",
+      "IAX",
+      "FeitCSI",
+      "AX200",
+      "AX210"
+    ],
+    "part_numbers": [
+      "AX200",
+      "AX201",
+      "AX210",
+      "AX211"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11g",
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Intel closed microcode (ARC-based), iwlwifi",
+      "openness": "patchable",
+      "re_tooling": [
+        "binary-patched-ucode",
+        "ida",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Intel AX200 M.2/mini-PCIe",
+      "Intel AX210 M.2 (6 GHz capable)"
+    ],
+    "key_projects": [
+      {
+        "name": "AX-CSI / IAX (Gringoli et al.)",
+        "url": "https://ans.unibs.it/assets/documents/axcsi.pdf"
+      },
+      {
+        "name": "FeitCSI",
+        "url": "https://github.com/KuskoSoft/FeitCSI"
+      },
+      {
+        "name": "PicoScenes",
+        "url": "https://ps.zpj.io/"
+      }
+    ],
+    "sdr_tier_rationale": "CSI for all 802.11a/g/n/ac/ax formats up to 160 MHz (up to ~1992 subcarriers/packet), 6 GHz on AX210, via patched microcode; FeitCSI adds injection + GUI.",
+    "status": "verified",
+    "references": [
+      "https://ans.unibs.it/assets/documents/axcsi.pdf",
+      "https://github.com/KuskoSoft/FeitCSI",
+      "https://ieeexplore.ieee.org/document/10944229/",
+      "https://ps.zpj.io/"
+    ],
+    "notes": "Modern Wi-Fi 6/6E CSI. AX-CSI (WiNTECH'21) first; FeitCSI is the packaged CLI+GUI+live-USB; PicoScenes is the multi-NIC platform. See ../chips/intel.md."
+  },
+  {
+    "id": "intel-be200",
+    "vendor": "Intel",
+    "family": "BE200 (Gale Peak 2)",
+    "aliases": [
+      "Intel Wi-Fi 7 BE200",
+      "BE200NGW",
+      "Killer BE1750"
+    ],
+    "part_numbers": [
+      "BE200NGW",
+      "BE1750"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac",
+      "802.11ax",
+      "802.11be"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel LMAC + UMAC firmware (signed); iwlwifi-gl ucode",
+      "openness": "closed",
+      "re_tooling": [
+        "FeitCSI (reported/likely)",
+        "PicoScenes (TBD)"
+      ]
+    },
+    "common_hardware": [
+      "Intel Wi-Fi 7 BE200 discrete M.2"
+    ],
+    "key_projects": [
+      {
+        "name": "FeitCSI",
+        "url": "https://github.com/KuskoSoft/FeitCSI"
+      }
+    ],
+    "references": [
+      "https://cdrdv2-public.intel.com/761674/761674_Intel_Wi-Fi_7_BE200_GalePeak2_Product_Brief_Rev1p1.pdf",
+      "https://feitcsi.kuskosoft.com/"
+    ],
+    "status": "reported",
+    "notes": "Intel's first Wi-Fi 7 (802.11be) part: 2x2, 2.4/5/6 GHz, up to 320 MHz and 4K-QAM. No published tool yet confirms 320 MHz 11be CSI; FeitCSI authors note only 'high possibility' the newest NIC is supported, and AX-CSI/PicoScenes docs stop at AX210/AX211. Treat CSI as emerging/reported until a verified capture appears. Firmware closed/signed."
+  },
+  {
+    "id": "intel-iwl4965",
+    "vendor": "Intel",
+    "family": "IWL4965 (Kilmer Peak)",
+    "aliases": [
+      "Intel Wireless WiFi Link 4965AGN",
+      "iwl4965"
+    ],
+    "part_numbers": [
+      "4965AGN"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel Wireless-MAC microcontroller; iwlwifi-4965 ucode",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Intel 4965AGN mini-PCIe"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/iwl4965"
+    ],
+    "status": "verified",
+    "notes": "Intel's first 802.11n (draft-n) part, 2x3 MIMO. No CSI/PHY telemetry path; monitor/injection only via mac80211/iwl4965."
+  },
+  {
+    "id": "intel-iwl5100-5150",
+    "vendor": "Intel",
+    "family": "IWL5000 (Shirley Peak)",
+    "aliases": [
+      "Intel WiFi Link 5100",
+      "Intel WiFi Link 5150",
+      "512AN_MMW",
+      "512AN_HMW"
+    ],
+    "part_numbers": [
+      "512AN_MMW",
+      "512AN_HMW"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel Wireless-MAC microcontroller; iwlwifi-5000 ucode",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Intel WiFi Link 5100 (1x2) mini-PCIe",
+      "Intel WiFi Link 5150 (2.4 GHz)"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://dhalperi.github.io/linux-80211n-csitool/"
+    ],
+    "status": "verified",
+    "notes": "Lower-antenna siblings of the 5300. The 5300 CSI ucode hard-codes 3 receive chains, so the 1x2 5100 / 2x2 5150 are NOT supported by the CSI tool. Usable only as ordinary mac80211 monitor/injection radios."
+  },
+  {
+    "id": "intel-iwl5300",
+    "vendor": "Intel",
+    "family": "IWL5000 (Shirley Peak)",
+    "aliases": [
+      "Intel WiFi Link 5300",
+      "IWL5300 AGN",
+      "533AN_MMW",
+      "533AN_HMW"
+    ],
+    "part_numbers": [
+      "533AN_MMW",
+      "533AN_HMW"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel Wireless-MAC microcontroller (undocumented ISA); iwlwifi-5000 ucode",
+      "openness": "patchable",
+      "re_tooling": [
+        "linux-80211n-csitool",
+        "modified iwlwifi-5000 ucode",
+        "connector/netlink log_to_file",
+        "matlab read_bfee"
+      ]
+    },
+    "common_hardware": [
+      "Intel WiFi Link 5300 mini-PCIe card (3 antennas required)"
+    ],
+    "key_projects": [
+      {
+        "name": "Linux 802.11n CSI Tool (Halperin et al.)",
+        "url": "https://dhalperi.github.io/linux-80211n-csitool/"
+      },
+      {
+        "name": "linux-80211n-csitool source",
+        "url": "https://github.com/dhalperi/linux-80211n-csitool"
+      },
+      {
+        "name": "PicoScenes (multi-NIC)",
+        "url": "https://ps.zpj.io/"
+      },
+      {
+        "name": "CSIKit parser",
+        "url": "https://github.com/Gi-z/CSIKit"
+      }
+    ],
+    "references": [
+      "https://dhalperi.github.io/linux-80211n-csitool/",
+      "https://github.com/dhalperi/linux-80211n-csitool",
+      "https://dl.acm.org/doi/10.1145/1925861.1925870"
+    ],
+    "status": "verified",
+    "notes": "The original 802.11n CSI tool. Reports channel matrix H for 30 subcarrier groups, signed 8-bit I and 8-bit Q per Tx/Rx pair (up to 3x3), plus per-chain RSSI/noise/AGC. Requires the patched 'connector' ucode + patched iwlwifi/mac80211, pinned to old kernels (classic: Ubuntu 10.04 / 2.6.36). Only the 3-antenna 5300 works; 5100/5150 excluded by hard-coded 3-chain layout. Ceiling is tier 2 (CSI) - no spectral/raw-IQ/arbitrary-TX."
+  },
+  {
+    "id": "intel-iwl5300-csi",
+    "vendor": "Intel",
+    "family": "Wi-Fi Link 5300 (iwlwifi)",
+    "aliases": [
+      "IWL5300",
+      "Intel 5300",
+      "Ultimate-N 5300"
+    ],
+    "part_numbers": [
+      "533AN_HMW",
+      "533AN_MMW"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "Intel closed microcode (iwlwifi)",
+      "openness": "closed",
+      "re_tooling": [
+        "binary-patched-ucode",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Intel 5300 mini-PCIe card",
+      "ThinkPad-era laptops with 3 antennas"
+    ],
+    "key_projects": [
+      {
+        "name": "Linux 802.11n CSI Tool (Halperin)",
+        "url": "https://github.com/dhalperi/linux-80211n-csitool"
+      },
+      {
+        "name": "PicoScenes",
+        "url": "https://ps.zpj.io/"
+      }
+    ],
+    "sdr_tier_rationale": "Grouped 30-subcarrier CSI (int8 real/imag), up to 3x3, via patched microcode + modified iwlwifi.",
+    "status": "verified",
+    "references": [
+      "https://dhalperi.github.io/linux-80211n-csitool/",
+      "https://github.com/dhalperi/linux-80211n-csitool",
+      "https://ps.zpj.io/"
+    ],
+    "notes": "The original commodity CSI tool (SIGCOMM CCR 2011). 30 subcarrier groups, 20/40 MHz 802.11n. Kernel/firmware-version locked. See ../chips/intel.md."
+  },
+  {
+    "id": "intel-iwl6200-6300",
+    "vendor": "Intel",
+    "family": "IWL6000 (Centrino Advanced-N / Ultimate-N)",
+    "aliases": [
+      "Centrino Advanced-N 6200",
+      "Centrino Ultimate-N 6300",
+      "622ANHMW",
+      "633ANHMW"
+    ],
+    "part_numbers": [
+      "622ANHMW",
+      "633ANHMW"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel Wireless-MAC microcontroller; iwlwifi-6000 ucode",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Intel Centrino Advanced-N 6200 (2x2)",
+      "Intel Centrino Ultimate-N 6300 (3x3)"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+    ],
+    "status": "verified",
+    "notes": "The 6300 is a 3x3 802.11n part sometimes floated as a 5300 stand-in, but no maintained public CSI firmware exists for the 6000 series. Monitor/injection only."
+  },
+  {
+    "id": "intel-iwl7260-7265",
+    "vendor": "Intel",
+    "family": "IWL7000 (Wilkins/Stone Peak)",
+    "aliases": [
+      "Intel Wireless-AC 7260",
+      "Intel Wireless-AC 7265",
+      "Dual Band Wireless-AC 7260"
+    ],
+    "part_numbers": [
+      "7260HMW",
+      "7265D",
+      "7265NGW"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel LMAC + UMAC firmware split; iwlwifi-7260/7265 ucode",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Intel Wireless-AC 7260 M.2/mini-PCIe",
+      "Intel Wireless-AC 7265 M.2"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+    ],
+    "status": "verified",
+    "notes": "First 802.11ac Intel generation, 2x2. No public CSI/PHY tooling; monitor/injection only. Firmware moves to the signed LMAC/UMAC image model."
+  },
+  {
+    "id": "intel-iwl8260-8265",
+    "vendor": "Intel",
+    "family": "IWL8000 (Windstorm Peak)",
+    "aliases": [
+      "Intel Dual Band Wireless-AC 8260",
+      "Intel Wireless-AC 8265"
+    ],
+    "part_numbers": [
+      "8260NGW",
+      "8265NGW"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel LMAC + UMAC firmware; iwlwifi-8000C/8265 ucode (signed)",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Intel Wireless-AC 8260 M.2",
+      "Intel Wireless-AC 8265 M.2"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+    ],
+    "status": "verified",
+    "notes": "802.11ac 2x2. No public CSI path; monitor/injection only. Firmware is signed."
+  },
+  {
+    "id": "intel-iwl9260-9560",
+    "vendor": "Intel",
+    "family": "IWL9000 (Thunder/Jefferson Peak)",
+    "aliases": [
+      "Intel Wireless-AC 9260",
+      "Intel Wireless-AC 9560",
+      "Intel Wireless-AC 9461/9462"
+    ],
+    "part_numbers": [
+      "9260NGW",
+      "9560NGW",
+      "9461NGW",
+      "9462NGW"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Proprietary Intel LMAC + UMAC firmware; iwlwifi-9000 ucode (signed)",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Intel Wireless-AC 9260 (discrete M.2)",
+      "Intel Wireless-AC 9560 (CNVi)"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+    ],
+    "status": "verified",
+    "notes": "802.11ac Wave 2, 2x2. 9260 is discrete; 9560 is CNVi (companion RF next to the CPU). No maintained public CSI tooling. Monitor/injection only."
+  },
+  {
+    "id": "lime-limesdr",
+    "vendor": "Lime Microsystems",
+    "family": "LimeSDR / LimeSDR Mini",
+    "part_numbers": [
+      "LimeSDR",
+      "LimeSDR Mini",
+      "LMS7002M"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "arbitrary-waveform"
+    ],
+    "firmware": {
+      "arch": "LMS7002M field-programmable RF + FX3/FPGA",
+      "openness": "open",
+      "re_tooling": [
+        "LimeSuite",
+        "SoapySDR",
+        "GNU Radio",
+        "srsRAN"
+      ]
+    },
+    "references": [
+      "https://limemicro.com/",
+      "https://wiki.myriadrf.org/LimeSDR"
+    ],
+    "status": "verified",
+    "notes": "100kHz-3.8GHz (Mini 10MHz-3.5GHz), 12-bit, up to 61.44/30.72 MSPS, 2x2 / 1x1 full-duplex. Favored for open-source cellular."
+  },
+  {
+    "id": "marvell-88w8897",
+    "vendor": "Marvell",
+    "family": "Avastar",
+    "aliases": [
+      "88W8897",
+      "88W8997",
+      "SD8887",
+      "SD8897",
+      "Avastar"
+    ],
+    "part_numbers": [
+      "88W8897",
+      "88W8997",
+      "SD8887",
+      "SD8897"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "ThreadX RTOS on on-chip MAC/PHY controller",
+      "openness": "closed",
+      "re_tooling": [
+        "ida",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Sony PlayStation 4",
+      "Microsoft Surface",
+      "Chromebooks",
+      "Steam Link",
+      "SDIO IoT modules"
+    ],
+    "key_projects": [
+      {
+        "name": "Project Zero: Over The Air (Marvell Avastar firmware RE)",
+        "url": "https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html"
+      },
+      {
+        "name": "mwifiex mainline driver",
+        "url": "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/marvell/mwifiex"
+      }
+    ],
+    "status": "reported",
+    "notes": "mwifiex gives monitor mode (tier 1). Gal Beniamini reverse-engineered the 88W8897 Wi-Fi firmware (ThreadX RTOS) for exploitation, proving the firmware is openable with IDA/Ghidra, but no SDR/CSI feature has been productized, so CSI is only reported.",
+    "references": [
+      "https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html",
+      "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/marvell/mwifiex"
+    ]
+  },
+  {
+    "id": "mediatek-mt7601u",
+    "vendor": "MediaTek",
+    "family": "MT7601U",
+    "aliases": [
+      "MT7601U",
+      "MT7601",
+      "mt7601u"
+    ],
+    "part_numbers": [
+      "MT7601U"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "MediaTek on-chip MCU (ROM patch + RAM firmware)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "cheapest MediaTek monitor-mode USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "mt7601u driver (mainline)",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/mediatek.html"
+      }
+    ],
+    "references": [
+      "https://github.com/morrownr/USB-WiFi/issues/575",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/mediatek.html"
+    ],
+    "status": "verified",
+    "sdr_notes": "802.11b/g/n 1T1R 2.4 GHz, in kernel since 4.2. Monitor mode works; INJECTION is limited/unreliable in practice (widely reported). Treat as Tier 1 with caveat.",
+    "notes": "Open mt7601u driver, closed MCU firmware. Cheapest MediaTek dongle; monitor good, injection flaky."
+  },
+  {
+    "id": "mediatek-mt7610u",
+    "vendor": "MediaTek",
+    "family": "MT76x0 (MT7610U)",
+    "aliases": [
+      "MT7610U",
+      "MT7610",
+      "mt76x0u"
+    ],
+    "part_numbers": [
+      "MT7610U",
+      "MT7610E"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "MediaTek on-chip MCU (ROM patch + RAM firmware)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "compact dual-band 11ac 1T1R USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76 driver",
+        "url": "https://github.com/openwrt/mt76"
+      }
+    ],
+    "references": [
+      "https://github.com/openwrt/mt76",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/mediatek.html"
+    ],
+    "status": "verified",
+    "sdr_notes": "802.11ac 1T1R dual-band; adds 5 GHz monitor+injection in a tiny package via mt76x0u. Tier 1.",
+    "notes": "Open mt76 driver, closed MCU firmware."
+  },
+  {
+    "id": "mediatek-mt7612u",
+    "vendor": "MediaTek",
+    "family": "MT76x2 (MT7612U/E)",
+    "aliases": [
+      "MT7612U",
+      "MT7612E",
+      "MT7662",
+      "mt76x2u",
+      "mt76x2e"
+    ],
+    "part_numbers": [
+      "MT7612U",
+      "MT7612E",
+      "MT7662"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "MediaTek on-chip MCU (ROM patch + RAM firmware)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Alfa AWUS036ACM",
+      "many 2x2 11ac USB adapters"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76 driver",
+        "url": "https://github.com/openwrt/mt76"
+      },
+      {
+        "name": "morrownr/mt76 out-of-tree",
+        "url": "https://github.com/morrownr/mt76"
+      }
+    ],
+    "references": [
+      "https://github.com/openwrt/mt76",
+      "https://blog.alfa.com.tw/2018/09/17/awus036acm-alternative-linux-driver-information/",
+      "https://github.com/morrownr/USB-WiFi"
+    ],
+    "status": "verified",
+    "sdr_notes": "802.11ac 2T2R dual-band ~866 Mbit/s; the chip in the Alfa AWUS036ACM. The MODERN reference monitor+injection dongle on stock in-tree mt76x2u (since kernel 4.19) — clean injection both bands. Tier 1.",
+    "notes": "Distinct from AWUS036AC (RTL8812AU). Open mt76 driver, closed MCU firmware. PCIe sibling MT7612E is the same PHY."
+  },
+  {
+    "id": "mediatek-mt7615-mt7663",
+    "vendor": "MediaTek",
+    "family": "MT7615 / MT7663 (ConnAC)",
+    "aliases": [
+      "MT7615",
+      "MT7615N",
+      "MT7615D",
+      "MT7663",
+      "MT7663U",
+      "MT7622",
+      "mt7615",
+      "mt7663u"
+    ],
+    "part_numbers": [
+      "MT7615",
+      "MT7615N",
+      "MT7663",
+      "MT7663U",
+      "MT7663S"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "ConnAC dual-MCU: WM (WiFi-MAC) + WA (WiFi-Algorithm) firmware, ARM-class cores",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "802.11ac routers/APs (MT7615)",
+      "2x2 client modules (MT7663 M.2/USB/SDIO)",
+      "MT7622 router SoCs"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76 driver",
+        "url": "https://github.com/openwrt/mt76"
+      },
+      {
+        "name": "MT7615 device family (DeepWiki)",
+        "url": "https://deepwiki.com/openwrt/mt76/8-mt7615-device-family"
+      }
+    ],
+    "references": [
+      "https://deepwiki.com/openwrt/mt76/8-mt7615-device-family",
+      "https://github.com/openwrt/mt76"
+    ],
+    "status": "verified",
+    "sdr_notes": "802.11ac 4x4 DBDC AP/router (MT7615) and 2x2 client (MT7663). Introduces the ConnAC dual-MCU (WM+WA) design. Monitor+injection verified (Tier 1). CSI hooks far less mature than the Wi-Fi 6 family — experimental/reported.",
+    "notes": "Open mt76 driver, closed WM/WA blobs but open MCU-command interface. Unlock path is driver patching, not firmware patching."
+  },
+  {
+    "id": "mediatek-mt7915-mt7916",
+    "vendor": "MediaTek",
+    "family": "MT7915 / MT7916 (ConnAC Wi-Fi 6)",
+    "aliases": [
+      "MT7915",
+      "MT7915E",
+      "MT7916",
+      "MT7986",
+      "mt7915"
+    ],
+    "part_numbers": [
+      "MT7915",
+      "MT7915E",
+      "MT7915D",
+      "MT7916",
+      "MT7986"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "ConnAC2 dual-MCU: WM (WiFi-MAC) + WA (WiFi-Algorithm) firmware, ARM-class cores; ROM patch + RAM code",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "MT7915 802.11ax routers/APs (up to 4x4, 160 MHz)",
+      "MT7986/Filogic 830 router SoCs",
+      "GL.iNet / Xiaomi / TP-Link Archer OpenWrt routers"
+    ],
+    "key_projects": [
+      {
+        "name": "MtkCSIdump",
+        "url": "https://github.com/MtkWifiRev/MtkCSIdump"
+      },
+      {
+        "name": "ekstra-csi (full-metadata)",
+        "url": "https://github.com/imxdemetri/ekstra-csi"
+      },
+      {
+        "name": "mt76 driver",
+        "url": "https://github.com/openwrt/mt76"
+      }
+    ],
+    "references": [
+      "https://github.com/MtkWifiRev/MtkCSIdump",
+      "https://github.com/imxdemetri/ekstra-csi",
+      "https://forum.openwrt.org/t/csi-extraction-for-mediatek-based-wi-fi-chipsets/244703",
+      "https://deepwiki.com/openwrt/mt76/7-mt7915-device-family"
+    ],
+    "status": "verified",
+    "sdr_notes": "THE MediaTek Tier-2 platform. 802.11ax up to 4x4/160 MHz. Per-subcarrier CSI (amplitude + phase, up to ~512 subcarriers) exported via an nl80211 vendor command in patched mt76 — NO firmware modification needed; the closed MCU already computes CSI and the open driver taps the report. MtkCSIdump provides the patch+userland; ekstra-csi preserves MAC/RSSI/SNR metadata.",
+    "notes": "Cheapest/cleanest Wi-Fi-6 CSI route on commodity routers. Dual-MCU WM+WA; unlock is a DRIVER patch, unlike Broadcom's nexmon firmware patch. See ../projects/csi-toolchains.md."
+  },
+  {
+    "id": "mediatek-mt7921",
+    "vendor": "MediaTek",
+    "family": "MT7921 (ConnAC Wi-Fi 6 client)",
+    "aliases": [
+      "MT7921",
+      "MT7921E",
+      "MT7921U",
+      "MT7921K",
+      "MT7921AU",
+      "mt7921"
+    ],
+    "part_numbers": [
+      "MT7921",
+      "MT7921E",
+      "MT7921U",
+      "MT7921K"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "ConnAC2 dual-MCU: WM + WA firmware, ARM-class cores",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Alfa AWUS036AXM",
+      "laptop M.2 modules",
+      "USB/SDIO client adapters"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76 driver",
+        "url": "https://github.com/openwrt/mt76"
+      },
+      {
+        "name": "morrownr/USB-WiFi (injection tracking)",
+        "url": "https://github.com/morrownr/USB-WiFi"
+      }
+    ],
+    "references": [
+      "https://github.com/morrownr/USB-WiFi/issues/387",
+      "https://github.com/openwrt/mt76"
+    ],
+    "status": "verified",
+    "sdr_notes": "802.11ax 2x2 client (M.2/USB/SDIO). Monitor verified; injection present but historically buggy in 11ax framing (tracked in morrownr/USB-WiFi). CSI on the client MCU is not yet a turnkey public tool — theoretical/reported. Tier 1.",
+    "notes": "In the Alfa AWUS036AXM. Shares ConnAC MCU-command lineage with MT7915, so client-side CSI is a plausible next target."
+  },
+  {
+    "id": "mediatek-mt7922",
+    "vendor": "MediaTek",
+    "family": "MT7922 (ConnAC Wi-Fi 6E client)",
+    "aliases": [
+      "MT7922",
+      "MT7922A22M",
+      "mt7922"
+    ],
+    "part_numbers": [
+      "MT7922"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11ax"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "ConnAC2 dual-MCU: WM + WA firmware, ARM-class cores",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Alfa AWUS036AXML",
+      "Ryzen/laptop M.2 Wi-Fi 6E modules"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76 driver (mt7921 sub-driver)",
+        "url": "https://github.com/openwrt/mt76"
+      }
+    ],
+    "references": [
+      "https://github.com/morrownr/mt76",
+      "https://github.com/openwrt/mt76"
+    ],
+    "status": "verified",
+    "sdr_notes": "802.11ax Wi-Fi 6E 2x2 client; adds 6 GHz. Driven by the mt7921 sub-driver. Monitor+injection verified (same caveats as MT7921). CSI reported/theoretical. Tier 1.",
+    "notes": "In the Alfa AWUS036AXML. 6 GHz-capable client on open mt76."
+  },
+  {
+    "id": "mediatek-mt7925-wifi7",
+    "vendor": "MediaTek",
+    "family": "MT7925 / MT7927 (Wi-Fi 7 client)",
+    "aliases": [
+      "MT7925",
+      "MT7927",
+      "MT7928",
+      "mt7925"
+    ],
+    "part_numbers": [
+      "MT7925",
+      "MT7927",
+      "MT7928"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11be"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "ConnAC3 dual/triple-MCU firmware, ARM-class cores",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "Wi-Fi 7 laptop M.2 modules",
+      "early Wi-Fi 7 USB adapters"
+    ],
+    "key_projects": [
+      {
+        "name": "morrownr/mt76 (out-of-tree)",
+        "url": "https://github.com/morrownr/mt76"
+      }
+    ],
+    "references": [
+      "https://github.com/morrownr/mt76"
+    ],
+    "status": "reported",
+    "sdr_notes": "Newest Wi-Fi 7 clients covered by mt76 (mt7925). Monitor/injection maturing; CSI unexplored publicly. Tier 1, status reported pending more testing.",
+    "notes": "Natural next-cycle target: whether the MT7915-style vendor-CSI path extends to Wi-Fi 7 client MCUs."
+  },
+  {
+    "id": "mediatek-mt7981-filogic",
+    "vendor": "MediaTek",
+    "family": "MT7981 / mt7976 (Filogic 820)",
+    "aliases": [
+      "MT7981",
+      "MT7981B",
+      "mt7976",
+      "Filogic 820",
+      "Filogic 830 MT7986"
+    ],
+    "part_numbers": [
+      "MT7981",
+      "MT7981B",
+      "MT7986"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11ax"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "ConnAC3 triple-core: WM + WA + WO (WiFi-offload) MCU firmware; ROM patch + RAM code",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "common_hardware": [
+      "OpenWrt One (MT7981B / mt7976 radio)",
+      "GL.iNet / Xiaomi Filogic routers"
+    ],
+    "key_projects": [
+      {
+        "name": "MtkCSIdump (tested on OpenWrt One)",
+        "url": "https://github.com/MtkWifiRev/MtkCSIdump"
+      },
+      {
+        "name": "ekstra-csi",
+        "url": "https://github.com/imxdemetri/ekstra-csi"
+      }
+    ],
+    "references": [
+      "https://github.com/MtkWifiRev/MtkCSIdump",
+      "https://forum.openwrt.org/t/ekstra-csi-full-metadata-csi-extraction-for-mt76-on-openwrt/247100"
+    ],
+    "status": "verified",
+    "sdr_notes": "Filogic router SoC where MediaTek CSI extraction was actually demonstrated: OpenWrt One (MT7981B, mt7976 radio) under OpenWrt 24.10 with MtkCSIdump patches. 802.11ax CSI via mt76 vendor dump, no firmware mod. Tier 2.",
+    "notes": "The concrete, reproducible MediaTek CSI target as of 2024-2026. Triple-MCU (WM/WA/WO). Firmware blobs shipped in linux-firmware/mediatek."
+  },
+  {
+    "id": "ralink-rt2500",
+    "vendor": "MediaTek",
+    "family": "RT2500 / RT2570",
+    "aliases": [
+      "RT2500",
+      "RT2500PCI",
+      "RT2570",
+      "RT2570USB",
+      "rt2x00"
+    ],
+    "part_numbers": [
+      "RT2500",
+      "RT2560",
+      "RT2570"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Ralink proprietary MAC microcode (small MCU)",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "early 802.11b/g PCI cards",
+      "RT2570 USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "rt2x00 driver (mac80211)",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/rt2x00"
+      }
+    ],
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/rt2x00",
+      "https://wikidevi.wi-cat.ru/Mt76"
+    ],
+    "status": "verified",
+    "sdr_notes": "Earliest Ralink generation. Solid monitor+injection via open rt2x00/rt2500pci/rt73usb, but 802.11b/g 2.4 GHz only; obsolete. No CSI/spectral path.",
+    "notes": "Canonical early aircrack-ng cards. Open driver, closed MAC microcode blob. Never climbed past Tier 1."
+  },
+  {
+    "id": "ralink-rt2870-rt3070",
+    "vendor": "MediaTek",
+    "family": "RT2870 / RT3070",
+    "aliases": [
+      "RT2870",
+      "RT3070",
+      "RT3070L",
+      "RT2770",
+      "rt2800usb"
+    ],
+    "part_numbers": [
+      "RT2870",
+      "RT3070",
+      "RT3070L",
+      "RT2770"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Ralink proprietary MAC microcode (rt2870.bin/rt3070.bin, small MCU)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "Alfa AWUS036NH",
+      "TP-Link TL-WN727N",
+      "D-Link/Sitecom/countless clones"
+    ],
+    "key_projects": [
+      {
+        "name": "rt2800usb driver",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/rt2800usb"
+      }
+    ],
+    "references": [
+      "https://forum.aircrack-ng.org/index.php?topic=1363.0",
+      "https://wireless.wiki.kernel.org/en/users/drivers/rt2800usb"
+    ],
+    "status": "verified",
+    "sdr_notes": "THE classic USB injection chipset for a decade. 802.11n 1T1R/2T2R 2.4 GHz, SoftMAC → monitor+injection just work under rt2800usb.",
+    "notes": "Reference cheap injection dongle. Open driver, closed MAC microcode. Tier 1 only."
+  },
+  {
+    "id": "ralink-rt3572",
+    "vendor": "MediaTek",
+    "family": "RT3572",
+    "aliases": [
+      "RT3572",
+      "rt2800usb"
+    ],
+    "part_numbers": [
+      "RT3572"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Ralink proprietary MAC microcode (small MCU)",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Alfa AWUS051NH",
+      "dual-band 11n USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "rt2800usb driver",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/rt2800usb"
+      }
+    ],
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/rt2800usb"
+    ],
+    "status": "verified",
+    "sdr_notes": "Added dual-band (2.4/5 GHz) monitor+injection in the Ralink era; valued for 5 GHz work before mt76 parts existed.",
+    "notes": "rt2800usb dual-band 802.11n. Tier 1."
+  },
+  {
+    "id": "ralink-rt5370-rt5372",
+    "vendor": "MediaTek",
+    "family": "RT5370 / RT5372",
+    "aliases": [
+      "RT5370",
+      "RT5372",
+      "rt2800usb"
+    ],
+    "part_numbers": [
+      "RT5370",
+      "RT5372"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Ralink proprietary MAC microcode (small MCU)",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "ubiquitous cheap dongles",
+      "Raspberry Pi Wi-Fi kits"
+    ],
+    "key_projects": [
+      {
+        "name": "rt2800usb driver",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/rt2800usb"
+      }
+    ],
+    "references": [
+      "https://forum.aircrack-ng.org/index.php?topic=1188.0",
+      "https://wireless.wiki.kernel.org/en/users/drivers/rt2800usb"
+    ],
+    "status": "verified",
+    "sdr_notes": "Low-power 1T1R (RT5370) / 2T2R (RT5372) 2.4 GHz 802.11n; good injection, extremely common. Tier 1.",
+    "notes": "Late-Ralink low-power parts, rt2800usb. No CSI/spectral."
+  },
+  {
+    "id": "atmel-at86rf2xx",
+    "vendor": "Microchip",
+    "family": "AT86RF2xx 802.15.4",
+    "aliases": [
+      "AT86RF230",
+      "AT86RF231",
+      "AT86RF233",
+      "AT86RF212",
+      "ATmega128RFA1",
+      "ATmega256RFR2",
+      "RZUSBstick"
+    ],
+    "part_numbers": [
+      "AT86RF230",
+      "AT86RF231",
+      "AT86RF233",
+      "AT86RF212B",
+      "ATmega128RFA1",
+      "ATmega256RFR2"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.15.4",
+      "Zigbee"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "fixed-function 802.15.4 transceiver; ATmega128RFA1 adds an AVR core",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "Atmel RZUSBstick (AT86RF230)",
+      "Atmel RZ Raven",
+      "RIOT/Contiki nodes"
+    ],
+    "key_projects": [
+      {
+        "name": "KillerBee (Zigbee attack framework)",
+        "url": "https://github.com/riverloopsec/killerbee"
+      },
+      {
+        "name": "AT86RF233 product page",
+        "url": "https://www.microchip.com/en-us/product/at86rf233"
+      }
+    ],
+    "status": "verified",
+    "notes": "IEEE 802.15.4 transceivers (2.4 GHz and sub-GHz) plus the ATmega128RFA1/256RFR2 AVR radio SoCs. KillerBee drives the RZUSBstick and RZ Raven for monitor + injection. Documented PHYs; RIOT/Contiki drive them bare-metal.",
+    "references": [
+      "https://github.com/riverloopsec/killerbee",
+      "https://www.microchip.com/en-us/product/at86rf233"
+    ]
+  },
+  {
+    "id": "microchip-at86rf215",
+    "vendor": "Microchip",
+    "family": "AT86RF215 dual-band 802.15.4g + I/Q radio",
+    "aliases": [
+      "AT86RF215",
+      "AT86RF215-ZU",
+      "AT86RF215IQ"
+    ],
+    "part_numbers": [
+      "AT86RF215",
+      "AT86RF215M",
+      "AT86RF215IQ"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.15.4g",
+      "ETSI TS 102 887-1"
+    ],
+    "sdr_tier": 4,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "raw-iq",
+      "arbitrary-waveform"
+    ],
+    "firmware": {
+      "arch": "dual independent transceiver + baseband, with a documented raw I/Q LVDS interface that bypasses the baseband",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "AT86RF215 evaluation boards",
+      "OpenWSN nodes",
+      "802.15.4g research rigs"
+    ],
+    "key_projects": [
+      {
+        "name": "AT86RF215 datasheet (I/Q data interface)",
+        "url": "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42415-WIRELESS-AT86RF215_Datasheet.pdf"
+      },
+      {
+        "name": "On Microchip AT86RF215 Radios (Wireless Pi)",
+        "url": "https://wirelesspi.com/on-microchip-at86rf215-radios/"
+      }
+    ],
+    "status": "verified",
+    "notes": "The accidental true-ish SDR of the non-Wi-Fi set: a documented raw I/Q data interface (three LVDS lanes, 13-bit I/Q up to ~4 MHz) lets you bypass the on-chip baseband, pull raw complex samples for your own DSP, and feed arbitrary I/Q in for TX. That is tier-4 arbitrary-waveform/raw-iq access with no firmware reversing, because the port is manufacturer-documented. Narrowband, but genuine front-end-level access on a commodity ISM chip.",
+    "references": [
+      "https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-42415-WIRELESS-AT86RF215_Datasheet.pdf",
+      "https://wirelesspi.com/on-microchip-at86rf215-radios/"
+    ]
+  },
+  {
+    "id": "morsemicro-mm6108",
+    "vendor": "Morse Micro",
+    "family": "Wi-Fi HaLow (802.11ah)",
+    "aliases": [
+      "MM6108",
+      "MM8108",
+      "MM6108-MF08651-US"
+    ],
+    "part_numbers": [
+      "MM6108",
+      "MM8108",
+      "MM6108-MF08651-US"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "802.11ah"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Morse Micro proprietary radio+PHY+MAC SoC",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "MM6108-EKH01",
+      "MM6108-EKH05",
+      "MM6108-EKH08",
+      "Raspberry Pi HaLow HAT"
+    ],
+    "key_projects": [
+      {
+        "name": "Morse Micro chips (open mac80211 morse driver)",
+        "url": "https://www.morsemicro.com/chips/"
+      }
+    ],
+    "status": "verified",
+    "notes": "Sub-1 GHz OFDM Wi-Fi (802.11ah), 1/2/4/8 MHz channels. Open mac80211 morse driver (upstreaming) enables monitor + injection at sub-GHz where wall penetration favors sensing. Firmware is a closed blob; no CSI toolchain yet but HaLow CSI is an active research direction.",
+    "references": [
+      "https://www.morsemicro.com/chips/",
+      "https://www.mouser.com/en/new/morse-micro/morse-micro-mm6108-mf08651-us-module/"
+    ]
+  },
+  {
+    "id": "nordic-nrf24l01p",
+    "vendor": "Nordic Semiconductor",
+    "family": "nRF24 (Enhanced ShockBurst)",
+    "aliases": [
+      "nRF24L01+",
+      "nRF24L01P",
+      "nRF24LU1+",
+      "Crazyradio PA"
+    ],
+    "part_numbers": [
+      "nRF24L01+",
+      "nRF24LU1+",
+      "nRF24LE1"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Nordic Enhanced ShockBurst (proprietary GFSK)"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "fixed-function 2.4 GHz GFSK transceiver (no MCU); nRF24LU1+ adds an 8051",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "generic nRF24L01+ SPI modules",
+      "Crazyradio PA (nRF24LU1+ USB)"
+    ],
+    "key_projects": [
+      {
+        "name": "Goodspeed: Promiscuity is the nRF24L01+'s Duty",
+        "url": "http://travisgoodspeed.blogspot.com/2011/02/promiscuity-is-nrf24l01s-duty.html"
+      },
+      {
+        "name": "Bastille MouseJack / nrf-research-firmware",
+        "url": "https://github.com/BastilleResearch/mousejack"
+      }
+    ],
+    "status": "verified",
+    "notes": "Travis Goodspeed's pseudo-promiscuous trick (2-byte address, no CRC, preamble-as-MAC) turns this stock transceiver into a sniffer for compatible 2.4 GHz ShockBurst traffic. Underpins Bastille's MouseJack running nrf-research-firmware on the Crazyradio PA. Documented PHY, no firmware to reverse.",
+    "references": [
+      "http://travisgoodspeed.blogspot.com/2011/02/promiscuity-is-nrf24l01s-duty.html",
+      "https://github.com/BastilleResearch/mousejack"
+    ]
+  },
+  {
+    "id": "nordic-nrf52",
+    "vendor": "Nordic Semiconductor",
+    "family": "nRF5x RADIO peripheral",
+    "aliases": [
+      "nRF51822",
+      "nRF52832",
+      "nRF52840",
+      "nRF5340",
+      "nRF54L15",
+      "nRF54H20"
+    ],
+    "part_numbers": [
+      "nRF51822",
+      "nRF52832",
+      "nRF52833",
+      "nRF52840",
+      "nRF5340",
+      "nRF54L15",
+      "nRF54H20"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth LE",
+      "802.15.4",
+      "ANT",
+      "proprietary GFSK"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "covert-channel",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "ARM Cortex-M0 (nRF51) / Cortex-M4F (nRF52) / Cortex-M33 (nRF53/nRF54)",
+      "openness": "documented",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "nRF52840 Dongle",
+      "nRF52840 DK",
+      "Adafruit Feather nRF52",
+      "BBC micro:bit (nRF51822/nRF52833)"
+    ],
+    "key_projects": [
+      {
+        "name": "Nordic radio_test / radiotest sample",
+        "url": "https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/samples/peripheral/radio_test/README.html"
+      },
+      {
+        "name": "Sniffle (BLE5 sniffer, nRF52840)",
+        "url": "https://github.com/nccgroup/Sniffle"
+      },
+      {
+        "name": "nRF Sniffer for 802.15.4",
+        "url": "https://github.com/NordicSemiconductor/nRF-Sniffer-for-802.15.4"
+      }
+    ],
+    "status": "verified",
+    "notes": "Nordic fully documents the RADIO peripheral at register level (openness=documented, not closed), so bare-metal code and the official radio_test sample configure BLE 1M/2M/Coded, 802.15.4, or proprietary GFSK, plus carrier/tone TX and promiscuous RX. Platform under Sniffle, nRF Sniffer, and a large tool ecosystem. Tier 1 with enough raw-RADIO control to shape arbitrary GFSK packets.",
+    "references": [
+      "https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/samples/peripheral/radio_test/README.html",
+      "https://github.com/nccgroup/Sniffle",
+      "https://github.com/NordicSemiconductor/nRF-Sniffer-for-802.15.4"
+    ]
+  },
+  {
+    "id": "nuand-bladerf-2micro",
+    "vendor": "Nuand",
+    "family": "bladeRF 2.0 micro xA4 / xA9",
+    "part_numbers": [
+      "bladeRF 2.0 micro xA4",
+      "bladeRF 2.0 micro xA9",
+      "AD9361",
+      "Cyclone V"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "arbitrary-waveform",
+      "passive-radar"
+    ],
+    "firmware": {
+      "arch": "AD9361 transceiver + Cyclone V FPGA (49k/301k LE) + ARM Cortex-M4",
+      "openness": "open",
+      "re_tooling": [
+        "bladeRF-cli",
+        "libbladeRF",
+        "GNU Radio"
+      ]
+    },
+    "references": [
+      "https://www.nuand.com/bladerf-2-0-micro/",
+      "https://www.nuand.com/product/bladerf-xa9/"
+    ],
+    "status": "verified",
+    "notes": "47MHz-6GHz, up to 56MHz BW, 12-bit, 2x2 MIMO full-duplex, USB 3.0. xA4/xA9 differ only in FPGA size (on-board user DSP/PHY)."
+  },
+  {
+    "id": "qorvo-dw1000",
+    "vendor": "Qorvo",
+    "family": "DW1000/DW3000 UWB",
+    "aliases": [
+      "DW1000",
+      "DW3000",
+      "DW3110",
+      "DW3220",
+      "DWM1000",
+      "DWM1001"
+    ],
+    "part_numbers": [
+      "DW1000",
+      "DW3110",
+      "DW3220",
+      "DWM1000",
+      "DWM1001"
+    ],
+    "bands": [
+      "UWB"
+    ],
+    "standards": [
+      "802.15.4a",
+      "802.15.4z"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "csi",
+      "radar",
+      "passive-radar"
+    ],
+    "firmware": {
+      "arch": "fixed-function UWB transceiver with SPI-readable CIR accumulator (no MCU)",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "DWM1000 / DWM1001 modules",
+      "DW3110/DW3220",
+      "MDEK1001 kit"
+    ],
+    "key_projects": [
+      {
+        "name": "UWB CIR for device-free localization (MDPI Sensors)",
+        "url": "https://www.mdpi.com/1424-8220/22/16/6255"
+      },
+      {
+        "name": "Qorvo DW1000",
+        "url": "https://www.qorvo.com/products/p/DW1000"
+      }
+    ],
+    "status": "verified",
+    "notes": "Ultra-wideband (~500 MHz channels, 3.5-6.5 GHz). The CIR accumulator exposes the full complex channel impulse response, up to 1016 taps of 16-bit I + 16-bit Q at ~1 ns spacing, directly over SPI: a UWB analog of CSI with amplitude and phase. Basis for a large body of device-free localization, occupancy, and radar-style sensing research. Tier 2 reaching toward tier 3. Fully documented, no firmware to reverse.",
+    "references": [
+      "https://www.mdpi.com/1424-8220/22/16/6255",
+      "https://www.qorvo.com/products/p/DW1000"
+    ]
+  },
+  {
+    "id": "qualcomm-qca6174",
+    "vendor": "Qualcomm",
+    "family": "ath10k (mobile 11ac)",
+    "aliases": [
+      "QCA6174",
+      "QCA6174A",
+      "Killer 1435 (variant)"
+    ],
+    "part_numbers": [
+      "QCA6174",
+      "QCA6174A"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11n",
+      "802.11ac",
+      "Bluetooth"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "on-chip Tensilica/ARM, closed firmware blob (ath10k/pci or snoc)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "QCA6174 2x2 M.2/mini-PCIe laptop cards",
+      "Killer Wireless-AC 1435"
+    ],
+    "key_projects": [
+      {
+        "name": "ath10k driver",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/ath10k"
+      }
+    ],
+    "sdr_reason": "Mobile 11ac combo on ath10k. Monitor mode works but injection and PHY telemetry are gated by the closed firmware; spectral is not reliably exposed on this SKU. Practically Tier 1.",
+    "notes": "Ubiquitous laptop Wi-Fi. The WCN3990 is the closely related integrated-in-SoC phone variant.",
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/ath10k",
+      "https://wikidevi.wi-cat.ru/Qualcomm_Atheros_QCA6174"
+    ]
+  },
+  {
+    "id": "qualcomm-qca6390",
+    "vendor": "Qualcomm",
+    "family": "ath11k (11ax)",
+    "aliases": [
+      "QCA6390",
+      "WCN6855",
+      "WCN6856",
+      "WCN685x",
+      "FastConnect 6800/6900"
+    ],
+    "part_numbers": [
+      "QCA6390",
+      "WCN6855",
+      "WCN6856"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11n",
+      "802.11ac",
+      "802.11ax",
+      "Bluetooth 5.2"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "on-chip Tensilica/ARM, closed firmware blob loaded by ath11k",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "QCA6390 M.2 laptop cards",
+      "WCN6855 (Wi-Fi 6E laptops)",
+      "WCN6856 desktop/AP modules"
+    ],
+    "key_projects": [
+      {
+        "name": "ath11k driver",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/ath11k"
+      }
+    ],
+    "sdr_reason": "Wi-Fi 6/6E on ath11k. Monitor mode works; ath11k carries a spectral path for some parts but end-to-end FFT dumps on these mobile SKUs are not turnkey — reported, not verified. CSI is research-stage. Practically Tier 1.",
+    "notes": "WCN685x = FastConnect 6800/6900 (6E). QCA6390 firmware < a certain version had host-memory-below-32MB bugs. spectral-scan flag is aspirational for these parts.",
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/ath11k",
+      "https://wikidevi.wi-cat.ru/Ath11k"
+    ]
+  },
+  {
+    "id": "qualcomm-qca6490",
+    "vendor": "Qualcomm",
+    "family": "ath11k / mobile (11ax 6E)",
+    "aliases": [
+      "QCA6490",
+      "QCA6491",
+      "FastConnect 6700"
+    ],
+    "part_numbers": [
+      "QCA6490"
+    ],
+    "standards": [
+      "802.11ax",
+      "802.11ac",
+      "Bluetooth 5.1"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "integrated mobile combo, closed firmware",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "status": "theoretical",
+    "common_hardware": [
+      "Snapdragon flagship phones (Wi-Fi 6E)",
+      "integrated QCA6490 combo"
+    ],
+    "key_projects": [
+      {
+        "name": "ath11k / Qualcomm mobile",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/ath11k"
+      }
+    ],
+    "sdr_reason": "Mobile Wi-Fi 6E combo; fully closed firmware and integrated into phone platforms. Any PHY-telemetry unlock would require reversing the closed firmware — theoretical today.",
+    "notes": "Included to mark the current mobile frontier for the next cycle. See ../docs/firmware-reversing.md.",
+    "references": [
+      "https://www.qualcomm.com/products/technology/wi-fi/fastconnect",
+      "https://wireless.wiki.kernel.org/en/users/drivers/ath11k"
+    ]
+  },
+  {
+    "id": "qualcomm-qca9500",
+    "vendor": "Qualcomm",
+    "family": "WiGig 60 GHz (802.11ad)",
+    "aliases": [
+      "QCA9500",
+      "QCA6320",
+      "QCA6310",
+      "Wilocity",
+      "Sparrow"
+    ],
+    "part_numbers": [
+      "QCA9500",
+      "QCA6320",
+      "QCA6310"
+    ],
+    "bands": [
+      "60GHz"
+    ],
+    "standards": [
+      "802.11ad"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "csi",
+      "spectral-scan",
+      "arbitrary-waveform",
+      "radar",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "ARC (Argonaut RISC Core) microcode",
+      "openness": "patchable",
+      "re_tooling": [
+        "nexmon",
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "TP-Link Talon AD7200",
+      "Netgear Nighthawk X10 R9000",
+      "Acer/Dell Wilocity laptops & docks"
+    ],
+    "key_projects": [
+      {
+        "name": "SEEMOO Talon Tools (nexmon-arc)",
+        "url": "https://github.com/seemoo-lab/talon-tools"
+      },
+      {
+        "name": "lede-ad7200",
+        "url": "https://github.com/seemoo-lab/lede-ad7200"
+      },
+      {
+        "name": "Channel estimation & custom beamforming on Talon AD7200",
+        "url": "https://dl.acm.org/doi/10.1145/3267204.3268070"
+      }
+    ],
+    "status": "verified",
+    "notes": "60 GHz single-stream over a 32-element phased array with analog beamforming. SEEMOO's nexmon-arc ports Nexmon to the chip's ARC microcode (on ported LEDE), enabling per-sector channel estimation (CSI) and authoring of arbitrary custom beam patterns loaded into the array: tier 2 telemetry shading into tier 3/4 programmable spatial front-end. Substrate for commodity 60 GHz mmWave sensing/imaging research.",
+    "references": [
+      "https://github.com/seemoo-lab/talon-tools",
+      "https://seemoo-lab.github.io/talon-tools/",
+      "https://github.com/seemoo-lab/lede-ad7200",
+      "https://dl.acm.org/doi/10.1145/3267204.3268070"
+    ]
+  },
+  {
+    "id": "qualcomm-wcn3990",
+    "vendor": "Qualcomm",
+    "family": "ath10k (mobile SoC, snoc)",
+    "aliases": [
+      "WCN3990",
+      "WCN3998"
+    ],
+    "part_numbers": [
+      "WCN3990",
+      "WCN3998"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11n",
+      "802.11ac",
+      "Bluetooth 5"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "arch": "integrated mobile radio, closed firmware (ath10k snoc/WCN)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "Snapdragon 660/845-era phones",
+      "integrated WCN3990 Wi-Fi/BT"
+    ],
+    "key_projects": [
+      {
+        "name": "ath10k (snoc/WCN)",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/ath10k"
+      }
+    ],
+    "sdr_reason": "Integrated phone Wi-Fi driven by ath10k over the snoc bus; closed firmware limits it to monitor-class use. No public CSI/spectral path.",
+    "notes": "The QCA6174-class radio integrated into Snapdragon platforms. Catalogued to mark the mobile frontier.",
+    "references": [
+      "https://wireless.wiki.kernel.org/en/users/drivers/ath10k"
+    ]
+  },
+  {
+    "id": "atheros-ar5416",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR5008)",
+    "aliases": [
+      "AR5008",
+      "AR5416/AR5133",
+      "Xspan"
+    ],
+    "part_numbers": [
+      "AR5416",
+      "AR5133",
+      "AR5418"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n (draft)"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC, MAC/PHY driven by host ath9k driver",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k (open GPL driver)"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Ubiquiti SR71",
+      "early mini-PCIe 11n cards",
+      "Netgear/D-Link 11n-draft routers"
+    ],
+    "key_projects": [
+      {
+        "name": "ath9k driver (mainline)",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k.html"
+      }
+    ],
+    "sdr_reason": "First Atheros 802.11n MAC/baseband; open SoftMAC gives full monitor + arbitrary frame injection but predates the AR92xx spectral-scan register interface, so no FFT/CSI path.",
+    "notes": "AR5416 + AR5133 radio = the AR5008 chipset. The ath5k driver handles the earlier 11a/b/g AR52xx/AR54xx parts (also Tier 1). No on-chip firmware to reverse.",
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k.html",
+      "https://wikidevi.wi-cat.ru/Atheros_AR5416"
+    ]
+  },
+  {
+    "id": "atheros-ar9271",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k_htc",
+    "aliases": [
+      "AR9271",
+      "Magpie",
+      "AR7010 (K2 bridge)"
+    ],
+    "part_numbers": [
+      "AR9271",
+      "AR7010"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "spectral-scan",
+      "open-firmware",
+      "arbitrary-waveform",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa (Magpie / K2 platforms), eCos RTOS",
+      "openness": "open",
+      "re_tooling": [
+        "open-ath9k-htc-firmware",
+        "xtensa-gcc toolchain",
+        "ghidra",
+        "modwifi-ath9k-htc"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "TP-Link TL-WN722N v1",
+      "Alfa AWUS036NHA",
+      "Alfa AWUS036NH",
+      "generic Atheros AR9271 USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "qca/open-ath9k-htc-firmware",
+        "url": "https://github.com/qca/open-ath9k-htc-firmware"
+      },
+      {
+        "name": "modwifi-ath9k-htc (Vanhoef)",
+        "url": "https://github.com/vanhoefm/modwifi-ath9k-htc"
+      }
+    ],
+    "sdr_reason": "The one part in the family with real on-chip firmware — and Qualcomm released the full Xtensa source. Patchable firmware enables reactive jamming, timing-controlled and raw injection (modwifi), while ath9k_htc spectral scan (ATH9K_HTC_DEBUGFS + ATH9K_COMMON_SPECTRAL) gives Tier-3 FFT dumps. Open PHY firmware = Tier 5.",
+    "notes": "AR9271 is a single-chip USB 1x1 2.4GHz 11n SoC (Magpie). AR7010 is a USB/PCIe bridge (K2) that fronts an AR9280 or AR9287 radio. v2/v3 of the TL-WN722N use RTL8188EUS and are NOT this chip. Arbitrary-waveform is firmware-patch level (reported via modwifi), not a stock front-end IQ path.",
+    "references": [
+      "https://github.com/qca/open-ath9k-htc-firmware",
+      "https://github.com/vanhoefm/modwifi-ath9k-htc/wiki/Spectral-Scan",
+      "https://github.com/torvalds/linux/commit/3f2aa13f6d16a53a4cf5de369c685c6f75fe4d58",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+    ]
+  },
+  {
+    "id": "atheros-ar9280",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR9002)",
+    "aliases": [
+      "AR9280",
+      "Merlin"
+    ],
+    "part_numbers": [
+      "AR9280",
+      "AR9220"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC, driven by host ath9k driver",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k",
+        "Atheros-CSI-Tool"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "mini-PCIe AR9280 laptop cards",
+      "Ubiquiti SR71-E",
+      "AR7010+AR9280 USB reference"
+    ],
+    "key_projects": [
+      {
+        "name": "Atheros-CSI-Tool",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      },
+      {
+        "name": "ath9k spectral scan",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+      }
+    ],
+    "sdr_reason": "2x2 dual-band 11n SoftMAC. First generation with the spectral-scan FFT interface (Tier 3) and per-subcarrier CSI via the Atheros-CSI-Tool (Tier 2), all without firmware modification.",
+    "notes": "Also used as the radio behind the AR7010 USB bridge in ath9k_htc dongles.",
+    "references": [
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool",
+      "https://www.bastibl.net/ath9k-spectrum-scanning/"
+    ]
+  },
+  {
+    "id": "atheros-ar9285",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR9002)",
+    "aliases": [
+      "AR9285",
+      "Kite"
+    ],
+    "part_numbers": [
+      "AR9285"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC, driven by host ath9k driver",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k",
+        "Atheros-CSI-Tool"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "mini-PCIe AR9285 (very common in 2010-era netbooks/laptops)"
+    ],
+    "key_projects": [
+      {
+        "name": "Atheros-CSI-Tool",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      }
+    ],
+    "sdr_reason": "1x1 2.4GHz 11n SoftMAC; spectral scan (Tier 3) and single-stream CSI (Tier 2) both work through the open driver / CSI Tool.",
+    "notes": "Single spatial stream limits CSI to one RX chain, but amplitude+phase per subcarrier is still exposed.",
+    "references": [
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+    ]
+  },
+  {
+    "id": "atheros-ar9287",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR9002)",
+    "aliases": [
+      "AR9287",
+      "Kiwi"
+    ],
+    "part_numbers": [
+      "AR9287"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC, driven by host ath9k driver",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k",
+        "Atheros-CSI-Tool"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "mini-PCIe AR9287 2x2 cards",
+      "AR7010+AR9287 USB reference dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "Atheros-CSI-Tool",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      }
+    ],
+    "sdr_reason": "2x2 2.4GHz 11n SoftMAC; 2-stream CSI (Tier 2) plus spectral FFT (Tier 3). Also serves as the radio behind an AR7010 USB bridge.",
+    "notes": "The 2.4GHz-only sibling of AR9280.",
+    "references": [
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+    ]
+  },
+  {
+    "id": "atheros-ar9300-csi",
+    "vendor": "Qualcomm Atheros",
+    "family": "AR93xx / QCA955x (ath9k)",
+    "aliases": [
+      "Atheros CSI Tool",
+      "ath9k CSI"
+    ],
+    "part_numbers": [
+      "AR9580",
+      "AR9590",
+      "AR9344",
+      "QCA9558",
+      "AR9462",
+      "AR9485"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "ath9k SoftMAC (PHY logic in open driver, no separate blob)",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k-driver-patch",
+        "b43-tools"
+      ]
+    },
+    "common_hardware": [
+      "AR9580 mini-PCIe",
+      "TP-Link/Compex ath9k cards",
+      "OpenWRT routers"
+    ],
+    "key_projects": [
+      {
+        "name": "Atheros CSI Tool (Xie)",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      },
+      {
+        "name": "Atheros CSI Tool OpenWRT",
+        "url": "https://github.com/xieyaxiongfly/Atheros_CSI_tool_OpenWRT_src"
+      },
+      {
+        "name": "PicoScenes (QCA9300)",
+        "url": "https://ps.zpj.io/"
+      }
+    ],
+    "sdr_tier_rationale": "Uncompressed per-subcarrier CSI (56@20/114@40) via ath9k driver hook (Tier 2); same silicon also dumps raw FFT bins via spectral_scan (Tier 3).",
+    "status": "verified",
+    "references": [
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool",
+      "https://github.com/xieyaxiongfly/Atheros_CSI_tool_OpenWRT_src",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+    ],
+    "notes": "Full-precision CSI on the open ath9k stack; runs on PCs, embedded boards, and OpenWRT routers. See ../chips/qualcomm-atheros.md."
+  },
+  {
+    "id": "atheros-ar9380",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR9003 / QCA9300)",
+    "aliases": [
+      "AR9380",
+      "AR9382",
+      "AR9390",
+      "QCA9300",
+      "Osprey"
+    ],
+    "part_numbers": [
+      "AR9380",
+      "AR9382",
+      "AR9390"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan",
+      "raw-iq"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC (ar9003 baseband), driven by host ath9k driver",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k",
+        "Atheros-CSI-Tool",
+        "PicoScenes"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "AR9380 3x3 mini-PCIe/PCIe cards",
+      "AR9382 2x2 laptop cards",
+      "PicoScenes-recommended QCA9300 NICs"
+    ],
+    "key_projects": [
+      {
+        "name": "PicoScenes (QCA9300 support)",
+        "url": "https://picoscenes.readthedocs.io/"
+      },
+      {
+        "name": "Atheros-CSI-Tool",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      },
+      {
+        "name": "ath9k spectral scan",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+      }
+    ],
+    "sdr_reason": "The AR9003 / QCA9300 family is the most flexible receiver in the ath9k line. PicoScenes drives it with arbitrary carrier-frequency tuning across the full 2.4GHz span, 2.5-80 MHz baseband sampling, and 0-66 dB manual Rx gain, plus full CSI and spectral FFT. Not a raw-IQ streamer, so capped at Tier 3, but the raw-iq flag reflects the near-arbitrary tunable-receiver behaviour PicoScenes exposes (reported).",
+    "notes": "AR9380 = 3x3, AR9382 = 2x2, AR9390 = integrated variant. Marketed as QCA9300 post-acquisition. raw-iq is PicoScenes-reported flexibility, not a stock ath9k feature.",
+    "references": [
+      "https://picoscenes.readthedocs.io/",
+      "https://arxiv.org/abs/2010.10233",
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+    ]
+  },
+  {
+    "id": "atheros-ar9462",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR9003)",
+    "aliases": [
+      "AR9462",
+      "Wasp",
+      "QCWB335 (module)"
+    ],
+    "part_numbers": [
+      "AR9462",
+      "AR5B22"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "Bluetooth 4.0"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC (ar9003 baseband); BT coex block separate",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k",
+        "Atheros-CSI-Tool"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "AR5B22 half-mini-PCIe combo cards (2012-2014 laptops)",
+      "Qualcomm QCWB335"
+    ],
+    "key_projects": [
+      {
+        "name": "Atheros-CSI-Tool",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      }
+    ],
+    "sdr_reason": "2x2 dual-band 11n + Bluetooth combo on the ar9003 baseband; Wi-Fi side gives spectral FFT (Tier 3) and CSI (Tier 2) via the open driver and CSI Tool.",
+    "notes": "Extremely common OEM laptop card (AR5B22). BT combo does not affect the Wi-Fi PHY telemetry paths.",
+    "references": [
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+    ]
+  },
+  {
+    "id": "atheros-ar9485",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR9003)",
+    "aliases": [
+      "AR9485",
+      "Poseidon",
+      "QCA9485"
+    ],
+    "part_numbers": [
+      "AR9485",
+      "AR5B125"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC (ar9003 baseband), driven by host ath9k driver",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k",
+        "Atheros-CSI-Tool"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "AR5B125 half-mini-PCIe (low-cost 2012-era laptops)"
+    ],
+    "key_projects": [
+      {
+        "name": "Atheros-CSI-Tool",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      }
+    ],
+    "sdr_reason": "Low-cost 1x1 2.4GHz ar9003 part; still exposes spectral FFT (Tier 3) and single-stream CSI (Tier 2) through the open driver.",
+    "notes": "Cheapest entry into the AR9003 CSI/spectral capability.",
+    "references": [
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html"
+    ]
+  },
+  {
+    "id": "atheros-ar9580",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath9k (AR9003)",
+    "aliases": [
+      "AR9580",
+      "QCA9580",
+      "Peacock"
+    ],
+    "part_numbers": [
+      "AR9580"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "none — SoftMAC (ar9003 baseband), driven by host ath9k driver",
+      "openness": "open",
+      "re_tooling": [
+        "ath9k",
+        "Atheros-CSI-Tool",
+        "PicoScenes"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "AR9580 3x3 PCIe desktop/router cards",
+      "Compex WLE350NX"
+    ],
+    "key_projects": [
+      {
+        "name": "Atheros-CSI-Tool (tested target)",
+        "url": "https://github.com/xieyaxiongfly/Atheros-CSI-Tool"
+      }
+    ],
+    "sdr_reason": "3x3 dual-band ar9003 desktop/router PCIe part; one of the explicitly tested Atheros-CSI-Tool targets. 3-stream CSI (Tier 2) and spectral FFT (Tier 3), no firmware mod.",
+    "notes": "Atheros-CSI-Tool was validated on AR9580, AR9590, AR9344, QCA9558. Three RX chains give the richest CSI in the 11n line.",
+    "references": [
+      "https://github.com/xieyaxiongfly/Atheros-CSI-Tool",
+      "https://picoscenes.readthedocs.io/"
+    ]
+  },
+  {
+    "id": "qualcomm-qca9880",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath10k (11ac wave-1)",
+    "aliases": [
+      "QCA9880",
+      "QCA9882",
+      "QCA9884",
+      "Peregrine"
+    ],
+    "part_numbers": [
+      "QCA9880",
+      "QCA9882",
+      "QCA9884"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11n",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa (on-chip), closed firmware blob loaded by ath10k",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ath10k-ct (patched binary firmware)"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Compex WLE900VX (3x3)",
+      "Compex WLE600VX (2x2)",
+      "TP-Link/Netgear 11ac AP radios"
+    ],
+    "key_projects": [
+      {
+        "name": "ath10k spectral scan",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath10k/spectral.html"
+      },
+      {
+        "name": "ath10k-ct (Candela)",
+        "url": "https://github.com/greearb/ath10k-ct"
+      }
+    ],
+    "sdr_reason": "802.11ac wave-1. ath10k exposes the baseband spectral-scan FFT (spectral_bins 64/128/256) via debugfs — Tier 3. But the closed Xtensa firmware blocks the CSI path and constrains injection, so it sits below the ath9k parts despite newer silicon.",
+    "notes": "Moving to 11ac introduced a closed on-chip firmware (unlike SoftMAC ath9k). ath10k-ct is a patched binary firmware, not open source. CSI is not turnkey on ath10k.",
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath10k/spectral.html",
+      "https://github.com/greearb/ath10k-ct"
+    ]
+  },
+  {
+    "id": "qualcomm-qca9984",
+    "vendor": "Qualcomm Atheros",
+    "family": "ath10k (11ac wave-2)",
+    "aliases": [
+      "QCA9984",
+      "QCA9980",
+      "QCA9888",
+      "Cascade"
+    ],
+    "part_numbers": [
+      "QCA9980",
+      "QCA9984",
+      "QCA9888"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11n",
+      "802.11ac (wave-2, MU-MIMO)"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa (on-chip), closed firmware blob loaded by ath10k",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ath10k-ct"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Compex WLE1216 (4x4 QCA9984)",
+      "Compex WLE900V5",
+      "QCA9888 2x2 AP radios"
+    ],
+    "key_projects": [
+      {
+        "name": "ath10k spectral scan",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath10k/spectral.html"
+      },
+      {
+        "name": "QCA9984/QCA9888 spectral header fix",
+        "url": "https://patchwork.kernel.org/patch/10435031/"
+      }
+    ],
+    "sdr_reason": "802.11ac wave-2 (up to 4x4 MU-MIMO). Same Tier-3 spectral-scan FFT path as QCA988x; QCA9984/QCA9888 needed a kernel fix to strip an 8-byte segment-index header from each sample. Closed firmware, no turnkey CSI.",
+    "notes": "80+80/160 MHz support means wider FFT captures. QCA9888 is the 2x2 sibling.",
+    "references": [
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath10k/spectral.html",
+      "https://patchwork.kernel.org/patch/10435031/"
+    ]
+  },
+  {
+    "id": "quantenna-qsr10g",
+    "vendor": "Quantenna",
+    "family": "QSR (Topaz/Ruby)",
+    "aliases": [
+      "QSR10G",
+      "QSR1000",
+      "Topaz",
+      "Ruby"
+    ],
+    "part_numbers": [
+      "QSR10G",
+      "QSR1000"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "csi"
+    ],
+    "firmware": {
+      "arch": "embedded Linux on quad ARC core cluster",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "high-end 4x4/8x8 802.11ac routers",
+      "Wi-Fi mesh nodes"
+    ],
+    "key_projects": [
+      {
+        "name": "Quantenna Communications overview",
+        "url": "https://en.wikipedia.org/wiki/Quantenna_Communications"
+      }
+    ],
+    "status": "reported",
+    "notes": "Runs embedded Linux internally on ARC cores; Quantenna publicly marketed Wi-Fi Sensing/CSI on these parts, making a documented CSI path plausible (tier 2 reported). No packaged community toolchain.",
+    "references": [
+      "https://en.wikipedia.org/wiki/Quantenna_Communications"
+    ]
+  },
+  {
+    "id": "realtek-rtl2832u",
+    "vendor": "Realtek",
+    "family": "RTL2832U DVB-T demodulator (RTL-SDR)",
+    "aliases": [
+      "RTL2832U",
+      "RTL2838U",
+      "RTL-SDR",
+      "DVB-T dongle SDR"
+    ],
+    "part_numbers": [
+      "RTL2832U",
+      "RTL2838U"
+    ],
+    "common_hardware": [
+      "RTL-SDR Blog V3 (R820T2)",
+      "RTL-SDR Blog V4 (R828D)",
+      "NooElec NESDR SMArt/Nano/XTR",
+      "ezcap EzTV668",
+      "Terratec Cinergy T Stick",
+      "Generic DVB-T+DAB+FM USB dongle"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "DVB-T",
+      "DAB",
+      "FM"
+    ],
+    "sdr_tier": 4,
+    "sdr_capabilities": [
+      "raw-iq",
+      "monitor",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "8051 MCU (USB/control); DVB-T COFDM demod hardware — raw-IQ path is host-driven, not firmware-patched",
+      "openness": "documented",
+      "re_tooling": [
+        "librtlsdr",
+        "libusb",
+        "rtl_sdr",
+        "rtl_tcp",
+        "GNU Radio osmosdr source"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "Osmocom rtl-sdr (librtlsdr)",
+        "url": "https://osmocom.org/projects/rtl-sdr/wiki/rtl-sdr"
+      },
+      {
+        "name": "rtl-sdr.com",
+        "url": "https://www.rtl-sdr.com/about-rtl-sdr/"
+      },
+      {
+        "name": "Eric Fry rtl2832 RE",
+        "url": "https://sourceforge.net/projects/rtlsdr/"
+      }
+    ],
+    "status": "verified",
+    "notes": "The founding precedent for repurposing consumer radio silicon as an SDR. DVB-T demodulator whose FM/DAB mode routes raw 8-bit IQ to the host over USB. Discovered by Eric Fry (2010) and Antti Palosaari (Feb 2012, linux-media/V4L-DVB list); librtlsdr by Steve Markgraf/OsmoSDR. RX-only, true time-domain complex IQ, ~24 MHz-1.7 GHz (R820T2), ~2.4 MS/s usable, 8-bit. Tuner-dependent range: E4000 ~52-2200 MHz, FC0013 ~22-1100 MHz, R828D ~24-1766 MHz. Tier capped at 4 (no TX). NOT Wi-Fi — included as the intellectual ancestor and the yardstick: unlike Wi-Fi chips it exposes raw IQ by design, requiring no firmware reversing, which is exactly the contrast that makes the Wi-Fi/CSI/spectral work in this repo hard.",
+    "references": [
+      "https://osmocom.org/projects/rtl-sdr/wiki/rtl-sdr",
+      "https://www.rtl-sdr.com/about-rtl-sdr/",
+      "https://gnss-sdr.org/docs/tutorials/gnss-sdr-operation-realtek-rtl2832u-usb-dongle-dvb-t-receiver/",
+      "https://gitea.osmocom.org/sdr/rtl-sdr",
+      "https://www.oz9aec.net/radios/gnu-radio/rtl2832u-based-software-defined-radios"
+    ]
+  },
+  {
+    "id": "realtek-rtl8187l",
+    "vendor": "Realtek",
+    "family": "RTL8187",
+    "aliases": [
+      "RTL8187",
+      "RTL8187L",
+      "Alfa AWUS036H"
+    ],
+    "part_numbers": [
+      "RTL8187L",
+      "RTL8187B"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "Thin on-chip MAC ucode (near soft-MAC to host)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Alfa AWUS036H",
+      "various USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "in-kernel rtl8187 (mac80211)",
+        "url": "https://www.aircrack-ng.org/doku.php?id=r8187"
+      }
+    ],
+    "references": [
+      "https://www.aircrack-ng.org/doku.php?id=r8187"
+    ],
+    "notes": "Original BackTrack-era injection card. Mainline mac80211 driver = monitor+injection out of the box. 2.4GHz only, high TX power. Tier 1."
+  },
+  {
+    "id": "realtek-rtl8188eus",
+    "vendor": "Realtek",
+    "family": "RTL8188E",
+    "aliases": [
+      "RTL8188EU",
+      "RTL8188EUS",
+      "RTL8188CUS",
+      "TL-WN722N v2/v3"
+    ],
+    "part_numbers": [
+      "RTL8188EU",
+      "RTL8188EUS",
+      "RTL8188CUS"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Alfa AWUS036NEH",
+      "TP-Link TL-WN722N v2/v3",
+      "cheap nano USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "aircrack-ng/rtl8188eus",
+        "url": "https://github.com/aircrack-ng/rtl8188eus"
+      }
+    ],
+    "references": [
+      "https://github.com/aircrack-ng/rtl8188eus"
+    ],
+    "notes": "Cheap ubiquitous 2.4GHz n monitor/injection default. aircrack-ng/rtl8188eus is the reference DKMS driver. TL-WN722N v2/v3 use this (v1 was Atheros)."
+  },
+  {
+    "id": "realtek-rtl8188fu",
+    "vendor": "Realtek",
+    "family": "RTL8188F",
+    "aliases": [
+      "RTL8188FU",
+      "RTL8188FTV"
+    ],
+    "part_numbers": [
+      "RTL8188FU",
+      "RTL8188FTV"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "cheap 2.4GHz nano USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "rtl8188fu (out-of-tree)",
+        "url": "https://github.com/kelebek333/rtl8188fu"
+      }
+    ],
+    "references": [
+      "https://github.com/kelebek333/rtl8188fu"
+    ],
+    "notes": "Later cheap 2.4GHz n part; monitor via out-of-tree forks, injection partial/flaky vs 8188EUS."
+  },
+  {
+    "id": "realtek-rtl8192cu",
+    "vendor": "Realtek",
+    "family": "RTL8192C",
+    "aliases": [
+      "RTL8192CU",
+      "RTL8192EU"
+    ],
+    "part_numbers": [
+      "RTL8192CU",
+      "RTL8192EU"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "many OEM 2.4GHz USB dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "rtl8xxxu (in-kernel, reverse-engineered)",
+        "url": "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/realtek/rtl8xxxu"
+      }
+    ],
+    "references": [
+      "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/realtek/rtl8xxxu"
+    ],
+    "notes": "Very common 2.4GHz 802.11n dongle. Monitor works; injection quality depends on rtl8192cu vs rtl8xxxu driver."
+  },
+  {
+    "id": "realtek-rtl8720dn",
+    "vendor": "Realtek",
+    "family": "Ameba D",
+    "aliases": [
+      "RTL8720DN",
+      "BW16",
+      "Ameba D",
+      "RTL8721Dx"
+    ],
+    "part_numbers": [
+      "RTL8720DN",
+      "RTL8721DM"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "BLE 5.0"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "csi",
+      "monitor",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "Arm Cortex-M4F (KM4, 200MHz) + Cortex-M0 (KM0, 20MHz), FreeRTOS SDK",
+      "openness": "documented",
+      "re_tooling": [
+        "ghidra",
+        "ida",
+        "ameba-sdk"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "BW16 module",
+      "Rtlduino RTL8720DN board",
+      "A1 Pico"
+    ],
+    "key_projects": [
+      {
+        "name": "Realtek Ameba Wi-Fi CSI API",
+        "url": "https://aiot.realmcu.com/en/latest/rtos/wifi/csi/index.html"
+      },
+      {
+        "name": "AmebaD SDK / Arduino core",
+        "url": "https://www.amebaiot.com/en/amebad/"
+      }
+    ],
+    "references": [
+      "https://aiot.realmcu.com/en/latest/rtos/wifi/csi/index.html",
+      "https://www.amebaiot.com/en/amebad/",
+      "https://www.cnx-software.com/2021/01/10/rtlduino-rtl8720dn-dual-band-wifi-iot-board-features-2-4-5ghz-wireless-mcu/"
+    ],
+    "notes": "The SDR-interesting Realtek: dual-band Wi-Fi MCU with OFFICIAL Wi-Fi CSI API (per-subcarrier I/Q, amplitude+phase, active/passive modes). Open documented FreeRTOS SDK, Cortex-M4+M0. Cheap BW16 boards. Tier 2 / rung-2 CSI. Ameba CSI framework spans RTL8721Dx/8720E/8730E/8735C."
+  },
+  {
+    "id": "realtek-rtl8723",
+    "vendor": "Realtek",
+    "family": "RTL8723",
+    "aliases": [
+      "RTL8723AU",
+      "RTL8723BU",
+      "RTL8723DU",
+      "RTL8723BS"
+    ],
+    "part_numbers": [
+      "RTL8723AU",
+      "RTL8723BU",
+      "RTL8723DU",
+      "RTL8723BS"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11n",
+      "Bluetooth"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband (+BT)",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "SBC/laptop Wi-Fi+BT combo modules"
+    ],
+    "key_projects": [
+      {
+        "name": "rtl8xxxu / rtl8723bs (in-kernel)",
+        "url": "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/realtek/rtl8xxxu"
+      }
+    ],
+    "references": [
+      "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/realtek/rtl8xxxu"
+    ],
+    "notes": "2.4GHz n + Bluetooth combo. Station mode solid; monitor possible but injection weak/driver-dependent. Catalogued for completeness."
+  },
+  {
+    "id": "realtek-rtl8811au",
+    "vendor": "Realtek",
+    "family": "RTL88xxAU",
+    "aliases": [
+      "RTL8811AU",
+      "Alfa AWUS036AC"
+    ],
+    "part_numbers": [
+      "RTL8811AU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Alfa AWUS036AC"
+    ],
+    "key_projects": [
+      {
+        "name": "aircrack-ng/rtl8812au",
+        "url": "https://github.com/aircrack-ng/rtl8812au"
+      }
+    ],
+    "references": [
+      "https://github.com/aircrack-ng/rtl8812au"
+    ],
+    "notes": "1x1 dual-band AC sibling of 8812AU; same unified aircrack-ng driver. Monitor+injection. Tier 1."
+  },
+  {
+    "id": "realtek-rtl8812au",
+    "vendor": "Realtek",
+    "family": "RTL88xxAU",
+    "aliases": [
+      "RTL8812AU",
+      "Alfa AWUS036ACH",
+      "AC1200"
+    ],
+    "part_numbers": [
+      "RTL8812AU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Alfa AWUS036ACH",
+      "Alfa AC1200",
+      "many 2x2 AC dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "aircrack-ng/rtl8812au (astsam/morrownr lineage)",
+        "url": "https://github.com/aircrack-ng/rtl8812au"
+      }
+    ],
+    "references": [
+      "https://github.com/aircrack-ng/rtl8812au",
+      "https://github.com/morrownr/8812au-20210820"
+    ],
+    "notes": "THE standard dual-band 2x2 AC injection dongle. Alfa AWUS036ACH. aircrack-ng/rtl8812au is the reference driver. Tier 1, no CSI/spectral."
+  },
+  {
+    "id": "realtek-rtl8812bu",
+    "vendor": "Realtek",
+    "family": "RTL88x2BU",
+    "aliases": [
+      "RTL8812BU",
+      "RTL8822BU"
+    ],
+    "part_numbers": [
+      "RTL8812BU",
+      "RTL8822BU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "Alfa AWUS036ACU",
+      "Comfast/generic 2x2 AC dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "morrownr/88x2bu-20210702",
+        "url": "https://github.com/morrownr/88x2bu-20210702"
+      },
+      {
+        "name": "RinCat/RTL88x2BU-Linux-Driver",
+        "url": "https://github.com/RinCat/RTL88x2BU-Linux-Driver"
+      }
+    ],
+    "references": [
+      "https://github.com/morrownr/88x2bu-20210702",
+      "https://github.com/RinCat/RTL88x2BU-Linux-Driver"
+    ],
+    "notes": "'B' gen 2x2 AC (8822BU = +BT combo). Monitor solid; injection partial/less reliable than 8812AU — morrownr steers pentesters back to 8812AU/8821CU."
+  },
+  {
+    "id": "realtek-rtl8814au",
+    "vendor": "Realtek",
+    "family": "RTL88xxAU",
+    "aliases": [
+      "RTL8814AU",
+      "Alfa AWUS1900",
+      "AWUS036ACHM"
+    ],
+    "part_numbers": [
+      "RTL8814AU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Alfa AWUS1900 (4x4)"
+    ],
+    "key_projects": [
+      {
+        "name": "nicshaca/rtl8814au",
+        "url": "https://github.com/nicshaca/rtl8814au"
+      },
+      {
+        "name": "aircrack-ng/rtl8812au (unified, 8814 build)",
+        "url": "https://github.com/aircrack-ng/rtl8812au"
+      }
+    ],
+    "references": [
+      "https://github.com/nicshaca/rtl8814au",
+      "https://github.com/aircrack-ng/rtl8812au"
+    ],
+    "notes": "4x4 MIMO flagship (Alfa AWUS1900). Highest antenna count of Realtek line but still Tier 1. Dedicated rtl8814au fork adds AP+jammer; some distro rtl88xxau packages dropped 8814 support."
+  },
+  {
+    "id": "realtek-rtl8821au",
+    "vendor": "Realtek",
+    "family": "RTL88xxAU",
+    "aliases": [
+      "RTL8821AU"
+    ],
+    "part_numbers": [
+      "RTL8821AU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "combo AC+BT dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "aircrack-ng/rtl8812au",
+        "url": "https://github.com/aircrack-ng/rtl8812au"
+      }
+    ],
+    "references": [
+      "https://github.com/aircrack-ng/rtl8812au"
+    ],
+    "notes": "1x1 AC (AU-series) covered by the unified aircrack-ng/rtl8812au driver. Monitor+injection. Tier 1."
+  },
+  {
+    "id": "realtek-rtl8821cu",
+    "vendor": "Realtek",
+    "family": "RTL88x1CU",
+    "aliases": [
+      "RTL8811CU",
+      "RTL8821CU",
+      "RTL8821CUH",
+      "RTL8731AU"
+    ],
+    "part_numbers": [
+      "RTL8811CU",
+      "RTL8821CU",
+      "RTL8821CUH",
+      "RTL8731AU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051-class MCU + HW MAC/baseband",
+      "openness": "closed",
+      "re_tooling": [
+        "ghidra",
+        "ida"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Alfa AWUS036ACS",
+      "USB-nano AC dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "morrownr/8821cu-20210916",
+        "url": "https://github.com/morrownr/8821cu-20210916"
+      }
+    ],
+    "references": [
+      "https://github.com/morrownr/8821cu-20210916"
+    ],
+    "notes": "Single-stream dual-band AC; morrownr's recommended cheap/small injection adapter. Clean monitor+injection. Tier 1."
+  },
+  {
+    "id": "rtlsdr-rtl2832u",
+    "vendor": "Realtek",
+    "family": "RTL2832U + R820T2/R828D",
+    "aliases": [
+      "RTL-SDR",
+      "RTL-SDR Blog V4",
+      "DVB-T dongle"
+    ],
+    "part_numbers": [
+      "RTL2832U",
+      "R820T2",
+      "R828D"
+    ],
+    "standards": [
+      "DVB-T",
+      "DAB"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "monitor",
+      "spectral-scan",
+      "passive-radar"
+    ],
+    "firmware": {
+      "arch": "Realtek DVB-T demodulator ASIC (fixed function)",
+      "openness": "documented",
+      "re_tooling": [
+        "osmocom rtl-sdr",
+        "librtlsdr"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "rtl-sdr (osmocom)",
+        "url": "https://osmocom.org/projects/rtl-sdr/wiki"
+      },
+      {
+        "name": "RTL-SDR Blog",
+        "url": "https://www.rtl-sdr.com/"
+      }
+    ],
+    "references": [
+      "https://www.rtl-sdr.com/",
+      "https://osmocom.org/projects/rtl-sdr/wiki"
+    ],
+    "status": "verified",
+    "notes": "RX-only 8-bit, ~0.5kHz-1.7GHz, ~2.4MHz BW. The genuine-SDR floor and the accidental-SDR archetype; see rtl-sdr-lineage.md. Listed tier 5 as reference datum only."
+  },
+  {
+    "id": "sdrplay-rsp",
+    "vendor": "SDRplay",
+    "family": "RSP1A / RSPdx-R2",
+    "part_numbers": [
+      "RSP1A",
+      "RSPdx-R2",
+      "RSPduo"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "Mirics tuner + FPGA/USB controller (closed)",
+      "openness": "closed",
+      "re_tooling": [
+        "SoapySDRPlay",
+        "closed API"
+      ]
+    },
+    "references": [
+      "https://www.sdrplay.com/rsp1a/",
+      "https://www.sdrplay.com/rspdx/"
+    ],
+    "status": "verified",
+    "notes": "RX-only 14-bit, 1kHz-2GHz, up to 10MHz BW. Serious-listener receive tier."
+  },
+  {
+    "id": "semtech-sx127x",
+    "vendor": "Semtech",
+    "family": "LoRa (SX127x/SX126x) + FSK/OOK",
+    "aliases": [
+      "SX1276",
+      "SX1272",
+      "SX1278",
+      "SX1262",
+      "SX1280",
+      "RFM95",
+      "RFM96",
+      "RFM98"
+    ],
+    "part_numbers": [
+      "SX1272",
+      "SX1276",
+      "SX1278",
+      "SX1262",
+      "SX1280",
+      "RFM95W",
+      "RFM96W",
+      "RFM98W"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "LoRa CSS",
+      "(G)FSK",
+      "OOK"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "arbitrary-waveform",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "fixed-function LoRa/FSK transceiver (SPI-driven, no MCU)",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "HopeRF RFM95W",
+      "Adafruit LoRa Feather",
+      "Heltec/TTGO LoRa32",
+      "Dragino"
+    ],
+    "key_projects": [
+      {
+        "name": "gr-lora (Bastille / Matt Knight)",
+        "url": "https://github.com/BastilleResearch/gr-lora"
+      },
+      {
+        "name": "gr-lora (rpp0)",
+        "url": "https://github.com/rpp0/gr-lora"
+      }
+    ],
+    "status": "verified",
+    "notes": "LoRa (chirp spread spectrum) plus full (G)FSK/OOK legacy mode. Continuous FSK/OOK mode streams an arbitrary bitstream (tones, jamming, replay); the LoRa engine gives CSS TX/RX directly. The LoRa PHY was reverse-engineered on real SDRs (gr-lora by Bastille/Matt Knight and by rpp0), a good example of using an SDR to crack a closed PHY these chips then speak natively. SX1280 is 2.4 GHz LoRa.",
+    "references": [
+      "https://github.com/BastilleResearch/gr-lora",
+      "https://github.com/rpp0/gr-lora",
+      "https://www.semtech.com/products/wireless-rf/lora-connect/sx1276"
+    ]
+  },
+  {
+    "id": "silabs-efr32",
+    "vendor": "Silicon Labs",
+    "family": "EFR32 Flex/Mighty Gecko",
+    "aliases": [
+      "EFR32FG",
+      "EFR32MG",
+      "Flex Gecko",
+      "Mighty Gecko"
+    ],
+    "part_numbers": [
+      "EFR32FG13",
+      "EFR32FG14",
+      "EFR32FG23",
+      "EFR32FG25",
+      "EFR32MG21"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "proprietary",
+      "Zigbee",
+      "Thread",
+      "Bluetooth LE",
+      "Z-Wave"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "arbitrary-waveform",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "arch": "ARM Cortex-M4/M33 + radio driven by RAIL library",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "ghidra"
+      ]
+    },
+    "common_hardware": [
+      "EFR32FG13/FG14/FG23/FG25 dev kits",
+      "Zigbee/Matter products"
+    ],
+    "key_projects": [
+      {
+        "name": "EFR32FG13 Flex Gecko datasheet",
+        "url": "https://www.silabs.com/documents/public/data-sheets/efr32fg13-datasheet.pdf"
+      }
+    ],
+    "status": "verified",
+    "notes": "RAIL (Radio Abstraction Interface Layer) exposes an arbitrary proprietary-PHY builder (custom modulation, symbol rate, framing), plus energy/RSSI scanning and TX tone/stream mode. Radio internals closed but RAIL documented (partially-documented). Tier 1 with a path to custom PHYs.",
+    "references": [
+      "https://www.silabs.com/documents/public/data-sheets/efr32fg13-datasheet.pdf"
+    ]
+  },
+  {
+    "id": "ti-cc1101",
+    "vendor": "Texas Instruments",
+    "family": "CC11xx sub-GHz transceiver",
+    "aliases": [
+      "CC1101"
+    ],
+    "part_numbers": [
+      "CC1101"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "2-FSK",
+      "GFSK",
+      "4-FSK",
+      "MSK",
+      "ASK",
+      "OOK"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "arbitrary-waveform",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "fixed-function sub-GHz transceiver (SPI-driven, no MCU)",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "CC1101 SPI modules",
+      "Flipper Zero",
+      "Arduino/RPi sub-GHz projects"
+    ],
+    "key_projects": [
+      {
+        "name": "TI CC1101 product page",
+        "url": "https://www.ti.com/product/CC1101"
+      }
+    ],
+    "status": "verified",
+    "notes": "300-348/387-464/779-928 MHz, 2-FSK/GFSK/4-FSK/MSK/ASK/OOK. Async/sync serial transparent mode keys the PA directly from an arbitrary GPIO bit pattern, allowing verbatim replay of captured OOK/FSK waveforms (approaching arbitrary-waveform for simple modulations). The radio in the Flipper Zero. Fully documented PHY.",
+    "references": [
+      "https://www.ti.com/product/CC1101"
+    ]
+  },
+  {
+    "id": "ti-cc13xx-cc26xx",
+    "vendor": "Texas Instruments",
+    "family": "SimpleLink CC13xx/CC26xx",
+    "aliases": [
+      "CC1310",
+      "CC1312R",
+      "CC1352",
+      "CC2650",
+      "CC2652R"
+    ],
+    "part_numbers": [
+      "CC1310",
+      "CC1312R",
+      "CC1352P",
+      "CC2650",
+      "CC2652R"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "proprietary FSK/OOK",
+      "802.15.4",
+      "Bluetooth LE",
+      "Zigbee",
+      "Thread"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "spectral-scan",
+      "arbitrary-waveform"
+    ],
+    "firmware": {
+      "arch": "Cortex-M3/M4 app core + dedicated Cortex-M0 RF Core with patchable ROM (RF patches)",
+      "openness": "patchable",
+      "re_tooling": [
+        "ghidra",
+        "sdcc"
+      ]
+    },
+    "common_hardware": [
+      "LAUNCHXL-CC1352R",
+      "CC1310 LaunchPad",
+      "CC26x2 LaunchPad"
+    ],
+    "key_projects": [
+      {
+        "name": "TI CC1310",
+        "url": "https://www.ti.com/product/CC1310"
+      },
+      {
+        "name": "SmartRF Packet Sniffer 2",
+        "url": "https://www.ti.com/tool/PACKET-SNIFFER"
+      }
+    ],
+    "status": "verified",
+    "notes": "Two-core: Cortex-M3/M4 app + dedicated Cortex-M0 RF Core running the radio from a patchable ROM (RF patches). RF Core proprietary mode allows custom sub-GHz/2.4 GHz PHYs (arbitrary FSK/OOK params, packet formats); RSSI/CCA gives coarse spectrum sensing, reaching toward tier 3. driverlib open, RF ROM closed but patchable.",
+    "references": [
+      "https://www.ti.com/product/CC1310",
+      "https://www.ti.com/tool/PACKET-SNIFFER"
+    ]
+  },
+  {
+    "id": "ti-cc2500",
+    "vendor": "Texas Instruments",
+    "family": "CC25xx 2.4 GHz transceiver",
+    "aliases": [
+      "CC2500"
+    ],
+    "part_numbers": [
+      "CC2500"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "2-FSK",
+      "GFSK",
+      "MSK",
+      "OOK"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "arbitrary-waveform",
+      "covert-channel"
+    ],
+    "firmware": {
+      "arch": "fixed-function 2.4 GHz transceiver (SPI-driven, no MCU)",
+      "openness": "documented",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "CC2500 SPI modules",
+      "2.4 GHz RC transmitters",
+      "wireless peripherals"
+    ],
+    "key_projects": [
+      {
+        "name": "TI CC2500 product page",
+        "url": "https://www.ti.com/product/CC2500"
+      }
+    ],
+    "status": "verified",
+    "notes": "2.4 GHz sibling of CC1101 (GFSK/OOK/MSK) with the same transparent-mode raw-bitstream replay trick. The radio in many 2.4 GHz RC and peripheral links. Tier 1, documented PHY.",
+    "references": [
+      "https://www.ti.com/product/CC2500"
+    ]
+  },
+  {
+    "id": "ti-cc2531-cc2540",
+    "vendor": "Texas Instruments",
+    "family": "CC253x/CC254x (8051 radio SoC)",
+    "aliases": [
+      "CC2531",
+      "CC2540",
+      "CC2530"
+    ],
+    "part_numbers": [
+      "CC2531",
+      "CC2540",
+      "CC2530"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.15.4",
+      "Zigbee",
+      "Bluetooth LE"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "8051 core + 2.4 GHz radio",
+      "openness": "partially-documented",
+      "re_tooling": [
+        "sdcc"
+      ]
+    },
+    "common_hardware": [
+      "CC2531 USB dongle",
+      "CC2540 USB dongle",
+      "CC Debugger"
+    ],
+    "key_projects": [
+      {
+        "name": "whsniff (CC2531 + Wireshark)",
+        "url": "https://github.com/homewsn/whsniff"
+      },
+      {
+        "name": "Zigbee2MQTT sniffing guide (ZBOSS)",
+        "url": "https://www.zigbee2mqtt.io/advanced/zigbee/04_sniff_zigbee_traffic.html"
+      }
+    ],
+    "status": "verified",
+    "notes": "CC2531 = 802.15.4/Zigbee USB sniffer; CC2540 = BLE sniffer. Stock sniffer firmware from TI, plus community whsniff+Wireshark (CC2531) and ZBOSS zboss_sniffer.hex. Tier 1 monitor within their standards; injection with custom firmware.",
+    "references": [
+      "https://github.com/homewsn/whsniff",
+      "https://www.zigbee2mqtt.io/advanced/zigbee/04_sniff_zigbee_traffic.html"
+    ]
+  },
+  {
+    "id": "ti-wl18xx",
+    "vendor": "Texas Instruments",
+    "family": "WiLink 8",
+    "aliases": [
+      "WL1837MOD",
+      "WL1835MOD",
+      "WL1807MOD",
+      "WL1801MOD",
+      "wl18xx"
+    ],
+    "part_numbers": [
+      "WL1837MOD",
+      "WL1835MOD",
+      "WL1807MOD",
+      "WL1801MOD",
+      "WL1831MOD"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "arch": "TI proprietary WiLink MAC/PHY controller",
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "WL1837MOD module",
+      "BeagleBone Wireless",
+      "industrial Linux SBCs"
+    ],
+    "key_projects": [
+      {
+        "name": "wlcore / wl18xx mainline Linux driver",
+        "url": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/wireless/ti"
+      },
+      {
+        "name": "wl18xx_fw (closed firmware blob)",
+        "url": "https://git.ti.com/cgit/wilink8-wlan/wl18xx_fw/"
+      }
+    ],
+    "status": "verified",
+    "notes": "Open mac80211 driver stack (wlcore+wl18xx+wlcore_sdio) gives monitor mode and radiotap injection. Firmware is a closed blob from git.ti.com; no CSI/PHY-telemetry path and no public patching toolchain, so the ladder stops at tier 1.",
+    "references": [
+      "https://git.ti.com/cgit/wilink8-wlan/wl18xx_fw/",
+      "https://www.ti.com/tool/WILINK8-WIFI-NLCP"
+    ]
+  }
+]

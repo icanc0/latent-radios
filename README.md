@@ -2,11 +2,13 @@
 
 **An exhaustive, structured catalog of Wi‑Fi and wireless modules that can be repurposed as software‑defined radios — to some extent — by reverse‑engineering and patching their firmware, or by tapping the PHY telemetry the silicon already exposes.**
 
-![catalog](https://img.shields.io/badge/catalog-growing-brightgreen) ![scope](https://img.shields.io/badge/scope-wifi%20%2B%20wireless-blue) ![license](https://img.shields.io/badge/license-CC0--1.0-lightgrey)
+![modules](https://img.shields.io/badge/modules-116-brightgreen) ![vendors](https://img.shields.io/badge/vendors-25-blue) ![ladder](https://img.shields.io/badge/SDR%20ladder-tier%200--5-orange) ![license](https://img.shields.io/badge/license-CC0--1.0-lightgrey)
 
 > Almost every Wi‑Fi chip is a fully programmable radio wearing a locked‑down costume. The RF front‑end, ADC/DAC, and a small MAC/PHY processor are all right there on the die — the vendor just hides them behind a signed firmware blob and a thin driver API. There is a **latent radio** in the silicon. This project maps, chip by chip, **how far each module can be pushed back toward a general radio**, and **what it takes to get there** (usually: dump the firmware, disassemble it, and patch it back into something you control).
 
 This is not "turn a $5 dongle into a HackRF." Real Wi‑Fi silicon is band‑limited, its converters are tuned for OFDM, and most of the interesting DSP is frozen in ROM. But there is a surprisingly deep spectrum between *"stock driver"* and *"true SDR"* — monitor mode, frame injection, channel‑state information (CSI), spectral scan, raw‑PHY FFTs, and — on a few heroically reversed chips — arbitrary waveform transmit. This repo catalogs that whole spectrum.
+
+**Catalog at a glance** — **116 modules across 25 vendors**, each scored on the SDR ladder: **63** reach monitor + injection (Tier 1), **23** expose CSI (Tier 2), **14** do spectral / raw‑PHY scan (Tier 3), **3** have demonstrated arbitrary‑waveform TX (Tier 4), and **11** are open‑firmware or true‑SDR references (Tier 5), plus 2 black‑box baselines. Full machine‑readable database: [data/modules.json](data/modules.json) · [modules.csv](data/modules.csv). *(These numbers grow every research cycle.)*
 
 ---
 
