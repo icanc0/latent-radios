@@ -655,3 +655,88 @@ Reach for **Beken BK72xx or Realtek Ameba (Z/Z2/D)** if you want a hackable, bui
 - RT-Thread (BES2600 BSP): https://github.com/RT-Thread/rt-thread
 - Qualcomm FastConnect 7900: https://www.qualcomm.com/products/technology/wi-fi/fastconnect-7900
 - Zephyr Actions Semi support: https://docs.zephyrproject.org/
+
+
+---
+
+## Long-tail sweep — Cycle 6 (satellite/IoT & stragglers, round 4)
+
+This round sweeps up the *other* radios that ship inside modern devices — satellite‑IoT modems, standalone GNSS RF front‑ends, 24/77 GHz automotive radar front‑ends, 5.8 GHz analog‑FPV video transmitters — plus a few Wi‑Fi parts missed earlier. The discipline of this catalog applies with extra force here: **most of these are fixed‑function modems or type‑approved network endpoints, not repurposable IQ radios.** Where the honest answer is Tier 0, it is stated as Tier 0. The genuinely interesting exceptions are the GNSS and radar *front‑ends*, which were SDR components to begin with, and the analog‑FM FPV transmitters, which will happily modulate arbitrary baseband onto a programmable ~5.8 GHz carrier.
+
+> Already catalogued elsewhere — not repeated here: `semtech-sx127x`, `qorvo-dw1000`, `morsemicro-mm6108`.
+
+### Legal preface (read before keying any of these)
+Satellite uplink bands — VHF 148–150 MHz (Swarm/Myriota), L‑band 1616–1626.5 MHz (Iridium), L/S‑band NTN — are licensed to the operators, not to you. These modems are *type‑approved endpoints* for a specific constellation; transmitting on those bands with anything else is unlawful in essentially every jurisdiction, and the constellations actively geolocate rogue emitters. GNSS L1/L2/L5 and the 24 GHz / 76–81 GHz radar bands are equally protected. Treat everything in this section as **receive‑only / captive‑network** unless you are inside a shielded enclosure. See [../docs/rf-safety-and-legal.md](../docs/rf-safety-and-legal.md) and [../docs/regulatory-by-region.md](../docs/regulatory-by-region.md).
+
+### Summary table
+
+| Chip / module | Vendor | Class | Band(s) | Honest tier | What you actually get |
+|---|---|---|---|---|---|
+| LR1120 | Semtech | LoRa/(G)FSK + S‑band sat modem | sub‑GHz, 2.4 GHz, S‑band ~2 GHz | 1 | Programmable LoRa/LR‑FHSS/(G)FSK + CW; register‑documented, but a fixed modem, not IQ |
+| M138 | Swarm (SpaceX) | VHF satellite‑IoT modem | VHF 137/148 MHz | 0 | AT commands over UART; closed modem, no RF access |
+| Astronode S | Astrocast | L‑band satellite‑IoT modem | L‑band | 0 | AT/SPI command API; closed |
+| 9602 / 9603 | Iridium | L‑band SBD transceiver | L‑band 1616–1626.5 MHz | 0 | AT (SBD) commands; closed. Downlink is RX‑able only with an *external* SDR (`gr-iridium`) |
+| 9770 | Iridium | Certus core transceiver | L‑band | 0 | Vendor API; closed |
+| (module) | Myriota | VHF store‑&‑forward sat‑IoT | VHF ~160 MHz | 0 | SDK/AT; closed |
+| MAX2771 | Analog Devices | Multi‑band GNSS RF front‑end | GNSS L1/L2/L5 (~1.15–1.61 GHz) | 5 (RX only) | Genuine raw‑IQ/IF SDR front‑end, fully register‑documented; drives GNSS‑SDR |
+| SE4150L | Skyworks (ex‑SiGe) | GPS L1 RF front‑end | L1 1575 MHz | 4 (RX only) | 2‑bit sign/mag raw IF samples — the classic textbook GNSS‑SDR front‑end |
+| BGT24MTR11 | Infineon | 24 GHz radar transceiver | 24 GHz ISM | 5 (radar) | Real analog radar front‑end: raw IQ IF out, arbitrary chirp via external VCO |
+| TEF810X | NXP | 76–81 GHz automotive radar Tx/Rx | mmWave 76–81 GHz | 3 | Raw ADC/IF, but NDA docs and needs S32R radar MCU |
+| RTC6705 | Richwave | 5.8 GHz analog‑FM video Tx | 5.8 GHz (5645–5945 MHz) | 3 | SPI‑programmable carrier + **arbitrary analog baseband** FM‑modulated — abusable covert channel |
+| DA16200 | Renesas (Dialog) | Ultra‑low‑power Wi‑Fi 4 SoC | 2.4 GHz | 1 | 802.11b/g/n, closed PHY; SDK exposes promiscuous RX at best |
+
+---
+
+### Satellite‑IoT modems — the honest floor is Tier 0
+
+Swarm **M138**, Astrocast **Astronode S**, Iridium **9602/9603/9770**, and **Myriota** are all the same story from an SDR standpoint: a closed MCU running proprietary firmware behind a UART/SPI AT‑style command interface, RF‑type‑approved for exactly one constellation. There is no register path to raw IQ, no documented PHY, and the network side is authenticated. You cannot turn one into a general transmitter, and you should not try (see legal preface). They are Tier 0 and belong next to the [cellular basebands](./cellular-basebands.md) in spirit — closed radios you talk to, not radios you drive.
+
+The one repurposing that *is* real happens on the receive side and needs a **separate** SDR: the Iridium L‑band downlink (1616–1626.5 MHz, DE‑QPSK bursts) is decodable with **[`gr-iridium`](https://github.com/muccc/gr-iridium)** + `iridium-toolkit` feeding from an RTL‑SDR/HackRF/USRP. That demonstrates the *waveform* is open to analysis, but the **9603 chip itself contributes nothing** — you are not repurposing the modem, you are listening to the constellation with real hardware. Catalogued honestly as Tier 0 for the chip, with a pointer to the RX toolchain in [../projects/gnuradio-oot-modules.md](../projects/gnuradio-oot-modules.md).
+
+**Skylo** is *not a chip* — it is an NB‑IoT NTN (3GPP Rel‑17 non‑terrestrial) service that rides on standard cellular basebands with NTN firmware (e.g. NTN‑capable Qualcomm/Sony/MediaTek modems). Its repurposability is exactly that of the underlying baseband: see [./cellular-basebands.md](./cellular-basebands.md). No net‑new module.
+
+**Semtech LR1120** is the interesting straggler in this group. It is a multi‑band LoRa transceiver covering sub‑GHz (150–960 MHz), the 2.4 GHz ISM band, **and an S‑band (~1.9–2.1 GHz) segment used for direct‑to‑satellite** links with LEO IoT operators. Modulations: LoRa, LR‑FHSS, (G)FSK, plus raw CW. That makes it more flexible than the pure sat modems — you have register‑level control of frequency, deviation, and packet framing across three widely separated bands — but it is still a **fixed modem, not an IQ transceiver**. No CSI, no raw‑IQ tap, no spectral scan. Tier 1: you can emit arbitrary FSK/OOK/CW patterns (a covert‑channel primitive) within its bands, and sniff LoRa/FSK traffic, and nothing more. It is a close cousin of the already‑catalogued `semtech-sx127x` lineage with S‑band bolted on.
+
+### GNSS RF front‑ends — these were SDR components all along
+
+**MAX2771** (Analog Devices/Maxim) is a broadband, multi‑constellation GNSS front‑end: two RF paths covering the lower L‑band (~1155–1305 MHz: L2/L5/E5/E6/B2) and upper L‑band (~1550–1610 MHz: L1/E1/B1/G1), programmable IF and bandwidth, and an on‑chip 2‑bit (up to ~3‑bit) ADC delivering **raw digitized IF/IQ samples** over CMOS/LVDS. That is the textbook definition of an SDR receive front‑end, and it is exactly how the open **[GNSS‑SDR](https://gnss-sdr.org/)** project and many open‑hardware GNSS boards use it. It is fully register‑documented. Tier **5, receive‑only** — a genuine, documented SDR front‑end. The only caveat versus the catalog's usual subjects is that it is *purpose‑built* rather than *repurposed*; it earns Tier 5 on capability, not on cleverness.
+
+**SE4150L** (Skyworks, ex‑SiGe Semiconductor) is the GPS/GNSS **L1** single‑band front‑end that anchored a generation of academic SDR receivers — the SiGe GN3S sampler and the front‑ends bundled with the Borre/Akos *A Software‑Defined GPS and Galileo Receiver* textbook descend from this SE41xx line. It outputs 2‑bit sign/magnitude IF samples. Tier **4, RX‑only**: genuine raw IF, but single‑band and coarse quantization make it less capable than the MAX2771. Both are the honest high‑water mark of this section — and both underline that "GNSS chip → SDR" means *reception of raw observables*, never transmission. (GPS *spoofing* projects like GPS‑SDR‑SIM transmit with a real SDR + these front‑ends only for RX; the front‑end never transmits.)
+
+### Automotive radar stragglers
+
+**Infineon BGT24MTR11** (and the MTR12 2‑RX / LTR11 Doppler variants) is a **24 GHz ISM radar transceiver**: 1 TX + 1 RX (MTR12: 2 RX), on‑chip VCO, quadrature down‑conversion to a **raw IQ IF baseband** you digitize yourself. Drive the VCO with an external ramp/DAC and you have arbitrary FMCW chirps; leave it CW and you have Doppler. Infineon ships eval kits (Distance2Go, Position2Go) and there is a healthy hobbyist‑radar community around it. This is a *real* analog radar front‑end with full documentation — Tier **5** for radar work: `radar`, `fmcw`, `raw-iq`, and (via VCO control) `arbitrary-waveform`, all inside the 24 GHz ISM band. The 24 GHz band has no entry in this catalog's band enum, so `bands` is left empty and the frequency is recorded in notes.
+
+**NXP TEF810X** is a fully‑integrated **76–81 GHz** RF‑CMOS automotive radar transceiver (3 TX / 4 RX), typically paired with an NXP S32R radar MCU (MR3003/S32R274 lineage). It exposes raw ADC/IF data, so it is *technically* an mmWave radar front‑end — but the documentation is NDA‑gated, it requires the matching radar processor and chirp sequencer, and there is no open toolchain. Tier **3**: raw PHY exists but is closed/partially‑documented. Contrast with TI's more hacker‑accessible AWR/IWR mmWave line covered elsewhere.
+
+### 5.8 GHz analog‑FPV video transmitters as "arbitrary‑ish" transmitters
+
+The analog‑FPV ecosystem is full of cheap, SPI‑controllable **5.8 GHz FM transmitter ICs** — the canonical one is Richwave **RTC6705**. It takes a **composite/analog baseband input** and FM‑modulates it onto an SPI‑programmable carrier across **5645–5945 MHz** (the 40 standard FPV channels and everything between). The register interface was reverse‑engineered by the drone community and is a first‑class driver in **[Betaflight](https://github.com/betaflight/betaflight)** (`vtx_rtc6705.c`), exposed to users via the SmartAudio/Tramp protocols. From an SDR angle this is more interesting than it looks: you can set an arbitrary carrier in the 5.8 GHz band and feed **arbitrary analog baseband** into an FM modulator — a genuine (if single‑modulation, non‑IQ) transmitter and a ready‑made covert‑channel/analog‑telemetry primitive. Tier **3**: `arbitrary-waveform` (analog FM of arbitrary baseband) and `covert-channel`, programmable carrier, but no IQ and no complex modulation. Its companion **RX5808** receiver module (same ecosystem) is a tunable 5.8 GHz FM down‑converter with an analog RSSI output — occasionally abused as a crude 5.8 GHz power/spectrum sniffer.
+
+### Missed Wi‑Fi
+
+**Renesas DA16200** (formerly Dialog) is an ultra‑low‑power **Wi‑Fi 4 (802.11b/g/n, 2.4 GHz)** SoC with an integrated Cortex‑M4 and a FreeRTOS SDK. It is a closed‑PHY IoT part; the SDK exposes a promiscuous/monitor receive path at best, with no documented CSI, injection, or raw‑PHY access. Tier **1** (monitor plausible via SDK, unverified for injection/CSI), openness partially‑documented. Net‑new to the catalog.
+
+**Module vendors are not silicon.** Telit (WE866‑series), Quectel (FC41D and similar), SparkLAN, and Silex Technology sell Wi‑Fi *modules*, but the RF/PHY is third‑party silicon already in this catalog — most commonly Realtek, Qualcomm Atheros, NXP/Marvell, or Infineon/Cypress dies. Their SDR ceiling is exactly that of the underlying chip: a Silex/SparkLAN module built on an `ath9k`‑class Atheros die inherits monitor/injection/CSI (see [./qualcomm-atheros.md](./qualcomm-atheros.md)); one built on a Cypress/BCM43xx die inherits Nexmon CSI (see [./broadcom-cypress.md](./broadcom-cypress.md)). No net‑new module records are warranted for the rebrands — identify the die (FCC ID → internal photos is the fastest route, cross‑referenced in [./hardware-index.md](./hardware-index.md)) and look it up under its real vendor. This is the single most useful takeaway for anyone holding an M.2/SDIO module of unknown provenance.
+
+### Cross‑references
+- Fixed closed radios you command but cannot drive: [./cellular-basebands.md](./cellular-basebands.md)
+- FCC‑ID → die identification for rebranded modules: [./hardware-index.md](./hardware-index.md)
+- Iridium/GNSS receive toolchains: [../projects/gnuradio-oot-modules.md](../projects/gnuradio-oot-modules.md)
+- Why "GNSS/cellular chip → IQ radio" is almost always false: [../docs/true-sdr-comparison.md](../docs/true-sdr-comparison.md)
+- Transmit legality on satellite/GNSS/radar bands: [../docs/rf-safety-and-legal.md](../docs/rf-safety-and-legal.md)
+
+### References
+- Semtech LR1120 (LoRa Connect, multi‑band incl. S‑band): https://www.semtech.com/products/wireless-rf/lora-connect/lr1120
+- Swarm M138 modem: https://swarm.space/product/swarm-m138-modem/
+- Astrocast Astronode S / dev docs: https://docs.astrocast.com/
+- Iridium 9603 SBD transceiver: https://www.iridium.com/products/iridium-9603/
+- `gr-iridium` (external‑SDR Iridium downlink RX): https://github.com/muccc/gr-iridium
+- Myriota: https://myriota.com/
+- Analog Devices MAX2771 GNSS front‑end: https://www.analog.com/en/products/max2771.html
+- GNSS‑SDR (uses MAX2771/front‑ends): https://gnss-sdr.org/
+- Skyworks SE4150L GPS front‑end: https://www.skyworksinc.com/en/Products/Timing/GPS-Receivers
+- Infineon BGT24MTR11 24 GHz radar: https://www.infineon.com/cms/en/product/sensor/radar-sensors/radar-sensors-for-automation/24ghz-radar-sensors/
+- NXP TEF810X 77 GHz radar transceiver: https://www.nxp.com/products/radio-frequency/radar-transceivers:MC_71571
+- RTC6705 driver in Betaflight: https://github.com/betaflight/betaflight/blob/master/src/main/drivers/vtx_rtc6705.c
+- Renesas DA16200 ultra‑low‑power Wi‑Fi SoC: https://www.renesas.com/en/products/wireless-connectivity/wi-fi/low-power-wi-fi/da16200-ultra-low-power-wi-fi-soc-battery-powered-iot-devices

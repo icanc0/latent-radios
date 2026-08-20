@@ -318,3 +318,87 @@ Current, purchasable gear for people who want to *do* the things in this catalog
 - Nordic nRF52840 Dongle — https://www.nordicsemi.com/Products/Development-hardware/nRF52840-Dongle
 - Electronic Cats CatSniffer (CC1352P7) — https://github.com/ElectronicCats/CatSniffer
 - openwifi + AntSDR E200 — https://github.com/open-sdr/openwifi , https://www.crowdsupply.com/microphase-technology/antsdr-e200
+
+
+---
+
+## SDR & specialty hardware — Cycle 6
+
+This section rounds out the buyable-hardware index with the **genuine software-defined radios** that serve as the yardstick throughout this catalog. When an entry claims "Tier 4 arbitrary-waveform TX" or "Tier 5 genuine SDR," *these* are the devices that actually clear that bar — purpose-built radios with wide continuous tuning, real ADCs/DACs, and (for most) transmit paths. They are also the reference tools for the passive-radar, cross-technology-communication (CTC), and cellular/GNSS observation work covered in this cycle: you use a real SDR to *characterize* what a repurposed Wi-Fi/baseband chip is doing, and to build the coherent front-ends (KrakenSDR) that Wi-Fi silicon cannot provide.
+
+**Honest framing.** A $45 RTL-SDR outperforms every "repurposed Wi-Fi chip as SDR" trick in this catalog for general-purpose RX below 1.7 GHz, and a $300 HackRF beats all of them for arbitrary TX. The reason the rest of this catalog exists is *not* that Wi-Fi silicon is a better radio — it is that the Wi-Fi/cellular chip is *already inside the target device*, operates natively in the 2.4/5/6 GHz bands where cheap SDRs get expensive, and can be weaponized/measured *in situ* without adding hardware. Keep that trade in mind: SDRs win on flexibility and fidelity; repurposed chips win on ubiquity, band, and stealth.
+
+### Where each device sits on the ladder
+
+The SDR ladder (Tier 0–5) in this catalog measures *how much of the PHY a repurposed chip exposes*. Genuine SDRs are, almost by definition, at the top: they hand you raw IQ (Tier 3–4 RX) and, if they transmit, arbitrary-waveform TX (Tier 4), with open or fully documented signal chains (Tier 5). They are the "control group." Tiers below only become interesting when you *cannot* add one of these to the target.
+
+### Receive-only reference radios
+
+These are the cheap, high-fidelity "ears" — used as passive-radar surveillance/reference channels, ADS-B / GNSS / spectrum observers, and as the ground-truth receiver when validating what a Wi-Fi chip's CSI or spectral-scan is really reporting.
+
+| Device | Tuner / ADC | Freq range | Max usable BW | ADC bits | TX? | Price band | Best use here | Catalog id |
+|---|---|---|---|---|---|---|---|---|
+| **RTL-SDR Blog V4** | R828D + RTL2832U | ~0.5 MHz (built-in HF upconv.) – 1766 MHz | ~2.4 MHz (3.2 theo.) | 8 | No | ~$45 | Cheapest yardstick RX; passive-radar node; ADS-B/GNSS-L1 observation | `rtlsdr-rtl2832u` |
+| **Airspy Mini** | R820T2 | 24 – 1800 MHz | 6 MHz | 12 (≈10.4 ENOB) | No | ~$99 | Higher-dynamic-range RX than RTL; VHF/UHF survey | `airspy-r2-hfplus` |
+| **Airspy R2** | R820T2 | 24 – 1800 MHz | 10 MHz | 12 | No | ~$169 | Wideband spectrum capture; PoCSAG/trunking/passive-radar RX | `airspy-r2-hfplus` |
+| **Airspy HF+ Discovery** | Tuner-less / polyphase | 0.5 kHz–31 MHz, 60–260 MHz | 0.768 MHz | high-DR | No | ~$169 | HF/VHF weak-signal, EMC, extreme dynamic range | `airspy-r2-hfplus` |
+| **SDRplay RSP1B** | Direct + MSi2500 | 1 kHz – 2 GHz | 10 MHz | 14 | No | ~$120 | HF-to-2GHz all-in-one RX; teaching/reference | `sdrplay-rsp` |
+| **SDRplay RSPdx / RSPdx-R2** | as above + preselectors | 1 kHz – 2 GHz | 10 MHz | 14 | No | ~$250 | HDR mode <2 MHz; front-end filtering for hostile RF; passive-radar reference | `sdrplay-rsp` |
+
+Notes: RTL-SDR's 8-bit ADC and ~2.4 MHz stable bandwidth are the honest ceiling — plenty for narrowband work, ADS-B (1090 MHz), NOAA/GNSS-L1, and single-channel passive-radar experiments, but you feel the dynamic-range wall next to a 12/14-bit Airspy/RSP. All of these are **RX-only**: they cannot transmit and cannot be used for the injection/jamming/CTC-TX work in this catalog.
+
+### Transmit-capable SDRs (the TX yardstick)
+
+These are what "Tier 4 arbitrary-waveform TX" actually looks like in buyable form — the reference for replay attacks, jamming characterization, CTC transmit experiments, and generating known waveforms to test a repurposed chip's RX.
+
+| Device | Transceiver / FPGA | Freq range | Max BW / sample rate | Bits | Duplex | Price band | Best use here | Catalog id |
+|---|---|---|---|---|---|---|---|---|
+| **HackRF One** | MAX2837 + MAX5864, half-duplex | 1 MHz – 6 GHz | 20 MHz | 8 | Half | ~$300–350 | The arbitrary-waveform TX yardstick; replay, protocol fuzzing, jamming tests across 2.4/5 GHz | `greatscott-hackrf-one` |
+| **ADALM-PLUTO** | AD9363 (→AD9361 hack) | 325 MHz–3.8 GHz (hack: 70 MHz–6 GHz) | 20 MHz (61.44 MSPS) | 12 | Full (1×1) | ~$230 | Cheap full-duplex TX/RX; LTE/OFDM test-vector generation; teaching | `analog-adalm-pluto` |
+| **LimeSDR Mini 2.0** | LMS7002M + ECP5 FPGA | 10 MHz – 3.5 GHz | 30.72 MHz | 12 | Full (1×1) | ~$200–260 | Open-FPGA TX/RX; GNU Radio / SoapySDR; on-device DSP | `lime-limesdr` |
+| **bladeRF 2.0 micro (xA4/xA9)** | AD9361 + Cyclone V FPGA | 47 MHz – 6 GHz | 56 MHz (61.44 MSPS) | 12 | Full (2×2 MIMO) | ~$540 (A4) / ~$720 (A9) | 2×2 MIMO TX/RX; coherent 2-ch experiments; larger FPGA fabric | `nuand-bladerf-2micro` |
+| **USRP B200mini** | AD9364 + Spartan-6 | 70 MHz – 6 GHz | 56 MHz | 12 | Full (1×1) | ~$800 | UHD/GNU Radio reference; compact 1×1; srsRAN/OpenAirInterface cellular labs | `ettus-usrp` |
+| **USRP B210** | AD9361 + Spartan-6 | 70 MHz – 6 GHz | 56 MHz (30.72 full-rate 2×2) | 12 | Full (2×2 MIMO) | ~$1,500–2,100 | 2×2 MIMO; the standard cellular-baseband/eNB test radio (srsRAN, OAI) | `ettus-usrp` |
+| **USRP N320** | dual AD9371-class + 10 GbE | 3 MHz – 6 GHz | 200 MHz / channel | 14 | Full (2 ch) | ~$12,000 | High-bandwidth 5G-NR / wideband monitoring; lab-grade coherent 2-ch | `ettus-usrp` |
+
+Notes: HackRF is half-duplex 8-bit — superb reach (1 MHz–6 GHz) and the community-standard TX tool, but it is *not* a high-dynamic-range receiver; pair it with an Airspy/RSP for RX. Pluto's "70 MHz–6 GHz" is a well-known firmware unlock of the AD9363 to AD9361 behavior — reliable but technically out-of-spec at the band edges. B210 remains the reference SDR for **cellular baseband work** (srsRAN, OpenAirInterface) discussed in `cellular-basebands.md`; N320 is the step up when you need real 100–200 MHz instantaneous bandwidth for 5G-NR capture.
+
+### Coherent / specialty gear (net-new)
+
+The one capability *no* consumer Wi-Fi chip and *no* single cheap SDR gives you is **phase-coherent multichannel RX** — the prerequisite for direction-finding and clean bistatic/passive radar. That is why the KrakenSDR earns a net-new record: it is the buyable device the passive-radar and DF discussions in this cycle actually run on.
+
+- **KrakenSDR** (`krakenrf-krakensdr`, net-new): five R828D/RTL2832U tuners sharing one clock plus a built-in noise-source for phase calibration → **5 coherent channels**, ~24–1766 MHz per tuner (≈100 MHz–1 GHz practical for DF/passive-radar), ~2.4 MHz/channel, 8-bit, **RX-only**, ~$500. Open-source DAQ firmware (Heimdall) and DoA/passive-radar DSP. This is the honest "genuine coherent SDR" — it does something repurposed Wi-Fi CSI *approximates* (angle/phase info) but with real, calibrated, wideband coherence. Use it as the ground-truth reference when a catalog entry claims AoA/DF from CSI. See `../projects/rtl-sdr-lineage.md`.
+- **HackRF PortaPack (H2 / H4M + Mayhem firmware)** (`greatscott-portapack-mayhem`, net-new): an LCD + navigation + battery add-on board that turns a HackRF One into a **standalone, no-PC** transceiver. The open-source **Mayhem** firmware fork provides on-device TX/RX apps (replay, ADS-B/POCSAG/AIS/RDS generation, jammer, spectrum). Same 1 MHz–6 GHz / 8-bit / half-duplex HackRF radio underneath (~$100–250 for the add-on + host). Relevant here as the *field* form of the Tier-4 TX yardstick and as a self-contained CTC/replay bench. See `greatscott-hackrf-one`.
+
+*Not given separate records (variants of existing catalog ids):* Airspy Mini/R2/HF+ (→ `airspy-r2-hfplus`), SDRplay RSP1B/RSPdx (→ `sdrplay-rsp`), USRP B200mini/B210/N320 (→ `ettus-usrp`), LimeSDR Mini 2.0 (→ `lime-limesdr`), RTL-SDR Blog V4 (→ `rtlsdr-rtl2832u`).
+
+### Antennas, LNAs, filters, upconverters
+
+Accessories — no catalog records (they carry no firmware and are not radios) — but they are what make the radios above usable for the work in this cycle:
+
+- **Antennas:** RTL-SDR Blog / Nooelec multipurpose dipole kits (telescopic, HF–UHF); band-specific for the cellular/GNSS/passive-radar tasks — 1090 MHz ADS-B collinear, active GNSS L1/L5 patch (for the raw-observable work in `cellular-basebands.md`), log-periodic (LPDA) for wideband DF/passive-radar surveillance channels, Yagi for a directional reference/illuminator channel.
+- **LNAs (low-noise amplifiers):** RTL-SDR Blog wideband LNA (bias-tee powered); **Nooelec SAWbird** band-filtered LNA+SAW series — SAWbird+ GOES (1.7 GHz), ADS-B (1090 MHz), **GPS/GNSS (~1.5 GHz)**, which is the practical way to get clean L1 into an RTL/Airspy; Mini-Circuits ZX60-series for lab-grade gain.
+- **Filters:** FM broadcast band-stop / notch (essential near strong FM for passive radar using FM illuminators), 1090 MHz SAW, GNSS SAW, and generic Mini-Circuits SBP/SHP/SLP bandpass/high/low-pass.
+- **Upconverters:** Nooelec **Ham It Up** and SpyVerter — shift 0–30 MHz HF up into an SDR's native VHF range for radios lacking native HF (note: the RTL-SDR Blog V4 already integrates HF upconversion, so it needs no external unit).
+- **Bias tees & clocks:** software-switchable bias tees (built into RTL-SDR V4, HackRF, Airspy, KrakenSDR) to power inline LNAs; external 10 MHz GPSDO reference for disciplining B2xx/N3xx and for coherent multi-radio setups beyond KrakenSDR.
+
+### How this ties back to the catalog
+
+- **Passive radar / bistatic sensing:** KrakenSDR (coherent) or two RTL/Airspy on a shared clock provide reference+surveillance channels; Wi-Fi-chip "passive-radar-like" CSI Doppler (see `../projects/csi-toolchains.md`) is the *repurposed* analogue — lower fidelity, but already in-band at 2.4/5 GHz.
+- **Cellular basebands (`cellular-basebands.md`):** B210/N320 + srsRAN/OpenAirInterface are the real SDR-side of the LTE/5G work; the basebands themselves are Tier 0–1 (diag/measurement only), not IQ sources.
+- **GNSS:** an RTL/Airspy + SAWbird-GPS LNA gives raw L1 IQ for software receivers (GNSS-SDR); GNSS chips give observables (Tier 0–1), not IQ.
+- **Tier-4/5 verification (`../docs/verification-tier4.md`, `../docs/verification-tier5-openfirmware.md`):** these devices are the calibrated signal sources/sinks used to *prove* a repurposed chip's claimed TX/RX capability.
+
+### References
+
+- RTL-SDR Blog — V4 dongle and buyer's guide: https://www.rtl-sdr.com/buy-rtl-sdr-dvb-t-dongles/
+- KrakenRF (KrakenSDR): https://www.krakenrf.com/ and docs https://github.com/krakenrf/krakensdr_docs/wiki
+- Great Scott Gadgets — HackRF One: https://greatscottgadgets.com/hackrf/one/
+- HackRF PortaPack Mayhem firmware: https://github.com/portapack-mayhem/mayhem-firmware
+- Airspy: https://airspy.com/
+- SDRplay: https://www.sdrplay.com/
+- Analog Devices ADALM-PLUTO: https://www.analog.com/en/resources/evaluation-hardware-and-software/evaluation-boards-kits/adalm-pluto.html
+- Nuand bladeRF 2.0 micro: https://www.nuand.com/bladerf-2-0-micro/
+- Lime Microsystems LimeSDR Mini 2.0: https://limemicro.com/products/boards/limesdr-mini-2-0/
+- Ettus Research USRP B210 / N320: https://www.ettus.com/all-products/ub210-kit/ , https://www.ettus.com/all-products/usrp-n320/
+- Nooelec SAWbird / Ham It Up: https://www.nooelec.com/store/sdr/sdr-addons.html

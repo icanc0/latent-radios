@@ -728,6 +728,100 @@
     "notes": "325MHz-3.8GHz (hack: ~70MHz-6GHz via AD9364 re-ID), 12-bit, 20MHz BW, full-duplex 1x1. Go-to full-duplex transceiver for Wi-Fi-sensing researchers."
   },
   {
+    "id": "analog-max2769-gnss-frontend",
+    "vendor": "Analog Devices",
+    "family": "MAX2769",
+    "aliases": [
+      "Maxim MAX2769",
+      "MAX2769B",
+      "MAX2769C",
+      "universal GNSS receiver front-end"
+    ],
+    "part_numbers": [
+      "MAX2769",
+      "MAX2769B",
+      "MAX2769C"
+    ],
+    "standards": [
+      "GPS L1 C/A",
+      "GLONASS L1",
+      "Galileo E1"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "raw-iq",
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "n/a (analog/mixed-signal RF IC, SPI register-configured, no firmware)",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "standalone GNSS front-end + FPGA/MCU software receivers",
+      "academic GNSS SDR boards"
+    ],
+    "key_projects": [
+      {
+        "name": "GNSS-SDR (processes raw front-end IF sample files)",
+        "url": "https://gnss-sdr.org/"
+      }
+    ],
+    "status": "verified",
+    "notes": "Single-chip universal GNSS RF front-end: dual LNA, mixer, image-reject, integer-N PLL/VCO, programmable 1-to-3-bit ADC. Outputs a clocked 1-2-bit sign/magnitude IF stream to an FPGA/MCU -> raw-IQ RX front-end. Fully documented register map (no firmware to reverse). RX-only, GNSS band only, hard-quantized: a dedicated narrowband SDR capture head, NOT a general SDR. Covers GPS L1 1575.42 MHz, GLONASS, Galileo. Tier 3 = raw-PHY/raw-IQ RX, no TX.",
+    "references": [
+      "https://www.analog.com/en/products/max2769.html",
+      "https://www.analog.com/media/en/technical-documentation/data-sheets/MAX2769.pdf",
+      "https://gnss-sdr.org/"
+    ]
+  },
+  {
+    "id": "analog-max2771-gnss-frontend",
+    "vendor": "Analog Devices",
+    "family": "MAX2771 GNSS RF front-end",
+    "aliases": [
+      "MAX2771"
+    ],
+    "part_numbers": [
+      "MAX2771"
+    ],
+    "bands": [],
+    "standards": [
+      "GPS L1/L2/L5",
+      "Galileo E1/E5/E6",
+      "GLONASS",
+      "BeiDou"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "re_tooling": [
+        "GNSS-SDR",
+        "SPI register config"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "open-hardware GNSS SDR front-end boards",
+      "GNSS-SDR reference front-ends"
+    ],
+    "key_projects": [
+      {
+        "name": "GNSS-SDR",
+        "url": "https://gnss-sdr.org/"
+      }
+    ],
+    "notes": "Multi-band, multi-constellation GNSS RF front-end: two RF paths (~1155-1305 MHz lower L-band, ~1550-1610 MHz upper L-band), programmable IF/bandwidth, on-chip 2-3 bit ADC delivering raw IF/IQ samples. This IS a genuine documented SDR receive front-end - Tier 5, RECEIVE ONLY (no TX). Purpose-built rather than repurposed; earns Tier 5 on capability. L-band not in band enum.",
+    "references": [
+      "https://www.analog.com/en/products/max2771.html",
+      "https://gnss-sdr.org/"
+    ]
+  },
+  {
     "id": "libresdr-openwifi",
     "vendor": "Analog Devices",
     "family": "openwifi on Zynq-7020 + AD9361 (LibreSDR clone)",
@@ -852,6 +946,104 @@
       "https://github.com/open-sdr/openwifi-hw"
     ],
     "status": "reported"
+  },
+  {
+    "id": "openwifi-ad9361",
+    "vendor": "Analog Devices",
+    "family": "openwifi — open-PHY 802.11a/g/n baseband on Zynq + AD9361/AD9364",
+    "aliases": [
+      "openwifi",
+      "open-sdr"
+    ],
+    "part_numbers": [
+      "AD9361",
+      "AD9364",
+      "FMCOMMS2",
+      "FMCOMMS3",
+      "FMCOMMS4"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11g",
+      "802.11n (20 MHz)"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi",
+      "raw-iq",
+      "arbitrary-waveform",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "Open Verilog OFDM PHY + open low-MAC (DCF/CSMA-CA) in Zynq FPGA fabric; AD9361/AD9364 RF front end; Linux mac80211 driver",
+      "openness": "open",
+      "re_tooling": [
+        "Xilinx Vivado (some boards need paid license)",
+        "Buildroot images",
+        "openwifi driver + userspace"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "openwifi",
+        "url": "https://github.com/open-sdr/openwifi"
+      }
+    ],
+    "status": "verified",
+    "common_hardware": [
+      "Xilinx ZC706 / ZED / ZC702 + FMCOMMS2/3/4",
+      "ADRV9364-Z7020",
+      "ADRV9361-Z7035",
+      "Xilinx ZCU102",
+      "AntSDR / SDRPi / NeptuneSDR / LibreSDR (PlutoSDR-class AD936x)"
+    ],
+    "notes": "AFFIRMED Tier 5 (Cycle 6): legitimately top-tier because the PHY itself is open, reconfigurable Verilog feeding an SDR front end (70 MHz-6 GHz) with raw IQ and CSI. IMPORTANT framing: this is an SDR that IMPLEMENTS Wi-Fi, not a commodity Wi-Fi chip repurposed as an SDR — same category as USRP/HackRF/bladeRF/LimeSDR/Pluto + gr-ieee802-11, and the inverse of this catalog's usual thesis. Very active (last commit 2026-08-14, 1120+ commits). AGPLv3 with commercial option. See projects/openwifi.md.",
+    "references": [
+      "https://github.com/open-sdr/openwifi",
+      "https://github.com/open-sdr/openwifi/blob/master/README.md",
+      "https://github.com/bastibl/gr-ieee802-11"
+    ]
+  },
+  {
+    "id": "apple-c1-modem",
+    "vendor": "Apple",
+    "family": "Apple C-series modem",
+    "aliases": [
+      "Apple C1",
+      "Apple 5G modem"
+    ],
+    "part_numbers": [
+      "C1"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "LTE",
+      "5G-NR"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Apple in-house modem (post-Intel-acquisition IP)",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "iPhone 16e"
+    ],
+    "key_projects": [],
+    "status": "verified",
+    "notes": "Apple's first in-house cellular modem, debuted in iPhone 16e (Feb 2025). Sub-6 GHz 5G only at launch (no mmWave). Completely closed: no diag interface, no public tooling, no third-party AT surface. Tier 0 black box; expected to remain closed given Apple's security posture. No IQ.",
+    "references": [
+      "https://www.apple.com/newsroom/2025/02/apple-introduces-iphone-16e-a-powerful-new-member-of-the-iphone-16-family/"
+    ]
   },
   {
     "id": "apple-u1",
@@ -1014,6 +1206,36 @@
     ],
     "status": "reported",
     "notes": "Cortex-M4F 2.4GHz 11n + BLE combo, a second-source die for Tuya WB modules. Vendor SDK (ASR-SDK/lega) with the usual SmartConfig promiscuous path. Not yet a LibreTiny target, so RE is more DIY than Beken. Blob PHY."
+  },
+  {
+    "id": "astrocast-astronode-s",
+    "vendor": "Astrocast",
+    "family": "Astronode satellite-IoT modem",
+    "aliases": [
+      "Astronode S",
+      "Astronode"
+    ],
+    "part_numbers": [
+      "Astronode S"
+    ],
+    "bands": [],
+    "standards": [
+      "Astrocast proprietary L-band"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "status": "reported",
+    "common_hardware": [
+      "Astronode DevKit"
+    ],
+    "notes": "L-band (~1.6 GHz) bidirectional satellite-IoT modem for the Astrocast LEO constellation. Closed firmware behind an AT/SPI command API; type-approved endpoint, no raw RF. Tier 0. Exact channel allocation is proprietary; L-band is not representable in the catalog band enum so bands is left empty.",
+    "references": [
+      "https://docs.astrocast.com/"
+    ]
   },
   {
     "id": "beken-bk7231n",
@@ -2068,51 +2290,57 @@
   {
     "id": "broadcom-bcm4318",
     "vendor": "Broadcom",
-    "family": "BCM43xx (SoftMAC / b43)",
+    "family": "BCM43xx (D11 MAC, G-PHY)",
     "aliases": [
-      "AirForce One 54g"
+      "AirForce One 54g",
+      "BCM4318E"
     ],
     "part_numbers": [
-      "BCM4318"
+      "BCM4318",
+      "BCM4306",
+      "BCM4311"
+    ],
+    "bands": [
+      "2.4GHz"
     ],
     "standards": [
       "802.11b",
       "802.11g"
     ],
-    "bands": [
-      "2.4GHz"
-    ],
-    "sdr_tier": 5,
+    "sdr_tier": 1,
     "sdr_capabilities": [
       "monitor",
       "injection",
       "open-firmware"
     ],
     "firmware": {
-      "arch": "Broadcom D11 microcode, host-driven MAC, no on-die ARM",
+      "arch": "Broadcom D11 MAC microcode (custom ucode ISA, rev ~5)",
       "openness": "open",
       "re_tooling": [
-        "b43-tools",
-        "OpenFWWF"
+        "OpenFWWF (GPL microcode source)",
+        "b43-tools: b43-asm / b43-dasm / ssb-sprom (Michael Büsch)"
       ]
     },
-    "common_hardware": [
-      "Linksys WPC54G v3",
-      "Belkin F5D7010",
-      "many 2006-era laptops / mini-PCI"
-    ],
     "key_projects": [
       {
         "name": "OpenFWWF",
         "url": "http://netweb.ing.unibs.it/~openfwwf/"
+      },
+      {
+        "name": "b43-tools",
+        "url": "https://github.com/mbuesch/b43-tools"
       }
     ],
+    "status": "verified",
+    "common_hardware": [
+      "Broadcom 54g mini-PCI / CardBus cards (~2004-era)"
+    ],
+    "notes": "CORRECTED (Cycle 6): downgraded from any Tier-5/open-PHY reading. OpenFWWF is genuinely open GPL MAC microcode, but only for old G-PHY D11 cores (BCM4306/4311-rev1/4318); it does NOT run on N-PHY/HT or FullMAC parts. The PHY is fixed silicon, so you get open MAC timing/injection (basis of Brescia's Wireless MAC Processor work), not raw IQ or arbitrary waveform. Real tier = 1 with open-firmware flag. Microcode frozen ~2011-2012; only the b43-tools assembler is still maintained (2026-05).",
     "references": [
       "http://netweb.ing.unibs.it/~openfwwf/",
-      "https://github.com/fullstory/openfwwf"
-    ],
-    "status": "verified",
-    "notes": "Primary chip OpenFWWF was tested on (4306 & 4318). Open MAC firmware; used to prototype custom MAC protocols. b43 gives native monitor+injection."
+      "https://github.com/mbuesch/b43-tools",
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html"
+    ]
   },
   {
     "id": "broadcom-bcm4319",
@@ -4619,6 +4847,46 @@
     "notes": "Earlier Celeno 802.11ac (Wave 2) AP silicon, before the Wi-Fi Doppler Imaging engine that defines the catalogued CL2x4x/CL6000 'Denali' parts. Fully closed with no public driver or RE tooling — Tier 0. Catalogued to close out the Celeno line; the sensing story lives on celeno-cl6000. Net-new record."
   },
   {
+    "id": "celeno-cl2400-renesas",
+    "vendor": "Celeno",
+    "family": "Celeno CL2400 Wi-Fi 6",
+    "aliases": [
+      "Celeno CL2400",
+      "Celeno Wi-Fi Doppler Imaging",
+      "Renesas Wi-Fi Sensing AP"
+    ],
+    "part_numbers": [
+      "CL2400"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ax",
+      "802.11n",
+      "802.11ac"
+    ],
+    "common_hardware": [
+      "Carrier/OEM Wi-Fi 6 access points and gateways"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "vendor RTOS on internal MAC/PHY processor",
+      "re_tooling": []
+    },
+    "family_note": "",
+    "key_projects": [],
+    "status": "reported",
+    "notes": "Purpose-built Wi-Fi 6 AP SoC marketed by Celeno (acquired by Renesas in 2022) with an on-chip 'Wi-Fi Doppler Imaging' sensing mode doing Doppler/CSI-based motion, people counting/localization, and presence-for-HVAC. Notable as a chip DESIGNED as a sensor and a natural 802.11bf home, but firmware is fully closed and the sensing observables are not user-accessible, so it is Tier 0 for SDR/DIY repurposing. Included as the 'chip basis' behind productized presence/occupancy sensing, not as a repurposable SDR. No public firmware RE tooling exists.",
+    "references": [
+      "https://www.renesas.com/",
+      "https://www.ieee802.org/11/Reports/tgbf_update.htm"
+    ]
+  },
+  {
     "id": "celeno-cl6000",
     "vendor": "Celeno",
     "family": "CL2x4x / CL6000 Denali",
@@ -5652,6 +5920,67 @@
     ]
   },
   {
+    "id": "espressif-esp32-wroom-csi",
+    "vendor": "Espressif",
+    "family": "ESP32 (Xtensa LX6)",
+    "aliases": [
+      "ESP32-WROOM-32",
+      "ESP32-D0WD",
+      "ESP32 classic"
+    ],
+    "part_numbers": [
+      "ESP32-WROOM-32",
+      "ESP32-D0WDQ6",
+      "ESP32-DevKitC"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n (HT20/HT40)"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "Xtensa LX6 (dual-core), closed Wi-Fi MAC/PHY blob driven via ESP-IDF esp_wifi APIs",
+      "re_tooling": [
+        "ESP-IDF (esp_wifi_set_csi / esp_wifi_set_csi_config / esp_wifi_set_csi_rx_cb)",
+        "ESP32-CSI-Tool",
+        "esp_wifi_80211_tx (raw injection)"
+      ]
+    },
+    "common_hardware": [
+      "ESP32-DevKitC",
+      "NodeMCU-32S",
+      "WEMOS/LOLIN D32",
+      "TTGO boards"
+    ],
+    "key_projects": [
+      {
+        "name": "ESP32-CSI-Tool",
+        "url": "https://github.com/StevenMHernandez/ESP32-CSI-Tool"
+      },
+      {
+        "name": "ESP-IDF Wi-Fi CSI API",
+        "url": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html"
+      }
+    ],
+    "sdr_tier_notes": "",
+    "status": "verified",
+    "notes": "Documented CSI path via ESP-IDF: per-packet wifi_csi_info_t exposes complex channel estimates for the LLTF/HT-LTF subcarriers (64 subcarriers = 128 bytes for HT20, each subcarrier two int8_t as imaginary-then-real). Genuine Tier 2 CSI: usable for amplitude-based respiration/presence sensing after host-side DSP (subcarrier selection, 0.1-0.5 Hz bandpass, FFT). NOT SDR: no IQ, no arbitrary-waveform TX, no raw PHY; Wi-Fi MAC/PHY remains a closed blob and CSI is a demodulation byproduct. Raw phase is CFO/SFO-limited across two boards, so amplitude is the practical observable. Tier 2 ceiling on this chip.",
+    "references": [
+      "https://github.com/StevenMHernandez/ESP32-CSI-Tool",
+      "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/network/esp_wifi.html",
+      "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html",
+      "https://ieeexplore.ieee.org/document/9217452"
+    ]
+  },
+  {
     "id": "espressif-esp8266",
     "vendor": "Espressif",
     "family": "ESP8266",
@@ -6116,6 +6445,70 @@
     ],
     "status": "verified",
     "notes": "1MHz-6GHz, 20MHz BW, 8-bit, half-duplex TX/RX. Canonical open TX-capable hacker SDR; the arbitrary-waveform reference."
+  },
+  {
+    "id": "greatscott-portapack-mayhem",
+    "vendor": "Great Scott Gadgets",
+    "family": "HackRF PortaPack",
+    "aliases": [
+      "PortaPack H2",
+      "PortaPack H4M",
+      "HackRF PortaPack",
+      "Mayhem firmware"
+    ],
+    "part_numbers": [
+      "PortaPack H2",
+      "PortaPack H4M"
+    ],
+    "common_hardware": [
+      "HackRF One",
+      "PortaPack add-on board (LCD + navigation + battery)"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "ADS-B",
+      "POCSAG",
+      "AIS",
+      "RDS",
+      "various narrowband OOK/FSK"
+    ],
+    "sdr_tier": 4,
+    "sdr_capabilities": [
+      "raw-iq",
+      "arbitrary-waveform",
+      "injection",
+      "covert-channel",
+      "open-firmware"
+    ],
+    "firmware": {
+      "openness": "open",
+      "arch": "HackRF One radio (MAX2837 + MAX5864, 1 MHz-6 GHz, 8-bit, half-duplex) + PortaPack LCD/MCU add-on running standalone firmware",
+      "re_tooling": [
+        "Mayhem firmware (open-source fork)",
+        "HackRF host tools",
+        "GNU Radio"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "Mayhem firmware",
+        "url": "https://github.com/portapack-mayhem/mayhem-firmware"
+      },
+      {
+        "name": "HackRF One",
+        "url": "https://greatscottgadgets.com/hackrf/one/"
+      }
+    ],
+    "notes": "Add-on board (LCD, navigation, battery) that turns a HackRF One into a standalone, no-PC transceiver; the open-source Mayhem firmware supplies on-device TX/RX apps (replay, ADS-B/POCSAG/AIS/RDS generation, jammer, spectrum). Same 1 MHz-6 GHz / 8-bit / half-duplex HackRF radio underneath -- so genuine arbitrary-waveform TX (Tier 4), just field-portable. Add-on ~$100-250 on top of a HackRF host. Distinct from the bare HackRF (greatscott-hackrf-one) by its standalone firmware and form factor.",
+    "status": "verified",
+    "references": [
+      "https://github.com/portapack-mayhem/mayhem-firmware",
+      "https://greatscottgadgets.com/hackrf/one/"
+    ]
   },
   {
     "id": "greatscottgadgets-ubertooth-one",
@@ -6685,6 +7078,50 @@
     "notes": "24.0-24.25 GHz ISM Doppler/CW radar front-end (1TX/1RX) with analog I/Q IF output you digitize with any external ADC. Well documented in app notes - a hobbyist staple. CW/Doppler primary; FMCW possible with an external ramp. Tier 3 (simple modulation, external ADC).",
     "references": [
       "https://www.infineon.com/cms/en/product/sensor/radar-sensors/radar-sensors-for-iot/24ghz-radar/bgt24ltr11n16/"
+    ]
+  },
+  {
+    "id": "infineon-bgt24mtr11-radar",
+    "vendor": "Infineon",
+    "family": "BGT24 24 GHz radar transceiver",
+    "aliases": [
+      "BGT24MTR11",
+      "BGT24MTR12",
+      "BGT24LTR11"
+    ],
+    "part_numbers": [
+      "BGT24MTR11",
+      "BGT24MTR12",
+      "BGT24LTR11"
+    ],
+    "bands": [],
+    "standards": [
+      "24 GHz ISM radar (FMCW/Doppler)"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "radar",
+      "fmcw",
+      "raw-iq",
+      "arbitrary-waveform"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "re_tooling": [
+        "SPI config",
+        "external VCO ramp/DAC",
+        "external IF ADC"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Infineon Distance2Go",
+      "Infineon Position2Go",
+      "hobbyist 24 GHz radar boards"
+    ],
+    "notes": "24 GHz ISM analog radar transceiver (MTR11: 1TX/1RX; MTR12: 1TX/2RX; LTR11: Doppler). On-chip VCO + quadrature downconversion to raw IQ IF baseband that you digitize yourself. External VCO ramp gives arbitrary FMCW chirps; leave CW for Doppler. A real, fully documented radar front-end -> Tier 5 for radar work (radar/fmcw/raw-iq/arbitrary-waveform), all inside 24 GHz ISM. 24 GHz not in band enum.",
+    "references": [
+      "https://www.infineon.com/cms/en/product/sensor/radar-sensors/radar-sensors-for-automation/24ghz-radar-sensors/"
     ]
   },
   {
@@ -8691,6 +9128,201 @@
     "notes": "1x1 dual-band 802.11ac CNVi companion parts on the iwlwifi-9000 family (siblings of the catalogued 9260/9560). 9461 supports vPro, 9462 does not; otherwise identical radio. As a CNVi companion the MAC lives in the PCH, but from the OS it is still a normal mac80211 radio: monitor/injection only, no public CSI. Tier 1."
   },
   {
+    "id": "intel-xmm-modem",
+    "vendor": "Intel",
+    "family": "XMM baseband (Infineon lineage)",
+    "aliases": [
+      "Intel XMM7360",
+      "Intel XMM7560",
+      "Intel XMM7660",
+      "Infineon XMM"
+    ],
+    "part_numbers": [
+      "XMM7360",
+      "XMM7560",
+      "XMM7660"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "GSM",
+      "WCDMA",
+      "LTE",
+      "LTE-Advanced"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Intel/Infineon modem DSP",
+      "re_tooling": [
+        "xmm7360-pci (control/data driver, not baseband)"
+      ]
+    },
+    "common_hardware": [
+      "iPhone 7/8/X-era (LTE variants)",
+      "laptop M.2 WWAN cards (Fibocom L850-GL)"
+    ],
+    "key_projects": [
+      {
+        "name": "xmm7360-pci",
+        "url": "https://github.com/xmm7360/xmm7360-pci"
+      }
+    ],
+    "status": "verified",
+    "notes": "Intel's XMM basebands (Infineon Wireless heritage), shipped mainly in Apple iPhones and laptop WWAN cards. XMM7660 5G was largely abandoned when Apple acquired the unit (2019). The community xmm7360-pci Linux driver brings up control + data planes on the PCIe variant — networking control only, NOT baseband IQ or PHY. Tier 0 for SDR purposes. No IQ.",
+    "references": [
+      "https://github.com/xmm7360/xmm7360-pci"
+    ]
+  },
+  {
+    "id": "iridium-9602-9603-sbd",
+    "vendor": "Iridium Communications",
+    "family": "Iridium Short Burst Data transceiver",
+    "aliases": [
+      "Iridium 9602",
+      "Iridium 9603",
+      "9603N"
+    ],
+    "part_numbers": [
+      "9602",
+      "9603",
+      "9603N"
+    ],
+    "bands": [],
+    "standards": [
+      "Iridium SBD",
+      "DE-QPSK L-band 1616-1626.5 MHz"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "re_tooling": [
+        "gr-iridium (external-SDR downlink RX only)"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "RockBLOCK 9602/9603",
+      "Iridium SBD asset trackers"
+    ],
+    "key_projects": [
+      {
+        "name": "gr-iridium",
+        "url": "https://github.com/muccc/gr-iridium"
+      },
+      {
+        "name": "iridium-toolkit",
+        "url": "https://github.com/muccc/iridium-toolkit"
+      }
+    ],
+    "notes": "L-band (1616-1626.5 MHz) Short Burst Data transceiver. The chip is a closed modem spoken to over AT commands - Tier 0, no IQ/PHY access. Note the distinction: the Iridium *downlink waveform* is decodable, but only with a SEPARATE real SDR (RTL-SDR/HackRF/USRP) feeding gr-iridium + iridium-toolkit; the 9603 itself is never repurposed. L-band not in band enum.",
+    "references": [
+      "https://www.iridium.com/products/iridium-9603/",
+      "https://github.com/muccc/gr-iridium"
+    ]
+  },
+  {
+    "id": "iridium-9770-certus",
+    "vendor": "Iridium Communications",
+    "family": "Iridium Certus core transceiver",
+    "aliases": [
+      "Iridium 9770"
+    ],
+    "part_numbers": [
+      "9770"
+    ],
+    "bands": [],
+    "standards": [
+      "Iridium Certus",
+      "L-band"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "status": "reported",
+    "common_hardware": [
+      "Iridium Certus 9770 developer boards"
+    ],
+    "notes": "L-band Iridium Certus (mid-band, multi-service) core transceiver. Closed vendor API, type-approved endpoint. Tier 0, no raw RF. Successor-class part to the 9602/9603 SBD line with higher throughput but the same closed posture.",
+    "references": [
+      "https://www.iridium.com/products/"
+    ]
+  },
+  {
+    "id": "krakenrf-krakensdr",
+    "vendor": "KrakenRF",
+    "family": "KrakenSDR coherent RTL-SDR array",
+    "aliases": [
+      "KrakenSDR",
+      "Kraken RF 5-channel coherent SDR"
+    ],
+    "part_numbers": [
+      "KrakenSDR"
+    ],
+    "common_hardware": [
+      "KrakenSDR 5-channel receiver",
+      "Raspberry Pi 4 / SBC host",
+      "5-element antenna array (DF) or reference+surveillance antennas (passive radar)"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "N/A (general-purpose coherent receiver)"
+    ],
+    "sdr_tier": 5,
+    "sdr_capabilities": [
+      "raw-iq",
+      "monitor",
+      "passive-radar",
+      "radar",
+      "spectral-scan"
+    ],
+    "firmware": {
+      "openness": "open",
+      "arch": "5x Rafael Micro R828D tuner + RTL2832U ADC, single shared clock + built-in switched noise source for phase-coherence calibration",
+      "re_tooling": [
+        "Heimdall DAQ firmware",
+        "krakensdr_doa (direction finding)",
+        "krakensdr_pr (passive radar)",
+        "librtlsdr",
+        "GNU Radio",
+        "SoapySDR"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "KrakenSDR docs wiki",
+        "url": "https://github.com/krakenrf/krakensdr_docs/wiki"
+      },
+      {
+        "name": "krakensdr_doa (direction finding)",
+        "url": "https://github.com/krakenrf/krakensdr_doa"
+      },
+      {
+        "name": "krakensdr_pr (passive radar)",
+        "url": "https://github.com/krakenrf/krakensdr_pr"
+      },
+      {
+        "name": "Heimdall DAQ firmware",
+        "url": "https://github.com/krakenrf/heimdall_daq_fw"
+      }
+    ],
+    "notes": "Genuine buyable phase-coherent SDR: five R828D/RTL2832U tuners on one clock with a built-in noise source for calibration give 5 coherent RX channels (~24-1766 MHz per tuner; ~100 MHz-1 GHz practical for DF/passive radar), ~2.4 MHz per channel, 8-bit. RX-ONLY, no transmit. This is the reference device for direction-finding and bistatic/passive-radar work in this cycle -- it delivers real calibrated phase coherence that repurposed Wi-Fi CSI only approximates. ~$500.",
+    "status": "verified",
+    "references": [
+      "https://www.krakenrf.com/",
+      "https://github.com/krakenrf/krakensdr_docs/wiki",
+      "https://github.com/krakenrf/krakensdr_pr"
+    ]
+  },
+  {
     "id": "lime-limesdr",
     "vendor": "Lime Microsystems",
     "family": "LimeSDR / LimeSDR Mini",
@@ -9006,6 +9638,108 @@
     ],
     "status": "verified",
     "notes": "GPON/xDSL access gateway SoC with no integrated Wi-Fi. Nothing to repurpose at the SoC level; any radio is an external companion die. Listed for completeness of the gateway-SoC dead-end category."
+  },
+  {
+    "id": "mediatek-baseband-diag",
+    "vendor": "MediaTek",
+    "family": "MediaTek modem (Helio/Dimensity, DIAG-capable)",
+    "aliases": [
+      "MTK modem",
+      "mtklog",
+      "MTK catcher/ELT"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "GSM",
+      "UMTS",
+      "LTE",
+      "5G NR"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "MediaTek modem DSP + control cores; signed firmware",
+      "re_tooling": [
+        "MobileInsight",
+        "FirmWire",
+        "MTK catcher/ELT/DebugLogger"
+      ]
+    },
+    "common_hardware": [
+      "MediaTek-based Android phones (Helio/Dimensity)"
+    ],
+    "key_projects": [
+      {
+        "name": "MobileInsight",
+        "url": "https://github.com/mobile-insight/mobileinsight-core"
+      },
+      {
+        "name": "FirmWire",
+        "url": "https://github.com/FirmWire/FirmWire"
+      }
+    ],
+    "part_numbers": [],
+    "status": "reported",
+    "notes": "NOT an SDR. MobileInsight parses MediaTek diagnostic logging alongside Qualcomm; coverage is thinner and more per-chipset-variable than Qualcomm's. FirmWire emulates MediaTek baseband firmware for fuzzing. No IQ, no arbitrary TX. Band enum approximated as sub-GHz.",
+    "references": [
+      "https://github.com/mobile-insight/mobileinsight-core",
+      "https://github.com/FirmWire/FirmWire"
+    ]
+  },
+  {
+    "id": "mediatek-dimensity-integrated-modem",
+    "vendor": "MediaTek",
+    "family": "Dimensity/Helio integrated 5G/LTE modem (M-series IP)",
+    "aliases": [
+      "MediaTek M80 modem",
+      "MediaTek M70 modem",
+      "Helio modem",
+      "Dimensity 5G modem"
+    ],
+    "part_numbers": [
+      "M70",
+      "M80"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "GSM",
+      "WCDMA",
+      "LTE",
+      "5G-NR",
+      "5G-mmWave"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "MediaTek proprietary modem DSP",
+      "re_tooling": [
+        "MobileInsight (partial)",
+        "MTK ELT / mtklog (proprietary)"
+      ]
+    },
+    "common_hardware": [
+      "Dimensity/Helio smartphones",
+      "MediaTek 5G tablets"
+    ],
+    "key_projects": [
+      {
+        "name": "MobileInsight",
+        "url": "http://www.mobileinsight.net"
+      }
+    ],
+    "status": "reported",
+    "notes": "Modem IP is integrated into Dimensity/Helio SoCs (no separately purchasable part). MediaTek diag (MTK ELT/catcher, mtklog) exists but tooling is proprietary and closed; public RE lags far behind Qualcomm. MobileInsight has only partial MediaTek support. Effectively Tier 0 black box with reported (non-open) diag. No IQ.",
+    "references": [
+      "http://www.mobileinsight.net"
+    ]
   },
   {
     "id": "mediatek-mt6631-mt6632",
@@ -10692,6 +11426,52 @@
     ]
   },
   {
+    "id": "mediatek-t750-t830-iot-modem",
+    "vendor": "MediaTek",
+    "family": "T-series 5G IoT / RedCap modem",
+    "aliases": [
+      "MediaTek T750",
+      "MediaTek T830",
+      "MT2735",
+      "MT2625"
+    ],
+    "part_numbers": [
+      "T750",
+      "T830",
+      "MT2735",
+      "MT2625"
+    ],
+    "bands": [
+      "sub-GHz",
+      "60GHz"
+    ],
+    "standards": [
+      "5G-NR",
+      "5G RedCap",
+      "5G-mmWave",
+      "LTE",
+      "NB-IoT"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "MediaTek proprietary modem DSP",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "5G FWA/CPE",
+      "5G IoT gateways",
+      "industrial routers"
+    ],
+    "key_projects": [],
+    "status": "reported",
+    "notes": "Standalone 5G IoT platforms (T830 supports mmWave/RedCap FWA; T750 sub-6 RedCap; MT2625 NB-IoT; MT2735 RedCap). Documented AT/host interface for module integrators but closed firmware and no open diag tooling. Tier 0 for SDR purposes. mmWave capability noted (60GHz enum is the closest bin; actual mmWave is 24-40 GHz). No IQ.",
+    "references": [
+      "http://www.mobileinsight.net"
+    ]
+  },
+  {
     "id": "ralink-rt2500",
     "vendor": "MediaTek",
     "family": "RT2500 / RT2570",
@@ -11528,6 +12308,37 @@
     "notes": "Second-gen Morse Micro HaLow SoC (CES 2025). World-first sub-GHz 256-QAM at 8 MHz, up to 43.33 Mbps; 5x5mm BGA; adds USB 2.0 host + MIPI RFFE alongside SDIO/SPI; integrated PA/LNA; 850-950 MHz. Host driver is open GPL mac80211 (monitor+injection reachable); radio PHY/MAC firmware is a closed binary blob with board-config (BCF) files and no public RE toolchain. No public CSI/spectral export."
   },
   {
+    "id": "myriota-module",
+    "vendor": "Myriota",
+    "family": "Myriota satellite-IoT module",
+    "aliases": [
+      "Myriota Module",
+      "Myriota FlexSense radio"
+    ],
+    "part_numbers": [],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "Myriota proprietary VHF store-and-forward"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "status": "reported",
+    "common_hardware": [
+      "Myriota Developer Toolkit",
+      "FlexSense tracker"
+    ],
+    "notes": "VHF (~160 MHz) low-power store-and-forward satellite-IoT module for the Myriota LEO network. Closed SDK/firmware, type-approved endpoint. Tier 0, no raw RF access.",
+    "references": [
+      "https://myriota.com/"
+    ]
+  },
+  {
     "id": "netgear-nighthawk-x10",
     "vendor": "Netgear",
     "family": "802.11ad WiGig router (QCA9500)",
@@ -12098,6 +12909,109 @@
     "notes": "2024 successor to nRF52. Documented multiprotocol RADIO with a 4 Mbps proprietary GFSK mode (highest of the family). radio_test/DTM in nRF Connect SDK."
   },
   {
+    "id": "nordic-nrf9151-sip",
+    "vendor": "Nordic Semiconductor",
+    "family": "nRF91 cellular-IoT SiP",
+    "aliases": [
+      "nRF9151",
+      "nRF9161"
+    ],
+    "part_numbers": [
+      "nRF9151",
+      "nRF9161"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "LTE-M",
+      "NB-IoT",
+      "DECT NR+",
+      "GNSS"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "Arm Cortex-M33 app core + separate signed closed-binary modem firmware",
+      "re_tooling": [
+        "nRF Connect Cellular Monitor",
+        "Trace Collector",
+        "nrf_modem_lib trace"
+      ]
+    },
+    "common_hardware": [
+      "nRF9151 DK",
+      "nRF9161 DK",
+      "compact cellular-IoT designs"
+    ],
+    "key_projects": [
+      {
+        "name": "nRF Connect SDK (modem trace)",
+        "url": "https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/test_and_optimize/testing/modem_trace.html"
+      }
+    ],
+    "status": "verified",
+    "notes": "Newer, smaller nRF91 parts adding DECT NR+ (a standalone 3GPP-adjacent PHY) alongside LTE-M/NB-IoT + GNSS. Same open AT + vendor modem-trace story as nRF9160 — Tier 1 measurement. DECT NR+ runs inside the same closed modem firmware; no PHY/IQ access. Intriguing for research precisely because DECT NR+ is a lighter, standalone standard, but still not repurposable to arbitrary IQ today.",
+    "references": [
+      "https://www.nordicsemi.com/Products/nRF9151"
+    ]
+  },
+  {
+    "id": "nordic-nrf9160-sip",
+    "vendor": "Nordic Semiconductor",
+    "family": "nRF91 cellular-IoT SiP",
+    "aliases": [
+      "nRF9160",
+      "nRF9160 SiP"
+    ],
+    "part_numbers": [
+      "nRF9160"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "LTE-M",
+      "NB-IoT",
+      "GPS"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "Arm Cortex-M33 app core + separate signed closed-binary modem firmware",
+      "re_tooling": [
+        "nRF Connect Cellular Monitor",
+        "Trace Collector",
+        "nrf_modem_lib trace",
+        "Wireshark"
+      ]
+    },
+    "common_hardware": [
+      "nRF9160 DK",
+      "Thingy:91",
+      "Actinius Icarus",
+      "cellular-IoT trackers"
+    ],
+    "key_projects": [
+      {
+        "name": "nRF Connect SDK (nrf_modem_lib / modem trace)",
+        "url": "https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/test_and_optimize/testing/modem_trace.html"
+      }
+    ],
+    "status": "verified",
+    "notes": "The friendliest cellular silicon for researchers: fully DOCUMENTED AT command set and VENDOR-SUPPORTED modem trace (nrf_modem_lib trace over UART/RTT, decoded by Nordic Cellular Monitor + Trace Collector into Wireshark) exposing LTE protocol layers, AT, and IP — a clean Tier 1 measurement capability. BUT the modem itself is a locked signed binary: no PHY access, no IQ, no arbitrary TX. GPS output is NMEA/PVT, not raw GNSS IQ. openness=partially-documented (AT/trace documented, modem firmware closed).",
+    "references": [
+      "https://www.nordicsemi.com/Products/nRF9160",
+      "https://docs.nordicsemi.com/bundle/ncs-latest/page/nrf/test_and_optimize/testing/modem_trace.html"
+    ]
+  },
+  {
     "id": "nuand-bladerf-2micro",
     "vendor": "Nuand",
     "family": "bladeRF 2.0 micro xA4 / xA9",
@@ -12598,6 +13512,44 @@
     "notes": "77 GHz RFCMOS radar transceiver (3TX/4RX), pairs with an S32R radar MCU that receives the raw ADC stream. Raw-IQ radar cube exists but access is behind NDA'd NXP tooling. Tier 4 radar.",
     "references": [
       "https://www.nxp.com/products/radio-frequency/radar-transceivers"
+    ]
+  },
+  {
+    "id": "nxp-tef810x-radar",
+    "vendor": "NXP",
+    "family": "NXP 77 GHz automotive radar transceiver",
+    "aliases": [
+      "TEF810X",
+      "MR3003"
+    ],
+    "part_numbers": [
+      "TEF810X",
+      "MR3003"
+    ],
+    "bands": [],
+    "standards": [
+      "76-81 GHz automotive radar (FMCW)"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "radar",
+      "fmcw",
+      "raw-iq"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "re_tooling": [
+        "requires NXP S32R radar MCU + chirp sequencer",
+        "NDA docs"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "NXP S32R274 + TEF810X radar reference design"
+    ],
+    "notes": "76-81 GHz RF-CMOS automotive radar transceiver (3TX/4RX) exposing raw ADC/IF. Technically an mmWave radar front-end but docs are NDA-gated and it requires the matching S32R radar processor and chirp sequencer; no open toolchain. Tier 3 (raw PHY exists but closed). Contrast TI AWR/IWR line, which is more hacker-accessible. mmWave band not in enum.",
+    "references": [
+      "https://www.nxp.com/products/radio-frequency/radar-transceivers:MC_71571"
     ]
   },
   {
@@ -13253,6 +14205,66 @@
     ],
     "status": "reported",
     "notes": "Net-new. Qorvo's integrated secure UWB SoC line (on-chip MCU + secure element) aimed at phones, secure access and CCC Digital Key. Unlike the DW3000/QM33 transceivers, the host does not get register-level access or the CIR accumulator -- it drives the sealed radio over FiRa UCI and receives ranging results. From an SDR standpoint this is a black box: tier 0, closed. Exact channel-access posture not publicly documented -> status reported."
+  },
+  {
+    "id": "qualcomm-baseband-diag",
+    "vendor": "Qualcomm",
+    "family": "Snapdragon/MDM modem subsystem (DIAG-capable)",
+    "aliases": [
+      "QCDM",
+      "Qualcomm DM",
+      "MSM modem",
+      "Hexagon modem"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "GSM",
+      "UMTS",
+      "LTE",
+      "5G NR"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Hexagon DSP modem subsystem + ARM control cores; signed/secure-boot firmware",
+      "re_tooling": [
+        "QCSuper",
+        "SCAT",
+        "MobileInsight",
+        "QXDM/QCAT"
+      ]
+    },
+    "common_hardware": [
+      "Rooted Qualcomm Android phones",
+      "USB LTE/5G dongles exposing a diag port"
+    ],
+    "key_projects": [
+      {
+        "name": "QCSuper",
+        "url": "https://github.com/P1sec/QCSuper"
+      },
+      {
+        "name": "SCAT",
+        "url": "https://github.com/fgsect/scat"
+      },
+      {
+        "name": "MobileInsight",
+        "url": "https://github.com/mobile-insight/mobileinsight-core"
+      }
+    ],
+    "part_numbers": [],
+    "status": "verified",
+    "notes": "NOT an SDR. The DIAG protocol yields decoded 2G/3G/4G/5G control-plane signaling (GSMTAP) and PHY measurement reports (RSRP/RSRQ/SINR, cell IDs, EARFCN). No IQ access, no arbitrary TX. Tier 1 = passive decoded-frame monitor. Cellular bands are approximated as sub-GHz in the Wi-Fi-oriented band enum; actual operation spans low sub-GHz through mid-band (~3.5 GHz) and mmWave.",
+    "references": [
+      "https://github.com/P1sec/QCSuper",
+      "https://github.com/fgsect/scat",
+      "https://github.com/mobile-insight/mobileinsight-core"
+    ]
   },
   {
     "id": "qualcomm-fastconnect-6200",
@@ -13977,62 +14989,181 @@
     "notes": "Quad Cortex-A73 Wi-Fi 7 (802.11be) with integrated tri-band radio on ath12k. Monitor/injection work; spectral and CSI in ath12k are still maturing as of 2026, so Tier 3 is aspirational/WIP rather than a shipped, verified feature. Frontier 320 MHz-capture platform."
   },
   {
+    "id": "qualcomm-mdm9x07-iot-modem",
+    "vendor": "Qualcomm",
+    "family": "MDM IoT modem (Cat-1 / Cat-M1)",
+    "aliases": [
+      "MDM9207",
+      "MDM9x07",
+      "MDM9607",
+      "MDM9206"
+    ],
+    "part_numbers": [
+      "MDM9207",
+      "MDM9207-1",
+      "MDM9x07",
+      "MDM9607",
+      "MDM9206"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "LTE",
+      "LTE Cat-1",
+      "LTE Cat-M1",
+      "NB-IoT",
+      "GSM"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Qualcomm ARM/Hexagon modem",
+      "re_tooling": [
+        "QCSuper",
+        "SCAT",
+        "MobileInsight"
+      ]
+    },
+    "common_hardware": [
+      "Quectel EC21/EC25 modules",
+      "Telit/Sierra/Simcom LTE modules",
+      "IoT gateways"
+    ],
+    "key_projects": [
+      {
+        "name": "QCSuper",
+        "url": "https://github.com/P1sec/QCSuper"
+      },
+      {
+        "name": "SCAT",
+        "url": "https://github.com/fgsect/scat"
+      }
+    ],
+    "status": "verified",
+    "notes": "Standalone LTE IoT modem silicon under Quectel/Telit/Sierra/Simcom modules. Commonly exposes a USB DIAG interface out of the box, so QCSuper/SCAT capture works reliably on dev hardware — GSMTAP signaling + RF measurement, Tier 1. Also a documented AT interface for control. No IQ, no PHY access.",
+    "references": [
+      "https://github.com/P1sec/QCSuper",
+      "https://github.com/fgsect/scat"
+    ]
+  },
+  {
+    "id": "qualcomm-mdm9x40-9650-modem",
+    "vendor": "Qualcomm",
+    "family": "MDM gigabit-class LTE modem",
+    "aliases": [
+      "MDM9x40",
+      "MDM9640",
+      "MDM9650",
+      "MDM9x50"
+    ],
+    "part_numbers": [
+      "MDM9x40",
+      "MDM9640",
+      "MDM9650",
+      "MDM9x50"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "LTE Cat-6",
+      "LTE Cat-9",
+      "LTE Cat-16",
+      "GSM",
+      "WCDMA"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Qualcomm Hexagon modem",
+      "re_tooling": [
+        "QCSuper",
+        "SCAT",
+        "MobileInsight"
+      ]
+    },
+    "common_hardware": [
+      "4G/early-5G mobile hotspots",
+      "automotive TCUs",
+      "M.2 LTE modem cards"
+    ],
+    "key_projects": [
+      {
+        "name": "QCSuper",
+        "url": "https://github.com/P1sec/QCSuper"
+      }
+    ],
+    "status": "verified",
+    "notes": "Carrier-aggregation LTE modems (Cat-6 up to gigabit-class) used in hotspots and automotive telematics. DIAG-based capture (QCSuper/SCAT) yields GSMTAP signaling + measurement reports — Tier 1. Closed firmware, no IQ.",
+    "references": [
+      "https://github.com/P1sec/QCSuper"
+    ]
+  },
+  {
     "id": "qualcomm-qca6390",
     "vendor": "Qualcomm",
-    "family": "ath11k (11ax)",
+    "family": "QCA639x / FastConnect 6800",
     "aliases": [
       "QCA6390",
-      "WCN6855",
-      "WCN6856",
-      "WCN685x",
-      "FastConnect 6800/6900"
+      "QCA6391",
+      "FastConnect 6800"
     ],
     "part_numbers": [
       "QCA6390",
-      "WCN6855",
-      "WCN6856"
-    ],
-    "standards": [
-      "802.11a",
-      "802.11n",
-      "802.11ac",
-      "802.11ax",
-      "Bluetooth 5.2"
+      "QCA6391"
     ],
     "bands": [
       "2.4GHz",
-      "5GHz",
-      "6GHz"
+      "5GHz"
     ],
-    "sdr_tier": 1,
+    "standards": [
+      "802.11ax",
+      "802.11ac",
+      "802.11n"
+    ],
+    "sdr_tier": 3,
     "sdr_capabilities": [
       "monitor",
       "spectral-scan"
     ],
     "firmware": {
-      "arch": "on-chip Tensilica/ARM, closed firmware blob loaded by ath11k",
       "openness": "closed",
+      "arch": "WMI firmware (WLAN.HSP.* branches), closed; dual host-driver identity — qcacld-3.0 on Android, ath11k on mainline Linux",
       "re_tooling": [
-        "ghidra"
+        "ath11k (mainline monitor + spectral)",
+        "qcacld-3.0",
+        "cnss_diag / pktlog",
+        "iw / debugfs spectral_scan"
       ]
     },
     "status": "reported",
     "common_hardware": [
-      "QCA6390 M.2 laptop cards",
-      "WCN6855 (Wi-Fi 6E laptops)",
-      "WCN6856 desktop/AP modules"
+      "Valve Steam Deck (LCD)",
+      "Snapdragon 865 phones (as QCA6391 FastConnect 6800)",
+      "M.2 combo cards",
+      "laptops"
     ],
     "key_projects": [
       {
-        "name": "ath11k driver",
-        "url": "https://wireless.wiki.kernel.org/en/users/drivers/ath11k"
+        "name": "ath11k (mainline Linux driver)",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
+      },
+      {
+        "name": "qcacld-3.0",
+        "url": "https://git.codelinaro.org/clo/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0"
       }
     ],
-    "sdr_reason": "Wi-Fi 6/6E on ath11k. Monitor mode works; ath11k carries a spectral path for some parts but end-to-end FFT dumps on these mobile SKUs are not turnkey — reported, not verified. CSI is research-stage. Practically Tier 1.",
-    "notes": "WCN685x = FastConnect 6800/6900 (6E). QCA6390 firmware < a certain version had host-memory-below-32MB bugs. spectral-scan flag is aspirational for these parts.",
+    "notes": "Wi-Fi 6 (2.4/5 GHz) combo. On stock Android (qcacld) it is FullMAC-locked to Tier 0-1 (pktlog metadata). Same silicon under mainline ath11k gives monitor mode (verified in driver family) and spectral scan (reported on this specific mobile part; well-trodden on AP/IPQ parts) — hence Tier 3 via the escape-hatch route, no firmware RE. Steam Deck is a cheap ath11k lab target. Still no clean host CSI.",
     "references": [
-      "https://wireless.wiki.kernel.org/en/users/drivers/ath11k",
-      "https://wikidevi.wi-cat.ru/Ath11k"
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html",
+      "https://git.codelinaro.org/clo/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0"
     ]
   },
   {
@@ -14215,6 +15346,45 @@
       "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
     ],
     "notes": "Automotive (QCA6595AU) Wi-Fi 6E + BT combo for Snapdragon Auto platforms, ath11k, closed firmware. Monitor practical (Tier 1). Status reported."
+  },
+  {
+    "id": "qualcomm-qca6595-sensing",
+    "vendor": "Qualcomm",
+    "family": "QCA659x / FastConnect (Wi-Fi sensing)",
+    "aliases": [
+      "QCA6595",
+      "QCA6595AU",
+      "FastConnect Wi-Fi Sensing"
+    ],
+    "part_numbers": [
+      "QCA6595",
+      "QCA6595AU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11ax",
+      "802.11bf (aligned)"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "closed WMI firmware; Wi-Fi sensing computed in-firmware, exposed only via a vendor sensing SDK as cooked presence/motion events",
+      "re_tooling": []
+    },
+    "status": "reported",
+    "common_hardware": [
+      "automotive infotainment / in-cabin sensing modules",
+      "6E-class FastConnect designs"
+    ],
+    "notes": "The productized/defensive flip side: Qualcomm ships Wi-Fi sensing (motion/presence, 802.11bf-aligned) as a firmware feature with a vendor SDK. The chip does the sensing internally and surfaces only decisions/events — the raw CSI researchers want is never exposed. Black-box Tier 0; the mirror image of the reverse-engineering effort. No researcher-accessible IQ or per-subcarrier CSI.",
+    "references": [
+      "https://git.codelinaro.org/clo/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0"
+    ]
   },
   {
     "id": "qualcomm-qca6696",
@@ -14990,6 +16160,86 @@
     ]
   },
   {
+    "id": "qualcomm-snapdragon-x-modem",
+    "vendor": "Qualcomm",
+    "family": "Snapdragon X-series modem-RF",
+    "aliases": [
+      "Snapdragon X12",
+      "Snapdragon X16",
+      "Snapdragon X20",
+      "Snapdragon X24",
+      "Snapdragon X50",
+      "Snapdragon X55",
+      "Snapdragon X60",
+      "Snapdragon X65",
+      "Snapdragon X70",
+      "Snapdragon X75",
+      "MPSS"
+    ],
+    "part_numbers": [
+      "X12",
+      "X16",
+      "X20",
+      "X24",
+      "X50",
+      "X55",
+      "X60",
+      "X65",
+      "X70",
+      "X75"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "GSM",
+      "WCDMA",
+      "LTE",
+      "5G-NR",
+      "5G-mmWave"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Qualcomm Hexagon (modem subsystem / MPSS)",
+      "re_tooling": [
+        "QCSuper",
+        "SCAT",
+        "MobileInsight",
+        "SnoopSnitch"
+      ]
+    },
+    "common_hardware": [
+      "Snapdragon flagship phones",
+      "standalone M.2/PCIe 5G modem cards",
+      "5G CPE/hotspots"
+    ],
+    "key_projects": [
+      {
+        "name": "QCSuper",
+        "url": "https://github.com/P1sec/QCSuper"
+      },
+      {
+        "name": "SCAT",
+        "url": "https://github.com/fgsect/scat"
+      },
+      {
+        "name": "MobileInsight",
+        "url": "http://www.mobileinsight.net"
+      }
+    ],
+    "status": "verified",
+    "notes": "Closed signed MPSS firmware. Access via Qualcomm DIAG/QCDM gives decoded 2G/3G/4G/5G signaling (GSMTAP pcap) plus RF measurement reports (RSRP/RSRQ/SINR, serving+neighbor cells, timing advance) — Tier 1 MEASUREMENT ONLY, not IQ. Diag exposure depends on the host device (engineering/dev hardware exposes /dev/ttyUSB* diag; locked retail phones usually fuse it off). No PHY, no raw IQ, no arbitrary TX. Cellular bands span ~600 MHz to mmWave (24-40 GHz); only low-band maps to the sub-GHz enum, full range noted here.",
+    "references": [
+      "https://github.com/P1sec/QCSuper",
+      "https://github.com/fgsect/scat",
+      "https://www.qualcomm.com/products/technology/modems/snapdragon-x75-5g-modem-rf-system"
+    ]
+  },
+  {
     "id": "qualcomm-wcn3610",
     "vendor": "Qualcomm",
     "family": "WCN36xx (wcn36xx)",
@@ -15175,51 +16425,60 @@
   {
     "id": "qualcomm-wcn3990",
     "vendor": "Qualcomm",
-    "family": "ath10k (mobile SoC, snoc)",
+    "family": "WCN39xx",
     "aliases": [
       "WCN3990",
-      "WCN3998"
+      "WCN3998",
+      "WCN3980",
+      "WCN3660",
+      "WCN3680"
     ],
     "part_numbers": [
-      "WCN3990",
-      "WCN3998"
-    ],
-    "standards": [
-      "802.11a",
-      "802.11n",
-      "802.11ac",
-      "Bluetooth 5"
+      "WCN3990"
     ],
     "bands": [
       "2.4GHz",
       "5GHz"
+    ],
+    "standards": [
+      "802.11a",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ac"
     ],
     "sdr_tier": 1,
     "sdr_capabilities": [
       "monitor"
     ],
     "firmware": {
-      "arch": "integrated mobile radio, closed firmware (ath10k snoc/WCN)",
       "openness": "closed",
+      "arch": "on-chip WLAN microcontroller running Qualcomm WMI-driven RTOS firmware (WLAN.HL.* branches); signed on production phones",
       "re_tooling": [
-        "ghidra"
+        "qcacld-3.0 (source-available host driver)",
+        "fw-api (WMI headers)",
+        "cnss_diag / pktlog",
+        "athdiag"
       ]
     },
     "status": "reported",
     "common_hardware": [
-      "Snapdragon 660/845-era phones",
-      "integrated WCN3990 Wi-Fi/BT"
+      "Google Pixel 3 (SDM845)",
+      "OnePlus 6/6T",
+      "Xiaomi Mi 8",
+      "96Boards DragonBoard 845c",
+      "many SDM660/SDM845 phones"
     ],
     "key_projects": [
       {
-        "name": "ath10k (snoc/WCN)",
-        "url": "https://wireless.wiki.kernel.org/en/users/drivers/ath10k"
+        "name": "qcacld-3.0 host driver",
+        "url": "https://git.codelinaro.org/clo/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0"
       }
     ],
-    "sdr_reason": "Integrated phone Wi-Fi driven by ath10k over the snoc bus; closed firmware limits it to monitor-class use. No public CSI/spectral path.",
-    "notes": "The QCA6174-class radio integrated into Snapdragon platforms. Catalogued to mark the mobile frontier.",
+    "notes": "FullMAC 802.11ac combo in mid/high-end phones ~2018. nexmon does NOT apply (not Broadcom). Host driver qcacld-3.0 is source-available (ISC/BSD-style), but PHY/MAC live in closed WMI firmware. Realistically yields pktlog per-PPDU metadata (rate, per-chain RSSI, timestamps) via cnss_diag (Tier 1) and, on some firmware branches, a monitor/packet-capture mode (reported). No documented host CSI; injection has no known mobile path (theoretical).",
     "references": [
-      "https://wireless.wiki.kernel.org/en/users/drivers/ath10k"
+      "https://git.codelinaro.org/clo/la/platform/vendor/qcom-opensource/wlan/qcacld-3.0",
+      "https://source.android.com/docs/core/connect/wifi-rtt"
     ]
   },
   {
@@ -15312,46 +16571,55 @@
   {
     "id": "qualcomm-wcn6855",
     "vendor": "Qualcomm",
-    "family": "WCN68xx (ath11k)",
+    "family": "WCN685x / FastConnect 6900",
     "aliases": [
       "WCN6855",
+      "WCN6856",
       "FastConnect 6900"
     ],
-    "standards": [
-      "802.11ax"
+    "part_numbers": [
+      "WCN6855",
+      "WCN6856"
     ],
     "bands": [
       "2.4GHz",
       "5GHz",
       "6GHz"
     ],
-    "sdr_tier": 1,
+    "standards": [
+      "802.11ax"
+    ],
+    "sdr_tier": 3,
     "sdr_capabilities": [
-      "monitor"
+      "monitor",
+      "spectral-scan"
     ],
     "firmware": {
       "openness": "closed",
+      "arch": "WMI firmware, closed; dual host-driver identity — qcacld-3.0 on Android, ath11k (hw2.0/2.1, Linux v5.17) on mainline",
       "re_tooling": [
-        "Ghidra"
+        "ath11k",
+        "qcacld-3.0",
+        "cnss_diag / pktlog"
       ]
     },
     "status": "reported",
-    "part_numbers": [
-      "WCN6855"
-    ],
     "common_hardware": [
-      "FastConnect 6900 laptop/desktop Wi-Fi 6E + BT (Dell/Lenovo, NGFF cards)"
+      "Snapdragon 888 / 8 Gen 1 phones (FastConnect 6900)",
+      "Steam Deck OLED",
+      "M.2 combo cards",
+      "laptops"
     ],
     "key_projects": [
       {
-        "name": "ath11k",
+        "name": "ath11k (mainline Linux driver)",
         "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
       }
     ],
+    "notes": "Wi-Fi 6E (adds 6 GHz) flagship combo. Same story as QCA6390: FullMAC-locked under Android qcacld (Tier 0-1 pktlog); mainline ath11k (supported since Linux v5.17) provides monitor mode (verified in family) and spectral scan (reported on mobile part). No documented per-subcarrier host CSI.",
     "references": [
       "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
-    ],
-    "notes": "FastConnect 6900 Wi-Fi 6E + Bluetooth combo (WCN6855 die), an explicitly ath11k-supported chip (kernel lists WCN6855 hw2.0/hw2.1) common in laptops. Closed firmware; monitor practical (Tier 1). ath11k has an in-tree spectral path but it is not validated on this mobile part, so spectral stays aspirational. Status reported."
+    ]
   },
   {
     "id": "qualcomm-wcn7850",
@@ -15914,6 +17182,51 @@
     "notes": "PCIe sibling of the AR5416 (the first Atheros 802.11n MAC, AR5008 chipset, with the AR5133 radio), handled by ath9k. Predates the AR9002 spectral-scan register interface, so no spectral or CSI — same ceiling as AR5416. SoftMAC monitor + injection only. Tier 1."
   },
   {
+    "id": "atheros-ar7010",
+    "vendor": "Qualcomm Atheros",
+    "family": "Atheros ath9k_htc (USB bridge SoC)",
+    "aliases": [
+      "AR7010"
+    ],
+    "part_numbers": [
+      "AR7010"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11n (2x2, dual-band via AR9280/AR9287 companion)"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "Tensilica Xtensa MAC firmware (open-ath9k-htc-firmware)",
+      "openness": "open",
+      "re_tooling": [
+        "open-ath9k-htc-firmware build (cmake + Xtensa toolchain)"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "open-ath9k-htc-firmware",
+        "url": "https://github.com/qca/open-ath9k-htc-firmware"
+      }
+    ],
+    "status": "verified",
+    "common_hardware": [
+      "USB 11n dongles: AR7010 bridge + AR9280/AR9287 (e.g. Alfa AWUS051NH, Netgear WNDA3200)"
+    ],
+    "notes": "CORRECTED (Cycle 6): AR7010 is a USB/PCIe bridge SoC paired with an AR928x PHY companion; the open firmware is the same open-ath9k-htc-firmware. Open MAC firmware over a closed silicon PHY = monitor+injection (Tier 1) + open-firmware flag, not Tier 5. Upstream dormant (last commit 2023-11-03).",
+    "references": [
+      "https://github.com/qca/open-ath9k-htc-firmware"
+    ]
+  },
+  {
     "id": "atheros-ar9160",
     "vendor": "Qualcomm Atheros",
     "family": "AR9001 (ath9k)",
@@ -15958,6 +17271,52 @@
       "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k.html"
     ],
     "notes": "First-gen 802.11n MAC (AR9001) paired with an external AR9103/AR9106 radio; the AP81/AP83 router reference. Baseband predates the AR9280 (AR9002) spectral-scan capability bit, so ath9k exposes monitor + injection but no spectral/CSI. Tier 1."
+  },
+  {
+    "id": "atheros-ar9170",
+    "vendor": "Qualcomm Atheros",
+    "family": "Atheros AR9170 (USB 802.11n, carl9170)",
+    "aliases": [
+      "AR9170",
+      "Otus"
+    ],
+    "part_numbers": [
+      "AR9170"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11n (via AR9101/AR9104 companion PHY)"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "open-firmware"
+    ],
+    "firmware": {
+      "arch": "AR9170 on-chip MAC microcontroller (open carl9170 firmware)",
+      "openness": "open",
+      "re_tooling": [
+        "carl9170fw build (KConfig + CMake cross-toolchain)"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "carl9170fw",
+        "url": "https://github.com/chunkeey/carl9170fw"
+      }
+    ],
+    "status": "verified",
+    "common_hardware": [
+      "USB 11n dongles using AR9170 + AR9101/AR9104 (e.g. some TP-Link/Netgear/D-Link)"
+    ],
+    "notes": "CORRECTED (Cycle 6): open MAC firmware, best-maintained of the open Wi-Fi firmwares (carl9170fw last commit 2026-08-07, active). Still a fixed silicon PHY: monitor+injection (Tier 1) + open-firmware flag, no raw IQ / arbitrary waveform. Not Tier 5.",
+    "references": [
+      "https://github.com/chunkeey/carl9170fw"
+    ]
   },
   {
     "id": "atheros-ar9220",
@@ -16114,10 +17473,10 @@
   {
     "id": "atheros-ar9271",
     "vendor": "Qualcomm Atheros",
-    "family": "AR9271 (ath9k_htc USB)",
+    "family": "Atheros ath9k_htc (USB 802.11n)",
     "aliases": [
       "AR9271",
-      "TL-WN722N v1 chipset"
+      "Alfa AWUS036NHA chipset"
     ],
     "part_numbers": [
       "AR9271"
@@ -16126,42 +17485,37 @@
       "2.4GHz"
     ],
     "standards": [
-      "802.11n"
+      "802.11n (2.4 GHz, 1x1)"
     ],
-    "sdr_tier": 3,
+    "sdr_tier": 1,
     "sdr_capabilities": [
       "monitor",
       "injection",
-      "spectral-scan"
+      "open-firmware"
     ],
     "firmware": {
+      "arch": "Tensilica Xtensa MAC firmware (open-ath9k-htc-firmware; ClearBSD/MIT/GPLv2)",
       "openness": "open",
-      "arch": "Xtensa (open-ath9k-htc-firmware)",
       "re_tooling": [
-        "open-ath9k-htc-firmware",
-        "FFT_eval"
+        "open-ath9k-htc-firmware build (cmake + Xtensa toolchain)"
       ]
     },
-    "status": "reported",
-    "common_hardware": [
-      "TP-Link TL-WN722N v1",
-      "Atheros AR9271 USB dongles"
-    ],
     "key_projects": [
-      {
-        "name": "FFT_eval",
-        "url": "https://github.com/simonwunderlich/FFT_eval"
-      },
       {
         "name": "open-ath9k-htc-firmware",
         "url": "https://github.com/qca/open-ath9k-htc-firmware"
       }
     ],
-    "references": [
-      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath9k/spectral_scan.html",
-      "https://github.com/simonwunderlich/FFT_eval"
+    "status": "verified",
+    "common_hardware": [
+      "Alfa AWUS036NHA",
+      "TP-Link TL-WN721N / TL-WN422G v2",
+      "many AR9271 USB dongles"
     ],
-    "notes": "ANNOTATION (merge on id): Tier 3 confirmed but with caveat. Spectral works ONLY with CONFIG_ATH9K_HTC_DEBUGFS compiled in; FFT bins ride the HTC-over-USB transport (lower throughput, more jitter than PCIe ath9k). Second-class but reproducible. debugfs path under /sys/kernel/debug/ieee80211/phyN/ath9k/."
+    "notes": "CORRECTED (Cycle 6): open MAC firmware, NOT an open PHY. The firmware source is rebuildable and gives excellent monitor+injection (Tier 1) plus MAC-timing control; it does not expose raw IQ or arbitrary waveform. ath9k-family spectral-scan FFT (potentially Tier 3) is a separate silicon PHY-diagnostic feature, strongest on PCIe AR92xx/AR93xx siblings and tracked in chips/qualcomm-atheros.md, NOT conferred by the open firmware. Upstream repo dormant (last commit 2023-11-03). Not Tier 5.",
+    "references": [
+      "https://github.com/qca/open-ath9k-htc-firmware"
+    ]
   },
   {
     "id": "atheros-ar9280",
@@ -20597,6 +21951,92 @@
     "notes": "Cortex-M33 SmartBond with coprocessor-driven radio, higher TX power, ble_test/radio test path and an SDK radio API. DA1470x extends flash/graphics. Documented proprietary 2.4 GHz modes on the newer parts."
   },
   {
+    "id": "renesas-da16200-wifi",
+    "vendor": "Renesas",
+    "family": "DA16200 ultra-low-power Wi-Fi 4 SoC",
+    "aliases": [
+      "DA16200",
+      "DA16600"
+    ],
+    "part_numbers": [
+      "DA16200",
+      "DA16200MOD",
+      "DA16600"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "ARM Cortex-M4 + FreeRTOS SDK",
+      "re_tooling": [
+        "Renesas DA16200 SDK"
+      ]
+    },
+    "status": "reported",
+    "common_hardware": [
+      "DA16200MOD module",
+      "DA16200 Pmod / dev kit"
+    ],
+    "notes": "Ultra-low-power single-band (2.4 GHz) Wi-Fi 4 SoC with integrated Cortex-M4 and FreeRTOS SDK. Closed PHY; the SDK exposes a promiscuous/monitor RX path at best, with no documented CSI, injection, or raw-PHY access. Tier 1 (monitor plausible, injection/CSI unverified). Net-new Wi-Fi entry. Module vendors (Telit, Quectel, SparkLAN, Silex) are NOT distinct silicon - their SDR ceiling equals the underlying Realtek/Atheros/Cypress/Marvell die; identify via FCC-ID internal photos.",
+    "references": [
+      "https://www.renesas.com/en/products/wireless-connectivity/wi-fi/low-power-wi-fi/da16200-ultra-low-power-wi-fi-soc-battery-powered-iot-devices"
+    ]
+  },
+  {
+    "id": "richwave-rtc6705-fpv-vtx",
+    "vendor": "Richwave",
+    "family": "RTC6705 5.8 GHz analog-FM video Tx",
+    "aliases": [
+      "RTC6705"
+    ],
+    "part_numbers": [
+      "RTC6705"
+    ],
+    "bands": [
+      "5GHz"
+    ],
+    "standards": [
+      "Analog FM video (composite baseband)",
+      "5645-5945 MHz FPV band"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "arbitrary-waveform",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "re_tooling": [
+        "Betaflight vtx_rtc6705 driver",
+        "SmartAudio/Tramp protocols",
+        "community-RE'd SPI register map"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "TBS Unify Pro and most analog FPV VTXes",
+      "RX5808 companion receiver module"
+    ],
+    "key_projects": [
+      {
+        "name": "Betaflight (vtx_rtc6705.c)",
+        "url": "https://github.com/betaflight/betaflight/blob/master/src/main/drivers/vtx_rtc6705.c"
+      }
+    ],
+    "notes": "5.8 GHz analog FM video transmitter IC: SPI-programmable carrier across 5645-5945 MHz, FM-modulates an ARBITRARY analog baseband input. Not IQ and single-modulation, but a genuine programmable-carrier transmitter of arbitrary baseband -> Tier 3 (arbitrary-waveform analog FM + covert-channel). SPI map is a first-class Betaflight driver. Companion RX5808 is a tunable 5.8 GHz FM downconverter with analog RSSI, occasionally used as a crude power sniffer.",
+    "references": [
+      "https://github.com/betaflight/betaflight/blob/master/src/main/drivers/vtx_rtc6705.c"
+    ]
+  },
+  {
     "id": "rockchip-realtek-combo-pairing",
     "vendor": "Rockchip",
     "family": "RK-Realtek/Broadcom pairing",
@@ -20670,6 +22110,117 @@
     ],
     "status": "reported",
     "notes": "Net-new. Samsung's own FiRa-certified UWB IC (AoA-capable) used in Galaxy phones and the SmartTag2. Exposed to apps via the Android UWB API over FiRa UCI; closed firmware with no CIR/channel access. Tier 0 black box for SDR purposes; details on any raw access not public -> status reported."
+  },
+  {
+    "id": "samsung-shannon-modem",
+    "vendor": "Samsung",
+    "family": "Exynos Modem (Shannon baseband)",
+    "aliases": [
+      "Shannon 5123",
+      "Shannon 5300",
+      "Exynos Modem 5100",
+      "Shannon baseband"
+    ],
+    "part_numbers": [
+      "Shannon 5123",
+      "Shannon 5300",
+      "Exynos Modem 5100"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "GSM",
+      "WCDMA",
+      "LTE",
+      "5G-NR",
+      "5G-mmWave"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Samsung Shannon modem core (ARM-based)",
+      "re_tooling": [
+        "SCAT (-t sec)",
+        "TASZK/Comsecuris Shannon baseband research"
+      ]
+    },
+    "common_hardware": [
+      "Exynos-based Galaxy phones",
+      "5G companion-modem designs"
+    ],
+    "key_projects": [
+      {
+        "name": "SCAT",
+        "url": "https://github.com/fgsect/scat"
+      }
+    ],
+    "status": "verified",
+    "notes": "Samsung's in-house baseband (codename Shannon). SCAT supports Shannon diag via `-t sec`, yielding GSMTAP control-plane capture — Tier 1 measurement. Heavy target of baseband security research (over-the-air Shannon exploitation), but the firmware remains a closed signed image. No IQ, no PHY.",
+    "references": [
+      "https://github.com/fgsect/scat"
+    ]
+  },
+  {
+    "id": "samsung-shannon-modem-diag",
+    "vendor": "Samsung",
+    "family": "Exynos Modem (Shannon)",
+    "aliases": [
+      "Shannon baseband",
+      "Exynos modem",
+      "SEC diag"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "GSM",
+      "UMTS",
+      "LTE",
+      "5G NR"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "ARM Cortex-R modem cores; signed firmware with MPU-protected regions",
+      "re_tooling": [
+        "SCAT (-t sec)",
+        "shannonRE",
+        "FirmWire",
+        "IDA Pro"
+      ]
+    },
+    "common_hardware": [
+      "Exynos-based Samsung Galaxy phones (non-Qualcomm SKUs)"
+    ],
+    "key_projects": [
+      {
+        "name": "SCAT",
+        "url": "https://github.com/fgsect/scat"
+      },
+      {
+        "name": "shannonRE",
+        "url": "https://github.com/Comsecuris/shannonRE"
+      },
+      {
+        "name": "FirmWire",
+        "url": "https://github.com/FirmWire/FirmWire"
+      }
+    ],
+    "part_numbers": [],
+    "status": "verified",
+    "notes": "NOT an SDR. SCAT '-t sec' decodes Shannon diagnostic messages to GSMTAP. shannonRE (Comsecuris, RECON 2016) and FirmWire (NDSS 2022) enable firmware RE/emulation/fuzzing — security research, not IQ access. Band enum approximated as sub-GHz.",
+    "references": [
+      "https://github.com/fgsect/scat",
+      "https://github.com/Comsecuris/shannonRE",
+      "https://github.com/FirmWire/FirmWire"
+    ]
   },
   {
     "id": "sdrplay-rsp",
@@ -20747,6 +22298,55 @@
     "notes": "Cost-reduced SX1262: same command set and CW mode but LoRa SF5-SF11 only (no SF12) and reduced max bandwidth. Same Tier 1 register-level repurposing as SX126x; note missing SF12 when emulating long-range links.",
     "references": [
       "https://www.semtech.com/products/wireless-rf/lora-connect/llcc68"
+    ]
+  },
+  {
+    "id": "semtech-lr1120",
+    "vendor": "Semtech",
+    "family": "LR11xx LoRa Connect",
+    "aliases": [
+      "LR1120",
+      "LR1121"
+    ],
+    "part_numbers": [
+      "LR1120",
+      "LR1121"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "LoRa",
+      "LR-FHSS",
+      "(G)FSK",
+      "S-band satellite DtS"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "internal MCU (closed) + register-documented radio",
+      "re_tooling": []
+    },
+    "status": "reported",
+    "common_hardware": [
+      "Semtech LR11xx EVK",
+      "LoRa Edge trackers",
+      "direct-to-satellite IoT trackers"
+    ],
+    "key_projects": [
+      {
+        "name": "Semtech LR11xx driver (lr11xx_driver)",
+        "url": "https://github.com/Lora-net/SWDR001"
+      }
+    ],
+    "notes": "Multi-band LoRa/(G)FSK transceiver covering sub-GHz (150-960 MHz), 2.4 GHz ISM, and an S-band segment (~1.9-2.1 GHz) for direct-to-satellite LEO IoT. Register interface fully documented but it is a fixed modem: programmable LoRa/LR-FHSS/FSK/OOK/CW only, no raw IQ, no CSI, no spectral scan. Tier 1 covert-channel/FSK-abuse ceiling. S-band TX is licensed to sat operators only.",
+    "references": [
+      "https://www.semtech.com/products/wireless-rf/lora-connect/lr1120",
+      "https://github.com/Lora-net/SWDR001"
     ]
   },
   {
@@ -20926,6 +22526,52 @@
     "notes": "LoRa in the 2.4 GHz ISM band, plus FLRC and (G)FSK. Hardware round-trip time-of-flight RANGING engine (cooperative ToF distance, not radar) and BLE-PHY compatibility so it can emit/sniff raw BLE-shaped 1 Mbps GFSK frames. Tier 1 transceiver; ranging is its distinguishing hook -> cross-link ftm-rtt-ranging. SX1281 is the reduced-package variant.",
     "references": [
       "https://www.semtech.com/products/wireless-rf/lora-connect/sx1280"
+    ]
+  },
+  {
+    "id": "sequans-monarch-modem",
+    "vendor": "Sequans",
+    "family": "Monarch / Calliope cellular-IoT modem",
+    "aliases": [
+      "Sequans Monarch",
+      "Monarch 2",
+      "GM01Q",
+      "GM02SP",
+      "Calliope"
+    ],
+    "part_numbers": [
+      "Monarch",
+      "Monarch 2 GM02SP",
+      "GM01Q",
+      "Calliope"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "LTE-M",
+      "NB-IoT",
+      "LTE Cat-1"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Sequans proprietary LTE-IoT modem",
+      "re_tooling": [
+        "AT command interface (documented for licensees)"
+      ]
+    },
+    "common_hardware": [
+      "LTE-M/NB-IoT trackers",
+      "smart-meter modules",
+      "wearables"
+    ],
+    "key_projects": [],
+    "status": "reported",
+    "notes": "Purpose-built LTE-M/NB-IoT modems (Monarch/Monarch 2 add GNSS; Calliope is Cat-1). Interface is a documented AT command set plus a proprietary licensee-only logging tool. Firmware closed. You get control + measurement AT responses (signal quality, cell info) — Tier 0, no diag-grade OTA capture, no IQ.",
+    "references": [
+      "https://www.sequans.com/products/monarch-2/"
     ]
   },
   {
@@ -21457,6 +23103,100 @@
     "notes": "Looks like a Tier-1 candidate (mainline wfx mac80211 driver, in-tree since 5.5) but is honestly Tier 0: wfx_add_interface() only accepts NL80211_IFTYPE_STATION/ADHOC/AP and returns -EOPNOTSUPP for NL80211_IFTYPE_MONITOR (verified in drivers/net/wireless/silabs/wfx/sta.c), and the firmware is signed and closed. No public monitor/raw/CSI path. Included as an accuracy correction to the 'softmac must equal Tier 1' assumption. Net-new record."
   },
   {
+    "id": "sige-se4110-gnss-frontend",
+    "vendor": "Skyworks",
+    "family": "SE4110 / SE4120",
+    "aliases": [
+      "SiGe SE4110L",
+      "SE4120 Stereo",
+      "GN3S Sampler front-end"
+    ],
+    "part_numbers": [
+      "SE4110L",
+      "SE4120"
+    ],
+    "standards": [
+      "GPS L1 C/A",
+      "Galileo E1",
+      "GLONASS L1"
+    ],
+    "sdr_tier": 3,
+    "sdr_capabilities": [
+      "raw-iq",
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "n/a (RF front-end IC, no firmware; sampler USB glue firmware is separate)",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "SparkFun GN3S Sampler v2/v3 (USB GPS L1 IF capture dongle)",
+      "NSL Stereo front-end"
+    ],
+    "key_projects": [
+      {
+        "name": "GNSS-SDR",
+        "url": "https://github.com/gnss-sdr/gnss-sdr"
+      }
+    ],
+    "status": "reported",
+    "notes": "GPS L1 (SE4110) and dual-band (SE4120 'Stereo') GNSS RF front-ends. SE4110 is the front-end inside the classic SparkFun GN3S Sampler, one of the original tools that streamed raw GPS L1 IF samples to a PC for offline software correlation. Same story as MAX2769: RX-only, quantized IF out, single/dual GNSS band, no TX. Tier 3 raw-PHY RX front-end. Marked reported (front-end widely documented; some exact SE4120 band details vary by variant).",
+    "references": [
+      "https://github.com/gnss-sdr/gnss-sdr",
+      "https://gnss-sdr.org/"
+    ]
+  },
+  {
+    "id": "skyworks-se4150l-gnss-frontend",
+    "vendor": "Skyworks",
+    "family": "SE41xx GPS L1 RF front-end",
+    "aliases": [
+      "SE4150L",
+      "SE4150",
+      "SE4110",
+      "SE4120"
+    ],
+    "part_numbers": [
+      "SE4150L"
+    ],
+    "bands": [],
+    "standards": [
+      "GPS L1 1575.42 MHz",
+      "GLONASS L1",
+      "Galileo E1"
+    ],
+    "sdr_tier": 4,
+    "sdr_capabilities": [
+      "raw-iq",
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "re_tooling": [
+        "SPI/register config",
+        "GNSS-SDR",
+        "SoftGNSS (Borre/Akos)"
+      ]
+    },
+    "status": "verified",
+    "common_hardware": [
+      "SiGe GN3S Sampler v3",
+      "NSL Stereo front-end lineage",
+      "Borre/Akos textbook GPS front-ends"
+    ],
+    "key_projects": [
+      {
+        "name": "GNSS-SDR",
+        "url": "https://gnss-sdr.org/"
+      }
+    ],
+    "notes": "Single-band GPS/GNSS L1 front-end outputting 2-bit sign/magnitude raw IF samples - the classic academic SDR-GPS front-end (SiGe GN3S sampler, Borre/Akos software receiver). Genuine raw IF, RECEIVE ONLY, single band and coarse quantization -> Tier 4 (below the multi-band MAX2771). L-band not in band enum.",
+    "references": [
+      "https://www.skyworksinc.com/en/Products/Timing/GPS-Receivers"
+    ]
+  },
+  {
     "id": "st-bluenrg",
     "vendor": "STMicroelectronics",
     "family": "BlueNRG",
@@ -21628,6 +23368,39 @@
     "references": [
       "https://www.st.com/en/microcontrollers-microprocessors/stm32wle5jc.html",
       "https://github.com/jgromes/RadioLib"
+    ]
+  },
+  {
+    "id": "swarm-m138",
+    "vendor": "Swarm Technologies",
+    "family": "Swarm satellite-IoT modem",
+    "aliases": [
+      "Swarm M138",
+      "M138 modem"
+    ],
+    "part_numbers": [
+      "M138"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "Swarm proprietary VHF"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "re_tooling": []
+    },
+    "status": "reported",
+    "common_hardware": [
+      "Swarm Eval Kit",
+      "Swarm Asset Tracker"
+    ],
+    "notes": "VHF store-and-forward satellite-IoT modem (downlink ~137 MHz, uplink ~148 MHz). Closed MCU + proprietary transceiver behind a UART AT-style API; type-approved for the Swarm constellation only. No RF/IQ access. Tier 0. Transmitting on the VHF uplink outside the network is unlawful.",
+    "references": [
+      "https://swarm.space/product/swarm-m138-modem/"
     ]
   },
   {
@@ -22834,6 +24607,156 @@
       "https://github.com/seemoo-lab/talon-sector-patterns",
       "https://www.merl.com/publications/docs/TR2020-054.pdf",
       "https://dspace.networks.imdea.org/bitstream/handle/20.500.12761/475/Compressive%20Millimeter-Wave_%20conext17-.pdf?sequence=1&isAllowed=y"
+    ]
+  },
+  {
+    "id": "ublox-neo-m8t-rawx",
+    "vendor": "u-blox",
+    "family": "NEO-M8 (M8T timing)",
+    "aliases": [
+      "u-blox NEO-M8T",
+      "LEA-M8T",
+      "NEO-M8P",
+      "single-band raw GNSS"
+    ],
+    "part_numbers": [
+      "NEO-M8T",
+      "LEA-M8T",
+      "NEO-M8P"
+    ],
+    "standards": [
+      "GPS L1 C/A",
+      "GLONASS L1",
+      "Galileo E1",
+      "BeiDou B1",
+      "UBX RXM-RAWX",
+      "UBX RXM-SFRBX",
+      "NMEA"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "closed u-blox GNSS baseband; public UBX interface description",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "CSG Shop NEO-M8T board",
+      "timing/RTK reference-station kits"
+    ],
+    "key_projects": [
+      {
+        "name": "RTKLIB",
+        "url": "https://github.com/tomojitakasu/RTKLIB"
+      }
+    ],
+    "status": "verified",
+    "notes": "Single-band but raw-capable u-blox modules (timing M8T / precision M8P) exposing UBX-RXM-RAWX carrier-phase + RXM-SFRBX raw nav bits, ~$40-75 -> the affordable entry to raw carrier phase and RTKLIB-based RTK/PPP. Tier 2 (measurement/phase layer). RX-only correlator, no IQ, no TX, firmware closed.",
+    "references": [
+      "https://www.u-blox.com/en/product/neo-m8t-series",
+      "https://github.com/tomojitakasu/RTKLIB"
+    ]
+  },
+  {
+    "id": "ublox-sara-cellular-module",
+    "vendor": "u-blox",
+    "family": "SARA cellular module",
+    "aliases": [
+      "SARA-R5",
+      "SARA-R4",
+      "SARA-N2",
+      "SARA-G3"
+    ],
+    "part_numbers": [
+      "SARA-R5",
+      "SARA-R410M",
+      "SARA-N2",
+      "SARA-G350"
+    ],
+    "bands": [
+      "sub-GHz"
+    ],
+    "standards": [
+      "LTE-M",
+      "NB-IoT",
+      "GSM/GPRS",
+      "GNSS"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "third-party baseband (varies by series) behind u-blox firmware",
+      "re_tooling": [
+        "AT command interface (documented)",
+        "u-blox m-center"
+      ]
+    },
+    "common_hardware": [
+      "IoT trackers",
+      "telematics",
+      "smart meters",
+      "industrial sensors"
+    ],
+    "key_projects": [],
+    "status": "reported",
+    "notes": "SARA modules wrap third-party baseband behind u-blox firmware and a well-documented AT interface (+ m-center diagnostics). SARA-R5 adds GNSS. Firmware closed; access is measurement + control AT only. Tier 0 for SDR purposes — no OTA frame capture, no IQ.",
+    "references": [
+      "https://www.u-blox.com/en/product/sara-r5-series"
+    ]
+  },
+  {
+    "id": "ublox-zed-f9p-rawx",
+    "vendor": "u-blox",
+    "family": "ZED-F9 (F9P)",
+    "aliases": [
+      "u-blox ZED-F9P",
+      "F9P RTK module",
+      "RXM-RAWX carrier-phase receiver"
+    ],
+    "part_numbers": [
+      "ZED-F9P"
+    ],
+    "standards": [
+      "GPS L1C/A+L2C",
+      "GLONASS L1/L2",
+      "Galileo E1+E5b",
+      "BeiDou B1/B2",
+      "RTCM 3.x",
+      "NMEA",
+      "UBX RXM-RAWX",
+      "UBX RXM-SFRBX"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "closed u-blox GNSS baseband; public UBX interface description",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "ArduSimple simpleRTK2B",
+      "SparkFun GPS-RTK2 breakout"
+    ],
+    "key_projects": [
+      {
+        "name": "RTKLIB (RTK/PPP from RXM-RAWX)",
+        "url": "https://github.com/tomojitakasu/RTKLIB"
+      },
+      {
+        "name": "GNSS-SDR (RTCM/RINEX interop)",
+        "url": "https://gnss-sdr.org/"
+      }
+    ],
+    "status": "verified",
+    "notes": "Dual-band RTK receiver that outputs RAW observables via UBX-RXM-RAWX: pseudorange, CARRIER PHASE (cycles), Doppler, C/N0 per satellite, plus raw nav bits (RXM-SFRBX). Onboard RTK reaches ~cm accuracy (0.01 m + 1 ppm) with corrections. Carrier phase is a genuine per-satellite phase observable (the GNSS analogue of Wi-Fi CSI) -> Tier 2. NOT IQ, NOT transmit-capable, firmware closed. Honest price note: bare modules ~$150-220 on breakout boards, not $30. RTKLIB is the standard open toolchain that turns RXM-RAWX into RTK/PPP positioning.",
+    "references": [
+      "https://www.u-blox.com/en/product/zed-f9p-module",
+      "https://github.com/tomojitakasu/RTKLIB"
     ]
   },
   {
