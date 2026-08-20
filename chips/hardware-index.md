@@ -228,3 +228,93 @@ references an existing id. Two products introduce genuinely new silicon: the **P
 - Alfa/MediaTek support notes (Rokland): <https://store.rokland.com/pages/alfa-awus036axml-awus036axm-support-linux>
 - Panda PAU09 (RT5572): <https://deviwiki.com/wiki/Panda_Wireless_PAU09>
 - Cross-links: [../docs/taxonomy.md](../docs/taxonomy.md) · [../projects/nexmon.md](../projects/nexmon.md) · [../projects/csi-toolchains.md](../projects/csi-toolchains.md) · [../projects/openwifi.md](../projects/openwifi.md) · [../docs/glossary.md](../docs/glossary.md)
+
+
+---
+
+## More buyable hardware — Cycle 5 (2024–2025)
+
+Current, purchasable gear for people who want to *do* the things in this catalog — monitor/inject, pull CSI, sweep sub-GHz, or run an open PHY — without soldering a lab together. Each row names the **chip** (cross-linked to its vendor file), the **SDR-ladder tier** the chip reaches *with the listed project*, the **unlocking project**, and a **buy-note** — because on nearly every one of these SKUs the vendor swaps silicon between revisions while keeping the model number. Treat the model number as a *hint*, not a spec: confirm the actual chip (`lsusb`, `dmesg`, an FCC ID lookup, or a review that ran `ethtool -i`/`iw dev`) **before** you pay.
+
+> **Chipset-roulette is the rule, not the exception.** "SONOFF Dongle Plus" is two different radios; "AWUS036AX*" spans MT7921 and MT7925; the RTL-SDR "V3 vs V4" changes the tuner *and* the driver you need. A blog post from 2022 describing "this adapter" may describe a chip the box no longer contains.
+
+### Wi-Fi 6 / 6E / 7 USB adapters (monitor + injection, some CSI)
+
+| Device | Chip | Bands | Tier + caps | Unlocking project | Buy-note / warning |
+|---|---|---|---|---|---|
+| **Alfa AWUS036AXML** | MediaTek MT7921AU → [`chips/mediatek-ralink.md`](mediatek-ralink.md) | 2.4/5 GHz | **T1** monitor+injection | mainline `mt7921u` (`mt76`) | Best-documented AX USB adapter for monitor/inject. Needs kernel ≥ 5.16 for stable `mt7921u`; also exposes a Bluetooth interface. AX-rate injection is patchy — verify with `aireplay-ng --test`. |
+| **Alfa AWUS036AXM** | MediaTek MT7921AU (*reported*) | 2.4/5 GHz | **T1** monitor+injection | `mt7921u` / `mt76` | Same silicon family as the AXML in most units, different enclosure. *Reported*, not guaranteed — check `dmesg` after plug-in. |
+| **Newer Alfa "AX" SKUs (AWUS036AX…)** | MediaTek **MT7925**AU (Wi-Fi 7) — net-new, below | 2.4/5/6 GHz | **T1** monitor+injection | `mt7925u` / `mt76` (kernel ≥ 6.7) | MT7925 is a *different* driver from MT7921 — a kernel that lit up your AXML may not see this one. 6 GHz monitor is regulatory-gated. Confirm the exact string in `dmesg` before assuming CSI/6E works. |
+
+**No turnkey CSI on the MediaTek USB parts yet.** `mt76` gives you monitor + injection (tier 1). CSI from MT7921/MT7925 exists only in research patches, not a shipping toolchain — if CSI is the goal, buy Intel or Broadcom (below), not Alfa.
+
+### Intel M.2 cards for CSI (AX-CSI / PicoScenes)
+
+| Device | Chip | Bands | Tier + caps | Unlocking project | Buy-note / warning |
+|---|---|---|---|---|---|
+| **Intel AX210** (M.2 2230, e.g. bare card + USB/PCIe carrier) | Intel AX210 → [`chips/intel.md`](intel.md) | 2.4/5/6 GHz | **T2** csi (+ monitor) | [PicoScenes](../projects/picoscenes.md), AX-CSI | *Verified*: PicoScenes lists AX210 for packet injection and CSI including the 6 GHz band. This is the practical 6E CSI card in 2024–25. Needs the PicoScenes-patched driver/firmware — you cannot pull CSI on the stock `iwlwifi`. |
+| **Intel AX200** (M.2 2230) | Intel AX200 → [`chips/intel.md`](intel.md) | 2.4/5 GHz | **T2** csi | [PicoScenes](../projects/picoscenes.md) | *Verified* on the PicoScenes hardware list. No 6 GHz. Cheaper and more available than AX210; identical CSI workflow. |
+| **Intel BE200 / BE202** (Wi-Fi 7, M.2 2230) | Intel BE200 → [`chips/intel.md`](intel.md) | 2.4/5/6 GHz | **T2** csi (*emerging*) | PicoScenes (BE-series support *in progress*) | *Reported/theoretical* for CSI — BE200 is **not** on the confirmed PicoScenes NIC list as of this cycle. Also a platform trap: **BE200 is CNVi/PCIe and is widely reported not to init on AMD platforms** (Intel-host lock). Buy for Wi-Fi 7 connectivity, not as a guaranteed CSI tool yet. |
+
+> Intel cards do **not** do free-form injection like Atheros/MediaTek; their value here is *CSI fidelity*. The QCA9300 and IWL5300 remain the classic PicoScenes/Atheros-CSI/Linux-802.11n-CSI reference cards if you want the legacy toolchains — see [`chips/qualcomm-atheros.md`](qualcomm-atheros.md).
+
+### Broadcom CSI via nexmon — Raspberry Pi
+
+| Device | Chip | Bands | Tier + caps | Unlocking project | Buy-note / warning |
+|---|---|---|---|---|---|
+| **Raspberry Pi 3B+/4B** | BCM43455c0 → [`chips/broadcom-cypress.md`](broadcom-cypress.md) | 2.4/5 GHz | **T2** csi | [nexmon_csi](../projects/nexmon.md) | The reference nexmon-CSI platform; the [bcm43455c0 walkthrough](../docs/walkthroughs/bcm43455c0-raspberry-pi.md) and [CSI walkthrough](../docs/walkthroughs/nexmon-csi-to-usable-csi.md) target exactly this. Firmware `7_45_189`. |
+| **Raspberry Pi 5** | BCM43455c0 (same radio as Pi 4) | 2.4/5 GHz | **T2** csi | [nexmon_csi](../projects/nexmon.md) — *see repo discussion #395* | *Verified supported*: nexmon_csi's device table lists the bcm43455c0 for "Raspberry Pi 3B+/4B/5," and the repo ships a Makefile for recent Raspberry Pi OS kernels. **Buy-note:** the Pi 5's new RP1 southbridge and current 6.x kernels break naive builds — you must follow the Pi-5/recent-kernel path in discussion #395, not the old Pi-4 recipe. |
+
+### Sub-GHz gear (sweep, capture, replay, transmit)
+
+| Device | Chip | Bands | Tier + caps | Unlocking project | Buy-note / warning |
+|---|---|---|---|---|---|
+| **HackRF One** | MAX2839/MAX5864 + LPC4320 (genuine SDR front-end) | 1 MHz–6 GHz | **T5** raw-iq, arbitrary-waveform (half-duplex, RX/TX, 8-bit, ~20 Msps) | GNU Radio, SDR# / `hackrf` tools; also a PicoScenes SDR frontend | The general-purpose reference SDR. Half-duplex and 8-bit — great for learning/replay, not for weak-signal work. Clones exist; a real unit has clean spurs. **TX is legal only in bands you're licensed for** — see [`docs/rf-safety-and-legal.md`](../docs/rf-safety-and-legal.md). |
+| **RTL-SDR Blog V4** | R828D tuner + RTL2832U | ~0.5 MHz–1.766 GHz (RX only) | **T5** raw-iq (RX only) | librtlsdr / rtl_sdr, GNU Radio | *Buy the V4 specifically*: it uses the **R828D** (not the V3's R820T2) and **requires up-to-date drivers** — old `librtlsdr` will show a dead/garbled spectrum. RX only; no transmit. The canonical "$40 SDR." |
+| **YARD Stick One** | TI CC1111 sub-GHz transceiver → [`chips/lora-subghz.md`](lora-subghz.md) | ~300–928 MHz (banded) | **T2** raw packet / configurable OOK-FSK-MSK TX+RX, **open-firmware** | [RfCat](https://github.com/atlas0fd00m/rfcat) (open firmware) | Not an IQ SDR — a *fully scriptable* sub-GHz transceiver. RfCat is open and hackable from Python. Ideal for reversing ISM remotes/telemetry. TX capable → licensing applies. |
+| **Flipper Zero** | CC1101 sub-GHz (+ NFC/125 kHz/IR/iButton) → [`chips/lora-subghz.md`](lora-subghz.md) | 300–348 / 387–464 / 779–928 MHz | **T1** OOK/2-FSK/GFSK/MSK capture+replay (not IQ) | stock FW; **Unleashed / RogueMaster / Momentum** unofficial FW | The CC1101 is a modem, not an SDR — no raw IQ, no arbitrary waveform. Stock firmware region-locks/limits TX; unofficial firmware unlocks the full CC1101 range, which can put you **outside legal TX limits** — user's responsibility. |
+
+### BLE / 802.15.4 / Zigbee sniffers
+
+| Device | Chip | Bands | Tier + caps | Unlocking project | Buy-note / warning |
+|---|---|---|---|---|---|
+| **SONOFF Zigbee 3.0 USB Dongle Plus** | **Model matters** → [`chips/ble-154-thread.md`](ble-154-thread.md) | 2.4 GHz | **T1** 802.15.4 monitor | zigbee2mqtt; TI sniffer firmware | **Chipset roulette by design.** *ZBDongle-**P*** = TI **CC2652P** (flashable to router *or* packet-sniffer firmware — the one you want for RE). *ZBDongle-**E*** = Silicon Labs **EFR32MG21** (different toolchain). Buy the **P** if you want the TI SmartRF/Wireshark 802.15.4 sniffer path. |
+| **Nordic nRF52840 Dongle (PCA10059)** | Nordic nRF52840 → [`chips/ble-154-thread.md`](ble-154-thread.md) | 2.4 GHz | **T1** BLE + 802.15.4 monitor | nRF Sniffer for BLE (+ Wireshark); fully reflashable | Cheap, official, well-supported. Runs the Nordic BLE sniffer firmware out of the box and takes arbitrary custom firmware (SoftDevice or bare-metal) for deeper RF work. |
+| **Electronic Cats CatSniffer v3** | TI **CC1352P7** (+ RP2040) — net-new, below | sub-GHz + 2.4 GHz | **T1** multiprotocol monitor (BLE/Zigbee/802.15.4/sub-GHz) | [CatSniffer firmware](https://github.com/ElectronicCats/CatSniffer), SmartRF Sniffer Agent → Wireshark | Open-hardware multiprotocol sniffer; the CC1352P7 covers both sub-GHz and 2.4 GHz so one dongle sees ISM remotes *and* Zigbee/BLE. Newer than the CC2652-class parts. |
+
+### ESP32 CSI dev boards (cheap, dense CSI)
+
+| Device | Chip | Bands | Tier + caps | Unlocking project | Buy-note / warning |
+|---|---|---|---|---|---|
+| **ESP32-C6-DevKitC/M** | Espressif ESP32-C6 → [`chips/espressif.md`](espressif.md) | 2.4 GHz (Wi-Fi 6) | **T2** csi | [esp-csi](https://github.com/espressif/esp-csi) | RISC-V, Wi-Fi 6 (2.4 only) + BLE 5 + 802.15.4. *Verified*: esp-csi lists the C6 among fully supported CSI parts. See the [ESP32 Ghidra walkthrough](../docs/walkthroughs/esp32-xtensa-ghidra.md) for firmware RE (note: C-series is RISC-V, not Xtensa). |
+| **ESP32-C5-DevKitC** | Espressif ESP32-C5 — net-new, below | 2.4/5 GHz (Wi-Fi 6) | **T2** csi | [esp-csi](https://github.com/espressif/esp-csi) | Espressif's first **dual-band** part — CSI on 5 GHz for a few dollars. *Verified* in the esp-csi supported list (ESP32 / S2 / C3 / S3 / **C5** / C6 / C61). Recent silicon; use current ESP-IDF. |
+| **ESP32-C61-DevKit** | Espressif ESP32-C61 — net-new, below | 2.4 GHz (Wi-Fi 6) | **T2** csi | [esp-csi](https://github.com/espressif/esp-csi) | Cost-reduced 2.4-only Wi-Fi 6 RISC-V part; *verified* in the esp-csi list. Very new — toolchain/board availability still maturing. |
+
+### Open-PHY / openwifi board
+
+| Device | Chip | Bands | Tier + caps | Unlocking project | Buy-note / warning |
+|---|---|---|---|---|---|
+| **AntSDR E200** | Xilinx Zynq-7020 + Analog Devices AD9361 RFIC → [`chips/router-ap-socs.md`](router-ap-socs.md) | 70 MHz–6 GHz (AD9361), used for 2.4/5 GHz 802.11 | **T5** open/documented PHY + raw-IQ | [openwifi](../projects/openwifi.md) | A genuine SDR (AD9361) running the **openwifi** FPGA 802.11a/g/n stack — a real open-source Wi-Fi PHY/MAC you can modify. **Buy-note:** openwifi targets *specific* SoC+RFIC boards; confirm your E200 variant is on the openwifi supported-board list and flash the matching image, or you get a bring-up project, not a radio. |
+
+### Quick decision guide
+
+- **I want CSI, turnkey** → Intel **AX210** + PicoScenes (6E), or a **Raspberry Pi 4/5** + nexmon_csi (cheapest), or an **ESP32-C5/C6** dev board (cheapest of all, 2.4/5 GHz).
+- **I want monitor + injection** → Alfa **AWUS036AXML** (MT7921AU, tier 1). Confirm chip in `dmesg`.
+- **I want to touch RF / sub-GHz** → **RTL-SDR V4** (RX, $40), step up to **HackRF One** (RX/TX), **YARD Stick One** for scriptable ISM.
+- **I want to sniff BLE/Zigbee** → **nRF52840 dongle** (BLE) or **SONOFF ZBDongle-P / CC2652P** (802.15.4); **CatSniffer** if you want both sub-GHz and 2.4 in one.
+- **I want a real open Wi-Fi PHY** → **AntSDR E200** + openwifi.
+
+### References
+
+- PicoScenes supported hardware & 6 GHz CSI on AX210 — https://ps.zpj.io/
+- nexmon_csi supported devices (incl. Raspberry Pi 5, discussion #395) — https://github.com/seemoo-lab/nexmon_csi
+- esp-csi full-series support (ESP32 … C5 / C6 / C61) — https://github.com/espressif/esp-csi
+- `mt76` driver (MT7921/MT7925 monitor+injection) — https://github.com/openwrt/mt76
+- RfCat firmware for YARD Stick One — https://github.com/atlas0fd00m/rfcat
+- YARD Stick One / HackRF One (Great Scott Gadgets) — https://greatscottgadgets.com/yardstickone/ , https://greatscottgadgets.com/hackrf/one/
+- RTL-SDR Blog V4 (R828D tuner, driver requirement) — https://www.rtl-sdr.com/rtl-sdr-blog-v4-dongle-initial-release/
+- Flipper Zero + Unleashed firmware — https://flipperzero.one/ , https://github.com/DarkFlippers/unleashed-firmware
+- SONOFF Zigbee 3.0 USB Dongle Plus (P = CC2652P, E = EFR32MG21) — https://sonoff.tech/product/gateway-and-sensors/zbdongle-p/
+- Nordic nRF52840 Dongle — https://www.nordicsemi.com/Products/Development-hardware/nRF52840-Dongle
+- Electronic Cats CatSniffer (CC1352P7) — https://github.com/ElectronicCats/CatSniffer
+- openwifi + AntSDR E200 — https://github.com/open-sdr/openwifi , https://www.crowdsupply.com/microphase-technology/antsdr-e200

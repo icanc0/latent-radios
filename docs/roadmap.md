@@ -23,7 +23,8 @@ Cycles keep running as long as there are un‑cataloged parts — which is forev
 | 2 | RE walkthroughs (Ghidra · D11 ucode · ESP32 · ath9k · Intel 5300) · PicoScenes/openwifi · Wi‑Fi 7 · 60 GHz · HaLow · hardware index · Tier‑4 audit | ✅ done — +28 modules, 14 files |
 | 3 | Exhaustive per‑vendor part sweeps (Intel · Realtek · Atheros · Broadcom · MediaTek · long‑tail) · RTL8812AU/mt76/nRF52/openwifi walkthroughs · UWB · CTC · FTM · Tier‑2 CSI audit | ✅ done — +217 modules, 14 files |
 | 4 | Adjacent PHYs (BLE/802.15.4 · LoRa/sub‑GHz · router SoCs · radar/UWB) · gr‑ieee802‑11 · open‑AR9271 · nexmon‑CSI · Flipper walkthroughs · Tier‑3 audit · passive radar · 802.11az · RF‑safety · GNU Radio OOT · canon | ✅ done — +72 modules, 14 files |
-| 5+ | Per‑chip RE deep dives, more sub‑GHz/UWB/radar parts, Wi‑Fi 7 sensing, dataset how‑tos, verify Tier‑1 injection claims — keep sweeping | queued |
+| 5 | Firmware‑RE deep dives (BCM4339 Shadow‑Wi‑Fi · ESP32 raw TX · mt76 · BL602) · RISC‑V/open Wi‑Fi · 802.11bf · CSI‑ML + HAR pipeline · driver/lib indexes · decision guide · Tier‑1 audit | ✅ done — +33 modules, 14 files |
+| 6+ | More RE walkthroughs, deeper long‑tail, cellular/5G‑NR & GNSS repurposing, verify Tier‑5 open‑firmware claims — keep sweeping | queued |
 
 ## Vendor / family queue (feeds future cycles)
 

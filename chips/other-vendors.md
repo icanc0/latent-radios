@@ -546,3 +546,112 @@ GHz) under regional EIRP and duty-cycle limits (e.g., FCC Part 15.253/15.256, ET
 bench operation should use shielded enclosures or absorptive fixtures. UWB TX is governed by FCC Part 15
 Subpart F / ETSI EN 302 065. Never radiate a modified FMCW/UWB waveform on-air outside a chamber without
 confirming your license class.
+
+
+---
+
+## Emerging & regional vendors — Cycle 5
+
+This sweep catalogs the second- and third-tier silicon that has flooded the low-cost IoT, smart-home, and mobile-combo market in the last five years: Chinese fabless WiFi/BLE houses (Beken, ASR, Unisoc/RDA, Bestechnic, Bluetrum, PHY+, Onmicro, Chipsea), a captive giant (HiSilicon), the module integrators that repackage everyone's dies (AMPAK, USI, Fn-Link), and the newest closed mobile flagships (Qualcomm FastConnect 7900). The honest headline: **almost all of it is Tier 0–1.** None of these vendors ship a documented PHY, and none has an out-of-tree SDR toolchain in the class of nexmon or openwifi. What *does* exist — and what makes a handful of these genuinely interesting — is the **open-firmware-framework layer** that the smart-home hacking community built on top of them.
+
+### The one thing that matters here: LibreTiny + OpenBeken
+
+The reason the Beken/Realtek-Ameba/LN882H cluster punches above its weight is [**LibreTiny**](https://github.com/libretiny-eu/libretiny) and [**OpenBeken (OpenBK7231T_App)**](https://github.com/openshwprojects/OpenBK7231T_App). LibreTiny is a PlatformIO development platform that replaces the vendor SDKs with an open build system + Arduino core across **Beken BK7231N/BK7231T/BK7238/BK7252, Realtek RTL8710B (AmebaZ), RTL8720C (AmebaZ2), and LN882H** — the exact dies Tuya solders onto its `CB`-series and `WB`-series modules. That means for these chips you get **buildable, patchable application + RTOS firmware** even though the WiFi MAC/PHY remains a vendor blob. The community also documented the flash layout and RE workflow ([`bk7231tools`](https://github.com/openshwprojects/bk7231tools)), which is what lifts Beken from "black box" to a real **Tier 1** monitor/injection target.
+
+### Compact table
+
+| Chip | Vendor | Radio | Core | Tier | Firmware | Note |
+|---|---|---|---|---|---|---|
+| BK7231N / BK7231T | Beken | 2.4G 11n + BLE | ARM968E-S (ARM9) | 1 | partially-documented | The Tuya smart-plug chip; monitor+raw-TX via SDK, open via LibreTiny/OpenBeken |
+| BK7251 | Beken | 2.4G 11n + BLE + audio | ARM968E-S | 1 | partially-documented | BK7231 + audio codec |
+| BK7238 | Beken | 2.4G 11n | ARM (new gen) | 1 | partially-documented | Newer Tuya `CBU`/`CB3S` die, LibreTiny-supported |
+| Hi1103 / Hi1105 | HiSilicon | 2.4/5G 11ax + BT5 | closed | 0 | closed | Huawei/Honor Wi-Fi 6 mobile & router combo |
+| Hi1151 | HiSilicon | 2.4/5/6G 11ax(+be?) | closed | 0 | closed | Reported Wi-Fi 6E/7 combo; sparse public data |
+| UWE5621/5622 | Unisoc (Spreadtrum) | 2.4(/5)G 11n/ac + BT | closed | 1 | closed | Cheap Android tablet/IoT combo; GPL kernel driver, blob FW |
+| BES2600 | Bestechnic | 2.4/5G 11ac + BT + audio | dual Cortex-M | 1 | closed | Smart-speaker/TWS SoC; RT-Thread BSP, blob FW |
+| ASR5822 / ASR5505 | ASR Micro | 2.4G 11n + BLE | Cortex-M4F | 1 | partially-documented | Tuya `WB`-series alt-die; vendor SDK |
+| ATS362x / ATS28xx | Actions | 2.4G BT audio | ARM / RISC-V | 0 | partially-documented | BT-audio SoC; Zephyr supports the MCU, radio closed |
+| RTL8710B (AmebaZ) | Realtek | 2.4G 11n | Cortex-M4 (KM0/KM4) | 1 | documented | Open SDK + LibreTiny; promisc monitor |
+| RTL8720C (AmebaZ2) | Realtek | 2.4G 11n | Cortex-M4F | 1 | documented | AmebaZ2; LibreTiny; sibling of already-listed RTL8720DN |
+| AB53xx | Bluetrum | 2.4G BT audio | proprietary RISC-V | 0 | closed | BT-audio; closed RISC-V ISA |
+| PHY6222 | PHY+ (PhyPlus) | 2.4G BLE 5 | Cortex-M0 96MHz | 1 | documented | Cheap BLE beacon SoC; semi-open SDK |
+| OM6621 | Onmicro | 2.4G BLE 5 | Cortex-M0 | 0 | closed | Ultra-low-cost BLE |
+| CST92F4x | Chipsea | 2.4G BLE 5 | Cortex-M0 | 0 | closed | BLE from an ADC/MCU house |
+| RDA5981 | RDA (→Unisoc) | 2.4G 11n | Cortex-M4 | 1 | documented | Arm Mbed OS port; audio/IoT WiFi |
+| AP6xxx / USI / Fn-Link | AMPAK/USI/Fn-Link | (host die) | — | — | (host die) | **Integrators** — carry Broadcom/Cypress/Qualcomm/Realtek dies |
+| RK-Realtek combo | Rockchip pairing | 2.4/5G | — | — | (host die) | Rockchip SoCs pair external RTL/AP6xxx modules, not own WiFi silicon |
+| FastConnect 7900 | Qualcomm | 2.4/5/6G 11be + BT5.4 + UWB | closed | 0 | closed | First combo to fuse Wi-Fi 7 + BT + UWB; Snapdragon flagships |
+
+---
+
+### Beken BK72xx — the Tuya smart-home workhorse
+
+The single most-deployed chip in this whole sweep. Beken's `BK7231T`/`BK7231N` (an **ARM968E-S / ARMv5TE ARM9** core with 2.4 GHz 802.11 b/g/n and, on the `N`/`U`, BLE) is what sits inside the overwhelming majority of ~$3 Tuya WiFi smart plugs, bulbs, and switches sold as the `CB2S`, `CB3S`, `CBU`, `WB2S`, `WB3S` modules. `BK7251` adds an audio codec; `BK7252` is the WiFi+audio part; `BK7238` is the newer-generation 11n die (`CB3SE`/`CBU` refreshes).
+
+**Why it's Tier 1, not Tier 0:** the vendor SDK lineage — Tuya's [`tuya-iotos-embeded-sdk-wifi-ble-bk7231t`](https://github.com/tuya/tuya-iotos-embeded-sdk-wifi-ble-bk7231t) and Beken's newer open [`Armino`](https://github.com/bekencorp/armino) SDK — expose **promiscuous/monitor** APIs (`bk_wlan_start_monitor()` + a registered RX callback delivering raw 802.11 frames, `bk_wlan_set_channel()`), plus a **raw-frame transmit** primitive used to ACK SmartConfig/AirKiss provisioning. Monitor RX of arbitrary 802.11 frames is verified through the open re-implementations; raw injection is reported (SDK-exposed, less independently exercised). No CSI, spectral, or IQ path is documented — the PHY is a blob. Firmware is therefore **partially-documented**: application + RTOS are fully open/buildable via LibreTiny and OpenBeken, RF firmware is a closed library.
+
+**RE workflow:** load a dump into Ghidra as **ARMv5TE (ARM968E-S)** little-endian; use [`bk7231tools`](https://github.com/openshwprojects/bk7231tools) to unpack the `RBL`/`OTA` container and locate the app partition; recover symbol boundaries from the SDK's public headers (the WiFi API surface is documented even where the implementation is a blob). Do **not** invent addresses — resolve `bk_wlan_*` entry points by cross-referencing the SDK header names against string/xref matches in your own image. See the sibling walkthrough conventions in [`docs/walkthroughs/ghidra-setup-wifi-firmware.md`](../docs/walkthroughs/ghidra-setup-wifi-firmware.md).
+
+**TX caution:** the raw-frame API transmits real 2.4 GHz energy. Only exercise injection into a shielded enclosure or on a licensed/ISM-legal basis; see [`docs/rf-safety-and-legal.md`](../docs/rf-safety-and-legal.md).
+
+### HiSilicon Hi110x — Huawei's captive Wi-Fi 6/7 combos
+
+`Hi1103` (announced 2019) was Huawei's first Wi-Fi 6 + BT 5.1 combo, shipping in Kirin-era P40/Mate 30/Honor phones and Huawei AX3-class routers; `Hi1105` is the router-oriented sibling; `Hi1151` is a reported later Wi-Fi 6E/7 part with little public documentation. These are **fully captive** — no public SDK, no datasheet, no RE tooling, no monitor path. Firmware is closed and signed. **Tier 0**, `status: reported` (Hi1103/Hi1105) / `theoretical` (Hi1151). Listed for completeness; there is no known SDR handle. Cross-ref [`chips/qualcomm-atheros.md`](qualcomm-atheros.md) only for lineage contrast — HiSilicon shares none of the ath9k/ath10k openness.
+
+### Unisoc / Spreadtrum UWE56xx & RDA5981
+
+`UWE5621` (2.4 GHz 11n + BT) and `UWE5622` (adds 5 GHz 11ac) are Unisoc's low-cost combos for budget Android tablets, TV dongles, and IoT. A GPL Linux/Android kernel driver (`sprdwl_ng`, in AOSP vendor kernels — not mainline) provides `cfg80211` monitor mode, but the on-chip firmware is a closed downloadable blob, so the SDR ceiling is standard `nl80211` monitor. **Tier 1**, `closed` firmware. `RDA5981` (RDA Micro, absorbed into Unisoc) is a Cortex-M4 2.4 GHz 11n WiFi SoC notable for an **Arm Mbed OS port** — genuinely documented at the RTOS/driver layer, still a blob PHY. **Tier 1**, `documented`.
+
+### Bestechnic BES2600
+
+Dual-Cortex-M SoC combining 2.4/5 GHz 802.11ac WiFi, Bluetooth, and an audio DSP — the brains of many Xiaomi/AI smart speakers and some TWS docks. RT-Thread ships a board-support package for it ([`bsp/bestechnic/BES2600`](https://github.com/RT-Thread/rt-thread)), and a `bes2600` cfg80211 driver was floated on linux-wireless, but it is **not in current mainline staging** (verified against `drivers/staging` on `torvalds/linux`). WiFi firmware is a closed blob. **Tier 1** (monitor via the vendor/driver stack), `closed`.
+
+### ASR Microelectronics ASR582x / ASR550x
+
+ASR's `ASR5822`/`ASR5822S` (Cortex-M4F, 2.4 GHz 11n + BLE) and `ASR5505` are a second-source die for Tuya `WB`-series modules and other white-label IoT. A vendor SDK (`ASR-SDK`/`lega` RTOS) exists with the usual SmartConfig promiscuous path, so treat it like Beken minus the mature open-framework support: **Tier 1**, `partially-documented`. LibreTiny does not (yet) target ASR, so RE is more DIY.
+
+### Realtek Ameba — AmebaZ (RTL8710B) & AmebaZ2 (RTL8720C)
+
+Realtek's Ameba IoT line is the Realtek counterpart to Beken in Tuya modules. `RTL8710B` (**AmebaZ**, Cortex-M4) and `RTL8720C` (**AmebaZ2**, Cortex-M4F) are already carried by **LibreTiny** (`generic-rtl8710bn-*`, `generic-rtl8720cf-*`, `generic-rtl8720cm-*` board targets) and by Realtek's own reasonably-open Ameba SDK. Both expose documented **promiscuous/monitor** mode (used for SmartConfig). Their bigger sibling **RTL8720DN (AmebaD)** — already catalogued — additionally exposes a documented **CSI API** (`wifi_csi_config`/report) in the AmebaD SDK; the same family lineage makes AmebaZ2 a plausible CSI target, but treat CSI on the `B`/`C` parts as reported, not verified. **Tier 1**, `documented`. See [`chips/realtek.md`](realtek.md) for the broader Realtek picture and [`projects/csi-toolchains.md`](../projects/csi-toolchains.md) for the CSI landscape.
+
+### BLE & BT-audio budget silicon: Bluetrum, PHY+, Onmicro, Chipsea, Actions
+
+A cluster of ultra-low-cost 2.4 GHz single-mode parts. None is a WiFi SDR, but they matter for the 2.4 GHz-covert-channel / BLE-sniffing side of the catalog:
+
+- **PHY+ (PhyPlus) `PHY6222`** — 96 MHz Cortex-M0 BLE 5 SoC with a **semi-open SDK** (community mirrors, e.g. [`SoCXin/PHY6222`](https://github.com/SoCXin/PHY6222)); the openness makes it the most hackable BLE part here. **Tier 1**, `documented`.
+- **Onmicro `OM6621`** and **Chipsea `CST92F4x`** — commodity Cortex-M0 BLE from an RF house and an ADC/MCU house respectively; closed SDKs. **Tier 0**.
+- **Bluetrum `AB53xx`** — BT-audio SoC built on a **proprietary RISC-V core** (closed ISA extensions), which blocks conventional RE tooling. **Tier 0**, `closed`.
+- **Actions `ATS362x`/`ATS28xx`/`ATS30xx`** — BT-audio SoCs; **Zephyr mainline supports the Actions Semi MCU/SoC family**, so the application core is open-ish, but the Bluetooth radio firmware is closed. **Tier 0**, `partially-documented` (MCU only).
+
+Cross-ref [`chips/ble-154-thread.md`](ble-154-thread.md) for the BLE/802.15.4 SDR angle.
+
+### Module integrators — AMPAK, USI, Fn-Link (and Rockchip pairings)
+
+**These are not silicon vendors** — they are packaging houses whose part numbers hide someone else's die, a frequent source of catalog confusion:
+
+- **AMPAK** `AP6xxx` (`AP6212`, `AP6255`, `AP6398S`, `AP6275S`) → almost always **Broadcom/Cypress** dies (CYW/BCM43xxx). These are the Tier-3/Tier-4 nexmon targets in disguise — cross-ref [`chips/broadcom-cypress.md`](broadcom-cypress.md) and [`projects/nexmon.md`](../projects/nexmon.md).
+- **USI (Universal Scientific Industrial)** → Broadcom, Qualcomm/Atheros, or Realtek dies depending on the SKU.
+- **Fn-Link** → predominantly Realtek and Broadcom dies.
+- **Rockchip** SoCs (RK33xx/RK35xx) ship **no first-party WiFi silicon**; their "RTL-combo" boards pair an external **Realtek** (`RTL8723DS`, `RTL8821CS`, `RTL8188FU`) or AMPAK/Broadcom module. The SDR capability is entirely that of the mounted die.
+
+**Rule:** always resolve an integrator part number to its underlying die before assigning a tier — the module label carries no independent SDR capability. See [`chips/hardware-index.md`](hardware-index.md).
+
+### Qualcomm FastConnect 7900
+
+The newest closed flagship: FastConnect 7900 (2024) is notable as the **first mobile connectivity system to integrate Wi-Fi 7 (802.11be), Bluetooth 5.4, and Ultra-Wideband (UWB) on a single die**, across 2.4/5/6 GHz plus UWB, paired with Snapdragon 8-Elite-class SoCs. Like all FastConnect combos it is entirely closed — signed firmware, no public SDK, no monitor path. **Tier 0**, `reported`. Cross-ref [`chips/qualcomm-atheros.md`](qualcomm-atheros.md); note the FastConnect line shares none of the historical ath10k/ath11k openness.
+
+### Bottom line for this cohort
+
+Reach for **Beken BK72xx or Realtek Ameba (Z/Z2/D)** if you want a hackable, buildable-firmware 2.4 GHz target on a $3 budget — LibreTiny + OpenBeken make them the only genuinely open-framework parts in the sweep, and AmebaD even gives you CSI. Everything mobile-flagship (HiSilicon Hi110x, FastConnect 7900) is a closed Tier-0 dead end for SDR purposes. And never let an **AMPAK/USI/Fn-Link/Rockchip** label fool you — chase the die underneath.
+
+#### References
+
+- LibreTiny (open PlatformIO platform; BK72xx / RTL8710B / RTL8720C / LN882H): https://github.com/libretiny-eu/libretiny
+- OpenBeken (OpenBK7231T_App): https://github.com/openshwprojects/OpenBK7231T_App
+- bk7231tools (flash/RE tooling): https://github.com/openshwprojects/bk7231tools
+- Beken Armino open SDK: https://github.com/bekencorp/armino
+- Tuya IoTOS BK7231 SDK: https://github.com/tuya/tuya-iotos-embeded-sdk-wifi-ble-bk7231t
+- PHY6222 community SDK: https://github.com/SoCXin/PHY6222
+- RT-Thread (BES2600 BSP): https://github.com/RT-Thread/rt-thread
+- Qualcomm FastConnect 7900: https://www.qualcomm.com/products/technology/wi-fi/fastconnect-7900
+- Zephyr Actions Semi support: https://docs.zephyrproject.org/

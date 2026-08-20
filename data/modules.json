@@ -38,6 +38,53 @@
     ]
   },
   {
+    "id": "actions-ats-audio",
+    "vendor": "Actions Technology",
+    "family": "ATS",
+    "aliases": [
+      "ATS362x",
+      "ATS2823",
+      "ATS3019",
+      "Actions Semi"
+    ],
+    "part_numbers": [
+      "ATS3623",
+      "ATS2823",
+      "ATS3019"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "partially-documented",
+      "re_tooling": [
+        "Zephyr (actions_semi SoC support)"
+      ]
+    },
+    "common_hardware": [
+      "BT speakers",
+      "TWS earbuds",
+      "BT-audio dongles"
+    ],
+    "key_projects": [
+      {
+        "name": "Zephyr RTOS",
+        "url": "https://docs.zephyrproject.org/"
+      }
+    ],
+    "references": [
+      "https://docs.zephyrproject.org/",
+      "https://www.actions-semi.com/"
+    ],
+    "status": "reported",
+    "notes": "BT-audio SoC family. Zephyr mainline supports the Actions Semi application MCU/SoC, so the app core is open-ish, but the Bluetooth radio firmware is closed. Not a WiFi part; Tier 0, listed for the 2.4GHz/BT-covert-channel context."
+  },
+  {
     "id": "airoha-ab1565",
     "vendor": "Airoha",
     "family": "Airoha BT audio",
@@ -160,7 +207,7 @@
   },
   {
     "id": "allwinner-xr829",
-    "vendor": "Allwinner / XRadio",
+    "vendor": "Allwinner",
     "family": "XRadio combo",
     "aliases": [
       "XR829",
@@ -455,6 +502,52 @@
     "references": [
       "https://www.amlogic.com/"
     ]
+  },
+  {
+    "id": "module-integrators-ampak-usi-fnlink",
+    "vendor": "AMPAK/USI/Fn-Link",
+    "family": "module integrators",
+    "aliases": [
+      "AP6212",
+      "AP6255",
+      "AP6398S",
+      "AP6275S",
+      "USI WM-N",
+      "Fn-Link modules"
+    ],
+    "part_numbers": [
+      "AP6212",
+      "AP6255",
+      "AP6398S",
+      "AP6275S"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "(inherits host die)"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "unknown"
+    },
+    "common_hardware": [
+      "SBCs and IoT boards using AP6xxx/USI/Fn-Link WiFi+BT modules"
+    ],
+    "key_projects": [
+      {
+        "name": "nexmon (for Broadcom-die modules)",
+        "url": "https://github.com/seemoo-lab/nexmon"
+      }
+    ],
+    "references": [
+      "https://github.com/seemoo-lab/nexmon"
+    ],
+    "status": "verified",
+    "notes": "NOT silicon vendors — packaging houses. AMPAK AP6xxx almost always wrap Broadcom/Cypress dies (nexmon targets in disguise); USI wrap Broadcom/Qualcomm/Realtek; Fn-Link wrap Realtek/Broadcom. Always resolve the part number to its underlying die before assigning a tier — the module label carries no independent SDR capability. Cross-ref chips/broadcom-cypress.md, chips/realtek.md, chips/qualcomm-atheros.md."
   },
   {
     "id": "adi-adrv9361-z7035",
@@ -876,6 +969,729 @@
     "notes": "Two-chip 79 GHz FMCW imaging radar (RFIC + radar processor) fielding ~48TX x 48RX = 2304 virtual channels for high-resolution 4D point clouds. Raw radar access is OEM-only. Tier 4 imaging radar.",
     "references": [
       "https://arberobotics.com/"
+    ]
+  },
+  {
+    "id": "asr-asr5822",
+    "vendor": "ASR Microelectronics",
+    "family": "ASR58xx",
+    "aliases": [
+      "ASR5822",
+      "ASR5822S",
+      "ASR5505"
+    ],
+    "part_numbers": [
+      "ASR5822",
+      "ASR5822S",
+      "ASR5505"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n",
+      "Bluetooth LE"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "Cortex-M4F",
+      "re_tooling": [
+        "ASR-SDK / lega RTOS",
+        "Ghidra (Cortex-M)"
+      ]
+    },
+    "common_hardware": [
+      "Tuya WB-series alternate-die modules",
+      "white-label IoT"
+    ],
+    "references": [
+      "https://www.asrmicro.com/"
+    ],
+    "status": "reported",
+    "notes": "Cortex-M4F 2.4GHz 11n + BLE combo, a second-source die for Tuya WB modules. Vendor SDK (ASR-SDK/lega) with the usual SmartConfig promiscuous path. Not yet a LibreTiny target, so RE is more DIY than Beken. Blob PHY."
+  },
+  {
+    "id": "beken-bk7231n",
+    "vendor": "Beken",
+    "family": "BK72xx",
+    "aliases": [
+      "BK7231N",
+      "Tuya CB2S",
+      "Tuya CB3S",
+      "Tuya CBU",
+      "Tuya WB3S"
+    ],
+    "part_numbers": [
+      "BK7231N",
+      "BK7231U",
+      "BK7231M"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n",
+      "Bluetooth LE"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "ARM968E-S (ARMv5TE, ARM9)",
+      "re_tooling": [
+        "Ghidra (ARMv5TE LE)",
+        "bk7231tools",
+        "LibreTiny",
+        "OpenBeken"
+      ]
+    },
+    "common_hardware": [
+      "Tuya smart plugs/bulbs/switches",
+      "CB2S/CB3S/CBU/WB3S modules"
+    ],
+    "key_projects": [
+      {
+        "name": "LibreTiny",
+        "url": "https://github.com/libretiny-eu/libretiny"
+      },
+      {
+        "name": "OpenBK7231T_App (OpenBeken)",
+        "url": "https://github.com/openshwprojects/OpenBK7231T_App"
+      },
+      {
+        "name": "bk7231tools",
+        "url": "https://github.com/openshwprojects/bk7231tools"
+      }
+    ],
+    "references": [
+      "https://github.com/libretiny-eu/libretiny",
+      "https://github.com/openshwprojects/OpenBK7231T_App",
+      "https://github.com/bekencorp/armino",
+      "https://github.com/tuya/tuya-iotos-embeded-sdk-wifi-ble-bk7231t"
+    ],
+    "status": "verified",
+    "notes": "The dominant Tuya smart-home WiFi die. ARM968E-S ARM9 core, 2.4GHz 11n (+BLE on N/U). SDK exposes bk_wlan_start_monitor() raw-frame RX and a raw-frame TX primitive (SmartConfig ACK); monitor verified via open re-implementations, injection reported. Fully open app+RTOS firmware via LibreTiny/OpenBeken; WiFi PHY remains a vendor blob. No CSI/spectral/IQ path."
+  },
+  {
+    "id": "beken-bk7231t",
+    "vendor": "Beken",
+    "family": "BK72xx",
+    "aliases": [
+      "BK7231T",
+      "Tuya WB2S"
+    ],
+    "part_numbers": [
+      "BK7231T"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n",
+      "Bluetooth LE"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "ARM968E-S (ARMv5TE, ARM9)",
+      "re_tooling": [
+        "Ghidra (ARMv5TE LE)",
+        "bk7231tools",
+        "LibreTiny",
+        "OpenBeken"
+      ]
+    },
+    "common_hardware": [
+      "Tuya WB2S modules",
+      "early Tuya smart plugs"
+    ],
+    "key_projects": [
+      {
+        "name": "LibreTiny",
+        "url": "https://github.com/libretiny-eu/libretiny"
+      },
+      {
+        "name": "OpenBK7231T_App",
+        "url": "https://github.com/openshwprojects/OpenBK7231T_App"
+      }
+    ],
+    "references": [
+      "https://github.com/libretiny-eu/libretiny",
+      "https://github.com/openshwprojects/OpenBK7231T_App"
+    ],
+    "status": "verified",
+    "notes": "Older sibling of BK7231N; same ARM968E-S core and monitor/raw-TX SDK path. First widely-hacked Tuya die (Tasmota-style OpenBeken replacement). PHY is a blob."
+  },
+  {
+    "id": "beken-bk7238",
+    "vendor": "Beken",
+    "family": "BK72xx",
+    "aliases": [
+      "BK7238",
+      "Tuya CB3SE",
+      "Tuya CBU (refresh)"
+    ],
+    "part_numbers": [
+      "BK7238",
+      "BK7252N",
+      "BK7252U"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "ARM (newer Beken gen)",
+      "re_tooling": [
+        "Ghidra",
+        "bk7231tools",
+        "LibreTiny"
+      ]
+    },
+    "common_hardware": [
+      "Newer Tuya CB3SE/CBU smart-home modules"
+    ],
+    "key_projects": [
+      {
+        "name": "LibreTiny",
+        "url": "https://github.com/libretiny-eu/libretiny"
+      }
+    ],
+    "references": [
+      "https://github.com/libretiny-eu/libretiny"
+    ],
+    "status": "reported",
+    "notes": "Newer-generation Beken 2.4GHz 11n die used in refreshed Tuya modules; LibreTiny-supported (generic-bk7238 board targets). Exact CPU core not publicly documented; treat core string as reported. Blob PHY, monitor path via SDK."
+  },
+  {
+    "id": "beken-bk7251",
+    "vendor": "Beken",
+    "family": "BK72xx",
+    "aliases": [
+      "BK7251"
+    ],
+    "part_numbers": [
+      "BK7251"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n",
+      "Bluetooth LE"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "ARM968E-S (ARM9)",
+      "re_tooling": [
+        "Ghidra",
+        "bk7231tools",
+        "LibreTiny"
+      ]
+    },
+    "common_hardware": [
+      "WiFi+audio smart devices",
+      "voice-enabled Tuya modules"
+    ],
+    "key_projects": [
+      {
+        "name": "LibreTiny",
+        "url": "https://github.com/libretiny-eu/libretiny"
+      }
+    ],
+    "references": [
+      "https://github.com/libretiny-eu/libretiny"
+    ],
+    "status": "reported",
+    "notes": "BK7231 plus an on-chip audio codec. Same ARM9 core and monitor-mode SDK lineage as BK7231T/N; blob PHY."
+  },
+  {
+    "id": "bestechnic-bes2600",
+    "vendor": "Bestechnic",
+    "family": "BES2600",
+    "aliases": [
+      "BES2600",
+      "BES2600W"
+    ],
+    "part_numbers": [
+      "BES2600",
+      "BES2600W",
+      "BES2600iW"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac",
+      "Bluetooth 5"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "dual Cortex-M",
+      "re_tooling": [
+        "RT-Thread bsp/bestechnic/BES2600",
+        "bes2600 cfg80211 driver (RFC, not mainlined)"
+      ]
+    },
+    "common_hardware": [
+      "Xiaomi/AI smart speakers",
+      "TWS/audio docks"
+    ],
+    "key_projects": [
+      {
+        "name": "RT-Thread BSP (bestechnic)",
+        "url": "https://github.com/RT-Thread/rt-thread"
+      }
+    ],
+    "references": [
+      "https://github.com/RT-Thread/rt-thread",
+      "https://www.bestechnic.com/"
+    ],
+    "status": "reported",
+    "notes": "Dual-Cortex-M SoC fusing 2.4/5GHz 11ac WiFi + BT + audio DSP. RT-Thread ships a BSP; a bes2600 cfg80211 driver was posted to linux-wireless but is NOT in current mainline staging (verified against drivers/staging on torvalds/linux). Closed blob WiFi firmware; monitor via vendor/driver stack."
+  },
+  {
+    "id": "bluetrum-ab53xx",
+    "vendor": "Bluetrum",
+    "family": "AB53xx",
+    "aliases": [
+      "AB5301A",
+      "AB5601",
+      "Bluetrum BT audio"
+    ],
+    "part_numbers": [
+      "AB5301A",
+      "AB5601",
+      "AB5325"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth 5"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "proprietary RISC-V"
+    },
+    "common_hardware": [
+      "BT speakers",
+      "TWS earbuds",
+      "cheap BT-audio gadgets"
+    ],
+    "references": [
+      "https://www.bluetrum.com/"
+    ],
+    "status": "reported",
+    "notes": "BT-audio SoC built on a proprietary RISC-V core with closed/custom extensions, which blocks conventional RE tooling. Closed firmware. Tier 0; included for the 2.4GHz/BT landscape."
+  },
+  {
+    "id": "bouffalo-bl602",
+    "vendor": "Bouffalo Lab",
+    "family": "BL60x",
+    "part_numbers": [
+      "BL602",
+      "BL602C",
+      "BL602L"
+    ],
+    "aliases": [
+      "Pine64 PineCone",
+      "Sipeed BL602",
+      "Ai-Thinker Ai-WB2 (BL602)",
+      "Nutcracker target"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "Bluetooth LE 5.0"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "riscv32 (RV32IMFC, ilp32f ABI, up to 192 MHz; single-core, Wi-Fi MAC runs on the main core)",
+      "re_tooling": [
+        "ghidra",
+        "ElementW ghidra RISC-V fork (reloc-carrying objects)",
+        "radare2/cutter",
+        "dwex (DWARF Explorer)",
+        "riscv64-unknown-elf-objdump -d -r",
+        "tchebb bl602-symbolicate-romapi.py",
+        "funcdiff.py / headerdiff.py"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "pine64/bl602-re (clean-room RE working group)",
+        "url": "https://github.com/pine64/bl602-re"
+      },
+      {
+        "name": "tchebb/bl602-ghidra-scripts (ROM symbolication)",
+        "url": "https://github.com/tchebb/bl602-ghidra-scripts"
+      },
+      {
+        "name": "bouffalolab/bl_iot_sdk (open SDK, Apache-2.0)",
+        "url": "https://github.com/bouffalolab/bl_iot_sdk"
+      },
+      {
+        "name": "bouffalolab/bl_blob (NuttX Wi-Fi/peripheral blob)",
+        "url": "https://github.com/bouffalolab/bl_blob"
+      },
+      {
+        "name": "bjoernQ/bl602-wifi-rs (drive the blob from Rust)",
+        "url": "https://github.com/bjoernQ/bl602-wifi-rs"
+      },
+      {
+        "name": "sipeed/bl602-hal (open peripheral HAL)",
+        "url": "https://github.com/sipeed/bl602-hal"
+      }
+    ],
+    "common_hardware": [
+      "Pine64 PineCone BL602 EVB",
+      "Sipeed BL602 / RV-Debugger",
+      "Ai-Thinker Ai-WB2 modules",
+      "DT-BL10",
+      "BL602-based OpenBeken smart-home devices"
+    ],
+    "references": [
+      "https://github.com/pine64/bl602-re",
+      "https://github.com/bouffalolab/bl_iot_sdk/blob/master/components/network/wifi/include/bl_phy_api.h",
+      "https://github.com/bouffalolab/bl_iot_sdk/blob/master/components/network/wifi/include/bl60x_fw_api.h",
+      "https://github.com/pine64/bl602-docs/blob/main/mirrored/BL602_BL604_DS_1.6_en.pdf",
+      "https://wiki.pine64.org/wiki/Nutcracker",
+      "https://en.bouffalolab.com/product/?type=detail&id=1"
+    ],
+    "status": "reported",
+    "notes": "Community-reversed RISC-V Wi-Fi+BLE SoC. Wi-Fi MAC is a RivieraWaves-derived full-MAC (MM_* host/firmware message set) in a closed libwifi.a that ships DWARF debug data, making it unusually reversible. Driver/sniffer/RF-TLV-parser are open Apache-2.0 source. Monitor VERIFIED via public wifi_mgmr_sniffer_register()/MM_MONITOR_REQ; injection reported via raw-TX path. Documented manufacturing raw-PHY TX (bl_mfg_tx11b/n_start_raw(mcs,len,pwr_dbm)) enables bench RF test but not arbitrary-IQ. No public CSI/spectral export (only MM_CHANNEL_SURVEY_IND / RSSI), so tier 1; reversed PHY/AGC/RF register maps (reg_bz_phy.h, reg_rf.h) make tier-3 a research target. TX-into-dummy-load / regulatory caution applies to raw carriers."
+  },
+  {
+    "id": "bouffalo-bl604",
+    "vendor": "Bouffalo Lab",
+    "family": "BL60x",
+    "part_numbers": [
+      "BL604",
+      "BL604E"
+    ],
+    "aliases": [
+      "BL604 IoT module",
+      "BL604E-IoT-DVK"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "Bluetooth LE 5.0"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "riscv32 (RV32IMFC, ilp32f) — same die as BL602 with more GPIO bonded out",
+      "re_tooling": [
+        "ghidra",
+        "dwex",
+        "riscv64-unknown-elf-objdump",
+        "pine64/bl602-re toolset"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "pine64/bl602-re",
+        "url": "https://github.com/pine64/bl602-re"
+      },
+      {
+        "name": "bouffalolab/bl_iot_sdk",
+        "url": "https://github.com/bouffalolab/bl_iot_sdk"
+      }
+    ],
+    "common_hardware": [
+      "BL604E-IoT-DVK (SDIO)",
+      "BL604 IoT modules"
+    ],
+    "references": [
+      "https://github.com/pine64/bl602-docs/blob/main/mirrored/BL602_BL604_DS_1.6_en.pdf",
+      "https://github.com/bouffalolab/bl_iot_sdk",
+      "https://en.bouffalolab.com/product/?type=detail&id=1"
+    ],
+    "status": "reported",
+    "notes": "Electrically the same die as BL602 (identical RV32IMFC core and 802.11 b/g/n + BLE 5.0 radio) with additional GPIO exposed; all BL602 RE/tooling and the same closed libwifi.a apply unchanged. A BL604 variant offers an SDIO host-interface for transparent-transmission use. Monitor verified via the shared SDK sniffer API; injection reported."
+  },
+  {
+    "id": "bouffalo-bl616",
+    "vendor": "Bouffalo Lab",
+    "family": "BL61x",
+    "part_numbers": [
+      "BL616",
+      "BL616C",
+      "BL616CL"
+    ],
+    "aliases": [
+      "BL616-DK",
+      "BL616 Wi-Fi 6"
+    ],
+    "standards": [
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "802.11ax (Wi-Fi 6)",
+      "Bluetooth LE 5.x",
+      "IEEE 802.15.4 (Zigbee/Thread)"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "riscv32 (T-Head-class E907, built with T-Head riscv64-unknown-elf toolchain)",
+      "re_tooling": [
+        "ghidra",
+        "dwex",
+        "riscv64-unknown-elf-objdump",
+        "bouffalo_sdk headers"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "bouffalolab/bouffalo_sdk (open SDK, closed libwifi)",
+        "url": "https://github.com/bouffalolab/bouffalo_sdk"
+      },
+      {
+        "name": "openbouffalo",
+        "url": "https://github.com/openbouffalo"
+      }
+    ],
+    "common_hardware": [
+      "BL616-DK dev kit",
+      "M0P-series BL616 modules"
+    ],
+    "references": [
+      "https://github.com/bouffalolab/bouffalo_sdk",
+      "https://github.com/openbouffalo"
+    ],
+    "status": "reported",
+    "notes": "Newer single-band 2.4 GHz Wi-Fi 6 (802.11ax) + BLE 5.x + 802.15.4 part on a T-Head-class RV32 core, built from bouffalo_sdk. SDK glue/HAL is open but the 802.11ax MAC ships as a closed libwifi blob and community RE is far less mature than BL602 (hence firmware=closed). Monitor/injection expected via the same RivieraWaves-style sniffer path; treat as reported. No public CSI/spectral."
+  },
+  {
+    "id": "bouffalo-bl618",
+    "vendor": "Bouffalo Lab",
+    "family": "BL61x",
+    "part_numbers": [
+      "BL618",
+      "BL618M",
+      "BL618DG"
+    ],
+    "aliases": [
+      "BL618 Wi-Fi 6",
+      "BL618DG dual-core"
+    ],
+    "standards": [
+      "802.11ax (Wi-Fi 6)",
+      "802.11b",
+      "802.11g",
+      "802.11n",
+      "Bluetooth LE 5.x",
+      "IEEE 802.15.4 (Zigbee/Thread)"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "riscv32, multi-core (AP + NP application/network cores; BL618DG dual-core, NP core built with a Zephyr RISC-V toolchain)",
+      "re_tooling": [
+        "ghidra",
+        "dwex",
+        "riscv64-unknown-elf-objdump",
+        "bouffalo_sdk headers"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "bouffalolab/bouffalo_sdk",
+        "url": "https://github.com/bouffalolab/bouffalo_sdk"
+      }
+    ],
+    "common_hardware": [
+      "BL618DG dev kit",
+      "BL618M modules"
+    ],
+    "references": [
+      "https://github.com/bouffalolab/bouffalo_sdk"
+    ],
+    "status": "reported",
+    "notes": "Higher-pin/PSRAM Wi-Fi 6 sibling of BL616 with a multi-core layout (separate AP and NP cores; BL618DG dual-core, one core targeted with a Zephyr RISC-V toolchain). Same open-SDK / closed-libwifi split as BL616; ax MAC RE is early, so firmware=closed and higher-tier claims are not yet grounded. Monitor/injection reported via the shared sniffer path."
+  },
+  {
+    "id": "bouffalo-bl702",
+    "vendor": "Bouffalo Lab",
+    "family": "BL70x",
+    "part_numbers": [
+      "BL702",
+      "BL702L",
+      "BL704L",
+      "BL706"
+    ],
+    "aliases": [
+      "BL70x",
+      "BL702 Zigbee/BLE"
+    ],
+    "standards": [
+      "Bluetooth LE 5.0",
+      "IEEE 802.15.4 (Zigbee/Thread)"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "riscv32 (RV32, no Wi-Fi radio)",
+      "re_tooling": [
+        "ghidra",
+        "dwex",
+        "riscv64-unknown-elf-objdump",
+        "openbouffalo/openocd"
+      ]
+    },
+    "key_projects": [
+      {
+        "name": "bouffalolab/bl_iot_sdk",
+        "url": "https://github.com/bouffalolab/bl_iot_sdk"
+      },
+      {
+        "name": "bouffalolab/bouffalo_sdk",
+        "url": "https://github.com/bouffalolab/bouffalo_sdk"
+      }
+    ],
+    "common_hardware": [
+      "Sipeed RV-Debugger Plus (BL702)",
+      "BL702 Zigbee/Thread dongles"
+    ],
+    "references": [
+      "https://github.com/bouffalolab/bouffalo_sdk",
+      "https://github.com/bouffalolab/bl_iot_sdk"
+    ],
+    "status": "reported",
+    "notes": "Sibling radio to BL602 with NO Wi-Fi — BLE 5.0 + IEEE 802.15.4 (Zigbee/Thread) only. Ships an RF blob (libbl702_rf.a) and an 802.15.4 MAC lib (liblmac154.a); OpenThread support gives 802.15.4 promiscuous/monitor capture, hence tier 1 monitor. Included for family completeness and because its RF/PHY register lineage overlaps BL602. No Wi-Fi monitor/injection/CSI."
+  },
+  {
+    "id": "bouffalo-bl808",
+    "vendor": "Bouffalo Lab",
+    "family": "BL80x",
+    "aliases": [
+      "BL808",
+      "Sipeed M1s",
+      "Pine64 Ox64"
+    ],
+    "part_numbers": [
+      "BL808"
+    ],
+    "standards": [
+      "802.11b/g/n",
+      "Bluetooth 5.0",
+      "802.15.4"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "Heterogeneous RISC-V: T-head C906 64-bit @480 MHz (D0, w/ NPU) + C906 32-bit @320 MHz (M0, wireless) + E902 LP @150 MHz",
+      "re_tooling": [
+        "Ghidra (RISCV:LE:32/64)",
+        "Linux instrumentation via openbouffalo (ftrace/devmem on the mailbox)",
+        "bouffalo_sdk cross-reference"
+      ]
+    },
+    "common_hardware": [
+      "Sipeed M1s Dock",
+      "Pine64 Ox64"
+    ],
+    "key_projects": [
+      {
+        "name": "openbouffalo buildroot (Linux on BL808)",
+        "url": "https://github.com/openbouffalo/buildroot_bouffalo"
+      },
+      {
+        "name": "openbouffalo org",
+        "url": "https://github.com/openbouffalo"
+      },
+      {
+        "name": "bouffalo_sdk",
+        "url": "https://github.com/bouffalolab/bouffalo_sdk"
+      }
+    ],
+    "notes": "Multi-core RISC-V AIoT SoC (Wi-Fi 4 + BLE 5 + 802.15.4, 2.4 GHz) that runs mainline-ish Linux via openbouffalo on the 64-bit C906. Wi-Fi handled by the 32-bit C906 (M0) running the same closed RivieraWaves-derived blob. Linux hosting is a strong RE lever: the coprocessor hand-off can be instrumented with standard kernel tooling. Tier 1; Wi-Fi driver in the Linux tree is a WIP blob wrapper.",
+    "status": "reported",
+    "references": [
+      "https://github.com/openbouffalo/buildroot_bouffalo",
+      "https://github.com/openbouffalo",
+      "https://github.com/bouffalolab/bouffalo_sdk"
     ]
   },
   {
@@ -3859,65 +4675,36 @@
     ]
   },
   {
-    "id": "ebyte-nicerf-modules",
-    "vendor": "Chengdu Ebyte / NiceRF (module vendors)",
-    "family": "Sub-GHz/2.4 GHz carrier modules over Semtech/TI/SiLabs die",
+    "id": "chipsea-cst92f",
+    "vendor": "Chipsea",
+    "family": "CST92F",
     "aliases": [
-      "Ebyte E22",
-      "Ebyte E28",
-      "Ebyte E07",
-      "Ebyte E32",
-      "NiceRF LoRa modules",
-      "G-NiceRF"
+      "CST92F41",
+      "CST92Fxx"
     ],
     "part_numbers": [
-      "E22-900M22S (SX1262)",
-      "E28-2G4M20S (SX1280)",
-      "E07-900M10S (CC1101)",
-      "E30 (Si446x)",
-      "E32 (SX127x)",
-      "E80 (LR11xx)"
+      "CST92F41"
     ],
     "bands": [
-      "sub-GHz",
       "2.4GHz"
     ],
     "standards": [
-      "LoRa",
-      "LoRaWAN",
-      "(G)FSK",
-      "OOK"
+      "Bluetooth LE 5"
     ],
-    "sdr_tier": 1,
-    "sdr_capabilities": [
-      "monitor",
-      "injection",
-      "covert-channel"
-    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
     "firmware": {
-      "openness": "partially-documented",
-      "re_tooling": [
-        "transparent-UART firmware (opaque) OR bare-die SPI",
-        "RadioLib",
-        "host-chip datasheet"
-      ]
+      "openness": "closed",
+      "arch": "Cortex-M0"
     },
     "common_hardware": [
-      "Ebyte E-series eval boards",
-      "NiceRF module carriers with PA/LNA"
+      "BLE sensors/remotes"
     ],
-    "key_projects": [
-      {
-        "name": "RadioLib",
-        "url": "https://github.com/jgromes/RadioLib"
-      }
-    ],
-    "status": "verified",
-    "notes": "Carrier boards (Ebyte E-series, NiceRF/G-NiceRF) for every chip on this page plus PA/LNA front ends. Two use modes: (a) transparent-UART firmware, convenient but opaque, effectively an RN2483-style closed box; (b) strip firmware and talk SPI to the bare Semtech/TI/SiLabs die, restoring the host chip's full Tier-1 register control. Real capability = the inner chip; the module part number identifies it. Warning: H/PA variants emit +20..+30 dBm (regulatory/PA-damage risk without proper antenna/attenuator).",
     "references": [
-      "https://www.ebyte.com/en/",
-      "https://github.com/jgromes/RadioLib"
-    ]
+      "https://www.chipsea.com/"
+    ],
+    "status": "reported",
+    "notes": "BLE 5 Cortex-M0 SoC from an ADC/MCU vendor branching into wireless. Closed SDK. Tier 0."
   },
   {
     "id": "cypress-cyw43012",
@@ -4167,6 +4954,67 @@
     "notes": "Automotive-grade 2x2 11ac with 802.11p (DSRC/V2X). Same lineage; no public RE. Cataloged for future 802.11p-repurposing interest."
   },
   {
+    "id": "ebyte-nicerf-modules",
+    "vendor": "Ebyte/NiceRF",
+    "family": "Sub-GHz/2.4 GHz carrier modules over Semtech/TI/SiLabs die",
+    "aliases": [
+      "Ebyte E22",
+      "Ebyte E28",
+      "Ebyte E07",
+      "Ebyte E32",
+      "NiceRF LoRa modules",
+      "G-NiceRF"
+    ],
+    "part_numbers": [
+      "E22-900M22S (SX1262)",
+      "E28-2G4M20S (SX1280)",
+      "E07-900M10S (CC1101)",
+      "E30 (Si446x)",
+      "E32 (SX127x)",
+      "E80 (LR11xx)"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "LoRa",
+      "LoRaWAN",
+      "(G)FSK",
+      "OOK"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "re_tooling": [
+        "transparent-UART firmware (opaque) OR bare-die SPI",
+        "RadioLib",
+        "host-chip datasheet"
+      ]
+    },
+    "common_hardware": [
+      "Ebyte E-series eval boards",
+      "NiceRF module carriers with PA/LNA"
+    ],
+    "key_projects": [
+      {
+        "name": "RadioLib",
+        "url": "https://github.com/jgromes/RadioLib"
+      }
+    ],
+    "status": "verified",
+    "notes": "Carrier boards (Ebyte E-series, NiceRF/G-NiceRF) for every chip on this page plus PA/LNA front ends. Two use modes: (a) transparent-UART firmware, convenient but opaque, effectively an RN2483-style closed box; (b) strip firmware and talk SPI to the bare Semtech/TI/SiLabs die, restoring the host chip's full Tier-1 register control. Real capability = the inner chip; the module part number identifies it. Warning: H/PA variants emit +20..+30 dBm (regulatory/PA-damage risk without proper antenna/attenuator).",
+    "references": [
+      "https://www.ebyte.com/en/",
+      "https://github.com/jgromes/RadioLib"
+    ]
+  },
+  {
     "id": "espressif-esp32",
     "vendor": "Espressif",
     "family": "ESP32",
@@ -4363,9 +5211,10 @@
   {
     "id": "espressif-esp32-c5",
     "vendor": "Espressif",
-    "family": "ESP32 RISC-V",
+    "family": "ESP32-C (RISC-V)",
     "aliases": [
-      "ESP32-C5"
+      "ESP32-C5",
+      "ESP32C5"
     ],
     "part_numbers": [
       "ESP32-C5"
@@ -4376,36 +5225,37 @@
     ],
     "standards": [
       "802.11ax (Wi-Fi 6)",
-      "Bluetooth LE 5",
+      "802.11 b/g/n/ac",
+      "Bluetooth 5 LE",
       "802.15.4"
     ],
     "sdr_tier": 2,
     "sdr_capabilities": [
-      "monitor",
-      "csi"
+      "csi",
+      "monitor"
     ],
     "firmware": {
       "openness": "partially-documented",
-      "arch": "RISC-V + Wi-Fi/BLE/154 (PHY blob, ESP-IDF driver)",
+      "arch": "riscv32",
       "re_tooling": [
-        "ESP-IDF",
-        "esp-idf Wi-Fi CSI API",
-        "Ghidra (RISC-V)"
+        "ghidra",
+        "esp-idf",
+        "riscv toolchain"
       ]
     },
     "common_hardware": [
-      "ESP32-C5-DevKitC-1"
+      "ESP32-C5-DevKitC"
     ],
     "key_projects": [
       {
-        "name": "ESP-IDF Wi-Fi CSI",
-        "url": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32c5/api-guides/wifi.html"
+        "name": "esp-csi",
+        "url": "https://github.com/espressif/esp-csi"
       }
     ],
     "status": "verified",
-    "notes": "Dual-band 2.4/5 GHz Wi-Fi 6 RISC-V SoC with BLE 5 and 802.15.4. Inherits the open ESP-IDF CSI/monitor path - notably a rare cheap route to 5 GHz CSI. PHY is a blob but driver/API is documented. Tier 2 (CSI).",
+    "notes": "Espressif's first dual-band (2.4/5 GHz) Wi-Fi 6 SoC, single RISC-V core. Exposes per-subcarrier CSI via the documented ESP-IDF CSI callback API (tier 2), and is explicitly listed among esp-csi's fully supported parts (ESP32/S2/C3/S3/C5/C6/C61). Wi-Fi/BT firmware is a closed blob but the CSI/RF-config API is documented. Recent silicon — use current ESP-IDF.",
     "references": [
-      "https://www.espressif.com/en/products/socs",
+      "https://github.com/espressif/esp-csi",
       "https://www.espressif.com/en/products/socs/esp32-c5"
     ]
   },
@@ -4479,9 +5329,10 @@
   {
     "id": "espressif-esp32-c61",
     "vendor": "Espressif",
-    "family": "ESP32 RISC-V",
+    "family": "ESP32-C (RISC-V)",
     "aliases": [
-      "ESP32-C61"
+      "ESP32-C61",
+      "ESP32C61"
     ],
     "part_numbers": [
       "ESP32-C61"
@@ -4490,35 +5341,37 @@
       "2.4GHz"
     ],
     "standards": [
-      "802.11ax (Wi-Fi 6)",
-      "Bluetooth LE 5"
+      "802.11ax (Wi-Fi 6, 2.4 GHz)",
+      "802.11 b/g/n",
+      "Bluetooth 5 LE"
     ],
     "sdr_tier": 2,
     "sdr_capabilities": [
-      "monitor",
-      "csi"
+      "csi",
+      "monitor"
     ],
     "firmware": {
       "openness": "partially-documented",
-      "arch": "RISC-V + Wi-Fi 6/BLE (PHY blob, ESP-IDF driver)",
+      "arch": "riscv32",
       "re_tooling": [
-        "ESP-IDF",
-        "esp-idf Wi-Fi CSI API"
+        "ghidra",
+        "esp-idf",
+        "riscv toolchain"
       ]
     },
     "common_hardware": [
-      "ESP32-C61-DevKitC-1"
+      "ESP32-C61 dev boards"
     ],
     "key_projects": [
       {
-        "name": "ESP-IDF Wi-Fi CSI",
-        "url": "https://docs.espressif.com/projects/esp-idf/en/latest/api-guides/wifi.html"
+        "name": "esp-csi",
+        "url": "https://github.com/espressif/esp-csi"
       }
     ],
     "status": "verified",
-    "notes": "Single-band 2.4 GHz Wi-Fi 6 + BLE 5 RISC-V SoC, the low-cost C-series member. Same open ESP-IDF CSI/monitor path as other ESP32 parts. Tier 2 (CSI). (ESP32-P4, listed in scope, has NO radio and is excluded.)",
+    "notes": "Cost-reduced 2.4 GHz-only Wi-Fi 6 RISC-V SoC. Supports the same documented ESP-IDF CSI extraction path as the rest of the family (tier 2) and is listed in esp-csi's supported set. Very new (2024/2025); board and toolchain availability still maturing.",
     "references": [
-      "https://www.espressif.com/en/products/socs",
+      "https://github.com/espressif/esp-csi",
       "https://www.espressif.com/en/products/socs/esp32-c61"
     ]
   },
@@ -4633,40 +5486,44 @@
   {
     "id": "espressif-esp32-p4",
     "vendor": "Espressif",
-    "family": "ESP32-P4 (host MCU, no integrated radio)",
+    "family": "ESP32-P",
     "aliases": [
       "ESP32-P4",
-      "ESP32P4"
+      "ESP32-P4 Function EV Board"
     ],
     "part_numbers": [
       "ESP32-P4"
     ],
-    "bands": [],
     "standards": [],
     "sdr_tier": 0,
     "sdr_capabilities": [],
     "firmware": {
-      "arch": "dual-core RISC-V @400MHz + LP-core; NO integrated Wi-Fi/BT radio",
-      "openness": "closed",
+      "openness": "open",
+      "arch": "RISC-V RV32IMAFC dual-core (HP) @400 MHz + LP core",
       "re_tooling": [
-        "ESP-Hosted / ESP-AT to a companion ESP32-C/S radio chip"
+        "ESP-IDF (fully documented HAL, no radio blob)"
       ]
     },
     "common_hardware": [
-      "ESP32-P4 Function EV Board (paired with ESP32-C6 companion)"
+      "ESP32-P4 Function EV Board",
+      "ESP32-P4-Nano"
     ],
     "key_projects": [
       {
-        "name": "esp-hosted",
+        "name": "esp-hosted (companion-radio Wi-Fi)",
         "url": "https://github.com/espressif/esp-hosted"
+      },
+      {
+        "name": "ESP-IDF",
+        "url": "https://github.com/espressif/esp-idf"
       }
     ],
-    "references": [
-      "https://www.espressif.com/en/products/socs/esp32-p4",
-      "https://github.com/espressif/esp-hosted"
-    ],
+    "notes": "Honest edge case: a high-performance dual-core RISC-V application processor with NO integrated radio. Wi-Fi/BLE come only from an external companion (ESP32-C5/C6) over SDIO/SPI via esp-hosted. Tier 0 for SDR purposes, and included as a family member + caution that 'RISC-V + Espressif' does not imply a radio. Ironically the most-open Espressif chip precisely because it has no Wi-Fi blob to hide.",
     "status": "verified",
-    "notes": "Included for completeness because the scope names it: the ESP32-P4 is a high-performance application MCU with NO on-chip RF. It gets Wi-Fi/BT only through a companion ESP32-C/S radio over SPI/SDIO/UART (ESP-Hosted/ESP-AT). As a radio it is Tier 0 / not-applicable; any SDR capability belongs to whatever companion chip is attached (e.g. the catalogued ESP32-C6). Net-new record, flagged as a non-radio."
+    "references": [
+      "https://www.espressif.com/en/products/socs",
+      "https://github.com/espressif/esp-hosted"
+    ]
   },
   {
     "id": "espressif-esp32-s2",
@@ -5444,6 +6301,104 @@
     ]
   },
   {
+    "id": "hisilicon-hi1103",
+    "vendor": "HiSilicon",
+    "family": "Hi110x",
+    "aliases": [
+      "Hi1103",
+      "Huawei Wi-Fi 6 combo"
+    ],
+    "part_numbers": [
+      "Hi1103"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ax",
+      "Bluetooth 5.1"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed"
+    },
+    "common_hardware": [
+      "Huawei/Honor Kirin-era phones (P40, Mate 30)",
+      "Huawei AX3-class routers"
+    ],
+    "references": [
+      "https://www.hisilicon.com/"
+    ],
+    "status": "reported",
+    "notes": "Huawei's first Wi-Fi 6 + BT 5.1 combo. Fully captive: no public SDK/datasheet, signed closed firmware, no known monitor/injection path. Tier 0."
+  },
+  {
+    "id": "hisilicon-hi1105",
+    "vendor": "HiSilicon",
+    "family": "Hi110x",
+    "aliases": [
+      "Hi1105"
+    ],
+    "part_numbers": [
+      "Hi1105"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ax"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed"
+    },
+    "common_hardware": [
+      "Huawei Wi-Fi 6 routers/CPE"
+    ],
+    "references": [
+      "https://www.hisilicon.com/"
+    ],
+    "status": "reported",
+    "notes": "Router/CPE-oriented Wi-Fi 6 sibling of Hi1103. Closed, captive. Tier 0."
+  },
+  {
+    "id": "hisilicon-hi1151",
+    "vendor": "HiSilicon",
+    "family": "Hi110x",
+    "aliases": [
+      "Hi1151"
+    ],
+    "part_numbers": [
+      "Hi1151"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11ax",
+      "802.11be (reported)"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed"
+    },
+    "common_hardware": [
+      "Newer Huawei flagship connectivity (reported)"
+    ],
+    "references": [
+      "https://www.hisilicon.com/"
+    ],
+    "status": "theoretical",
+    "notes": "Reported later HiSilicon Wi-Fi 6E/7-class combo with sparse public documentation; band/standard set is best-effort. Closed. Tier 0, listed for completeness."
+  },
+  {
     "id": "hoperf-rfm69",
     "vendor": "HopeRF",
     "family": "RFM69 GFSK/OOK module (Semtech SX1231)",
@@ -5873,16 +6828,17 @@
     ]
   },
   {
-    "id": "intel-9260",
+    "id": "intel-8265",
     "vendor": "Intel",
-    "family": "9000-series",
+    "family": "Wireless-AC 8265 (Windstorm Peak)",
     "aliases": [
-      "Intel 9260",
-      "Wireless-AC 9260"
+      "Wireless-AC 8265",
+      "8265NGW",
+      "Dual Band Wireless-AC 8265"
     ],
     "part_numbers": [
-      "9260",
-      "9560"
+      "8265NGW",
+      "8265.D2WG"
     ],
     "bands": [
       "2.4GHz",
@@ -5898,18 +6854,72 @@
     ],
     "firmware": {
       "openness": "closed",
-      "arch": "Intel proprietary",
+      "arch": "Intel Wi-Fi MAC on closed signed firmware (iwlwifi ucode)",
       "re_tooling": []
     },
-    "status": "reported",
+    "status": "verified",
     "common_hardware": [
-      "Intel 9260 M.2 module"
+      "Intel 8265NGW M.2 cards",
+      "2016-2019 laptops"
     ],
-    "key_projects": [],
+    "key_projects": [
+      {
+        "name": "iwlwifi (mainline)",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+      }
+    ],
+    "notes": "CORRECTION (merge): injection removed. Monitor RX only; firmware-gated TX blocks injection. Grade D.",
     "references": [
-      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/iwlwifi.html"
+      "https://www.aircrack-ng.org/doku.php?id=injection_test",
+      "https://www.aircrack-ng.org/doku.php?id=compatibility_drivers"
+    ]
+  },
+  {
+    "id": "intel-9260",
+    "vendor": "Intel",
+    "family": "Wireless-AC 9260 (Thunder Peak)",
+    "aliases": [
+      "Wireless-AC 9260",
+      "9260NGW",
+      "Thunder Peak"
     ],
-    "notes": "CORRECTION (merge on id): DOWNGRADE from Tier 3. No iwlwifi spectral/FFT path. Only monitor mode is publicly reproducible (Tier 1). 'spectral-scan' removed."
+    "part_numbers": [
+      "9260NGW",
+      "9260.NGWG"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ac",
+      "802.11n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Intel Wi-Fi MAC on closed signed firmware (iwlwifi ucode)",
+      "re_tooling": []
+    },
+    "status": "verified",
+    "common_hardware": [
+      "Intel 9260NGW M.2 cards",
+      "2017-2019 laptops"
+    ],
+    "key_projects": [
+      {
+        "name": "iwlwifi (mainline)",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+      }
+    ],
+    "notes": "CORRECTION (merge): injection removed. Monitor mode usable; injection not supported by iwlwifi/firmware — widely reported that 'Injection is working!' never prints. Grade D.",
+    "references": [
+      "https://www.aircrack-ng.org/doku.php?id=injection_test",
+      "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+    ]
   },
   {
     "id": "intel-ax101",
@@ -5957,14 +6967,16 @@
   {
     "id": "intel-ax200",
     "vendor": "Intel",
-    "family": "AX2xx (Wi-Fi 6)",
+    "family": "Wi-Fi 6 (AX200 / Cyclone Peak)",
     "aliases": [
       "AX200",
-      "Intel Wi-Fi 6 AX200"
+      "AX200NGW",
+      "Cyclone Peak"
     ],
     "part_numbers": [
       "AX200",
-      "AX201"
+      "AX200NGW",
+      "AX200.NGWG"
     ],
     "bands": [
       "2.4GHz",
@@ -5975,31 +6987,32 @@
       "802.11ac",
       "802.11n"
     ],
-    "sdr_tier": 2,
+    "sdr_tier": 1,
     "sdr_capabilities": [
-      "monitor",
-      "csi"
+      "monitor"
     ],
     "firmware": {
       "openness": "closed",
-      "arch": "Intel proprietary (undocumented baseband)",
+      "arch": "Intel Wi-Fi MAC on closed signed firmware (iwlwifi ucode); no public RE",
       "re_tooling": []
     },
-    "status": "reported",
+    "status": "verified",
     "common_hardware": [
-      "Intel AX200 M.2 module"
+      "Intel AX200NGW M.2/NGFF cards",
+      "most 2019+ Intel-equipped laptops"
     ],
     "key_projects": [
       {
-        "name": "PicoScenes (CSI on Intel AX200/AX210)",
-        "url": "https://ps.zpj.io/"
+        "name": "iwlwifi (mainline)",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
       }
     ],
+    "notes": "CORRECTION (merge): injection removed. Monitor RX works via iwlwifi (with configuration), but the closed Intel firmware owns the TX MAC and silently drops host-crafted frames — 'aireplay-ng -9' does not print 'Injection is working!'. Intel appears nowhere in the aircrack-ng recommended-card FAQ. Grade D (monitor yes, injection no). Do not flag injection.",
     "references": [
-      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/iwlwifi.html",
-      "https://ps.zpj.io/"
-    ],
-    "notes": "CORRECTION (merge on id): DOWNGRADE from Tier 3. No spectral/FFT interface in iwlwifi. CSI via PicoScenes is the genuine Tier-2 capability. 'spectral-scan' removed."
+      "https://www.aircrack-ng.org/doku.php?id=injection_test",
+      "https://www.aircrack-ng.org/doku.php?id=faq",
+      "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
+    ]
   },
   {
     "id": "intel-ax200-ax201",
@@ -6127,13 +7140,16 @@
   {
     "id": "intel-ax210",
     "vendor": "Intel",
-    "family": "AX2xx (Wi-Fi 6E)",
+    "family": "Wi-Fi 6E (AX210 / Typhoon Peak)",
     "aliases": [
       "AX210",
-      "Intel Wi-Fi 6E AX210"
+      "AX211",
+      "AX210NGW",
+      "Typhoon Peak"
     ],
     "part_numbers": [
       "AX210",
+      "AX210NGW",
       "AX211"
     ],
     "bands": [
@@ -6146,32 +7162,31 @@
       "802.11ac",
       "802.11n"
     ],
-    "sdr_tier": 2,
+    "sdr_tier": 1,
     "sdr_capabilities": [
-      "monitor",
-      "csi"
+      "monitor"
     ],
     "firmware": {
       "openness": "closed",
-      "arch": "Intel proprietary (undocumented baseband)",
+      "arch": "Intel Wi-Fi MAC on closed signed firmware (iwlwifi ucode); no public RE",
       "re_tooling": []
     },
-    "status": "reported",
+    "status": "verified",
     "common_hardware": [
-      "Intel AX210 M.2 module",
-      "laptop Wi-Fi 6E cards"
+      "Intel AX210NGW M.2 cards",
+      "2021+ WiFi 6E laptops"
     ],
     "key_projects": [
       {
-        "name": "PicoScenes (CSI on Intel AX200/AX210)",
-        "url": "https://ps.zpj.io/"
+        "name": "iwlwifi (mainline)",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/iwlwifi"
       }
     ],
+    "notes": "CORRECTION (merge): injection removed. Same firmware-gated TX path as AX200 — monitor RX (incl. 6 GHz) works, host injection is dropped by the closed ucode; 'aireplay-ng -9' fails. Grade D. Not injection-capable in 2025.",
     "references": [
-      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/iwlwifi.html",
-      "https://ps.zpj.io/"
-    ],
-    "notes": "CORRECTION (merge on id): DOWNGRADE from Tier 3. iwlwifi exposes NO spectral scan / FFT / spectrum-analyzer interface anywhere in its debug surface (prints, tracing, air-sniffing, fw-debug only). The real off-the-ground capability is CSI via PicoScenes (Tier 2). 'spectral-scan' removed. Firmware is closed; no public FFT path exists."
+      "https://www.aircrack-ng.org/doku.php?id=injection_test",
+      "https://www.aircrack-ng.org/doku.php?id=compatibility_drivers"
+    ]
   },
   {
     "id": "intel-ax210-ax211",
@@ -7818,67 +8833,47 @@
   {
     "id": "marvell-88w8897",
     "vendor": "Marvell",
-    "family": "Avastar",
+    "family": "Avastar 88W8897 (FullMAC)",
     "aliases": [
       "88W8897",
-      "88W8997",
-      "SD8887",
-      "SD8897",
-      "Avastar"
+      "Avastar 88W8897",
+      "W8897"
     ],
     "part_numbers": [
       "88W8897",
-      "88W8997",
-      "SD8887",
-      "SD8897"
+      "88W8997"
     ],
     "bands": [
       "2.4GHz",
       "5GHz"
     ],
     "standards": [
-      "802.11a",
-      "802.11b",
-      "802.11g",
-      "802.11n",
-      "802.11ac"
+      "802.11ac",
+      "802.11n"
     ],
-    "sdr_tier": 1,
-    "sdr_capabilities": [
-      "monitor",
-      "injection",
-      "csi"
-    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
     "firmware": {
-      "arch": "ThreadX RTOS on on-chip MAC/PHY controller",
       "openness": "closed",
-      "re_tooling": [
-        "ida",
-        "ghidra"
-      ]
+      "arch": "Marvell FullMAC; association + TX scheduling in closed firmware (mwifiex)",
+      "re_tooling": []
     },
+    "status": "verified",
     "common_hardware": [
-      "Sony PlayStation 4",
-      "Microsoft Surface",
-      "Chromebooks",
-      "Steam Link",
-      "SDIO IoT modules"
+      "Microsoft Surface line",
+      "Sony PS4 (88W8897)",
+      "various SDIO/PCIe FullMAC modules"
     ],
     "key_projects": [
       {
-        "name": "Project Zero: Over The Air (Marvell Avastar firmware RE)",
-        "url": "https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html"
-      },
-      {
-        "name": "mwifiex mainline driver",
-        "url": "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/marvell/mwifiex"
+        "name": "mwifiex (mainline)",
+        "url": "https://wireless.wiki.kernel.org/en/users/drivers/mwifiex"
       }
     ],
-    "status": "reported",
-    "notes": "mwifiex gives monitor mode (tier 1). Gal Beniamini reverse-engineered the 88W8897 Wi-Fi firmware (ThreadX RTOS) for exploitation, proving the firmware is openable with IDA/Ghidra, but no SDR/CSI feature has been productized, so CSI is only reported.",
+    "notes": "CORRECTION (merge): monitor and injection removed; downgraded to Tier 0. FullMAC vendor stack (mwifiex) exposes no usable monitor interface and no host injection path — the MAC lives entirely in closed firmware. Grade F. Any prior monitor/injection flag was an over-claim.",
     "references": [
-      "https://googleprojectzero.blogspot.com/2017/04/over-air-exploiting-broadcoms-wi-fi_4.html",
-      "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/marvell/mwifiex"
+      "https://www.aircrack-ng.org/doku.php?id=compatibility_drivers",
+      "https://wireless.wiki.kernel.org/en/users/drivers/mwifiex"
     ]
   },
   {
@@ -9035,6 +10030,65 @@
     "notes": "In the Alfa AWUS036AXML. 6 GHz-capable client on open mt76."
   },
   {
+    "id": "mediatek-mt7925",
+    "vendor": "MediaTek",
+    "family": "MT792x (Filogic 330/Wi-Fi 7)",
+    "aliases": [
+      "MT7925",
+      "MT7925U",
+      "MT7925AU",
+      "Filogic 330"
+    ],
+    "part_numbers": [
+      "MT7925",
+      "MT7925U",
+      "MT7925AU",
+      "MT7925B22M"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11be",
+      "802.11ax",
+      "802.11ac",
+      "Bluetooth 5.4"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "unknown",
+      "re_tooling": [
+        "ghidra",
+        "mt76 driver source",
+        "binwalk"
+      ]
+    },
+    "common_hardware": [
+      "Newer Alfa AWUS036AX-series USB adapters",
+      "M.2 2230 Wi-Fi 7 cards",
+      "laptop CNVi/discrete modules"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76 (mt7925u/mt7925e)",
+        "url": "https://github.com/openwrt/mt76"
+      }
+    ],
+    "status": "verified",
+    "notes": "MediaTek Wi-Fi 7 (802.11be) successor to MT7921; dual-/tri-band with 6 GHz. Mainline mt76 driver (mt7925u USB / mt7925e PCIe) lands monitor mode and packet injection (tier 1); requires kernel >= 6.7. No turnkey CSI toolchain as of 2025 — CSI only in research patches. Driver open, firmware blob closed. Appears in newer Alfa 'AX' USB adapters, so verify MT7921 vs MT7925 in dmesg before assuming driver/CSI support.",
+    "references": [
+      "https://github.com/openwrt/mt76",
+      "https://www.kernel.org/doc/html/latest/networking/device_drivers/wifi/mt76.html"
+    ]
+  },
+  {
     "id": "mediatek-mt7925-wifi7",
     "vendor": "MediaTek",
     "family": "MT7925 / MT7927 (Wi-Fi 7 client)",
@@ -9194,6 +10248,62 @@
     "references": [
       "https://github.com/openwrt/mt76",
       "https://www.mediatek.com/products/broadband-wifi/mediatek-filogic-830"
+    ]
+  },
+  {
+    "id": "mediatek-mt7981",
+    "vendor": "MediaTek",
+    "family": "MT798x (Filogic, connac2 SoC)",
+    "aliases": [
+      "Filogic 820"
+    ],
+    "part_numbers": [
+      "MT7981",
+      "MT7981A",
+      "MT7981B"
+    ],
+    "standards": [
+      "802.11ax",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Andes/AndeStar (reported; WM+WA images, WO for WED offload)",
+      "re_tooling": [
+        "ghidra",
+        "binwalk",
+        "mt76 loader"
+      ]
+    },
+    "common_hardware": [
+      "GL.iNet Flint-class routers",
+      "many OpenWrt Wi-Fi 6 routers"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76",
+        "url": "https://github.com/openwrt/mt76"
+      },
+      {
+        "name": "linux-firmware mediatek",
+        "url": "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek"
+      }
+    ],
+    "status": "reported",
+    "notes": "Integrated Wi-Fi 6 router SoC. Firmware set mt7981_wm/wa/rom_patch plus a separate WED-offload processor image mt7981_wo.bin loaded by the mtk_wed_wo Ethernet block (not the Wi-Fi driver). Open mt76 driver; closed firmware is the RE work.",
+    "references": [
+      "https://github.com/openwrt/mt76",
+      "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek"
     ]
   },
   {
@@ -9421,52 +10531,110 @@
     "notes": "Wi-Fi 6E Filogic 880 platform (adds 6GHz over MT7986) with integrated radio on mt76. Same monitor/inject (Tier 1) plus reported mt76 CSI (Tier 2) story with a 6GHz band. CSI remains out-of-tree and format-unstable, hence reported."
   },
   {
-    "id": "mediatek-mt7996",
+    "id": "mediatek-mt7992",
     "vendor": "MediaTek",
-    "family": "Filogic (ConnAC3 802.11be Wi-Fi 7 SoC)",
+    "family": "MT7996 (Filogic, connac3)",
     "aliases": [
-      "Filogic 880",
-      "MT7996"
+      "Filogic 860"
     ],
     "part_numbers": [
-      "MT7996"
+      "MT7992"
     ],
     "standards": [
-      "802.11a/b/g/n/ac/ax/be"
+      "802.11be",
+      "802.11ax"
     ],
     "bands": [
       "2.4GHz",
       "5GHz",
       "6GHz"
     ],
-    "sdr_tier": 1,
+    "sdr_tier": 2,
     "sdr_capabilities": [
       "monitor",
-      "injection"
+      "injection",
+      "csi"
     ],
     "firmware": {
-      "openness": "partially-documented",
-      "arch": "ConnAC3 multi-MCU (WM + WA + WO), closed RAM firmware over a ROM patch; tri-band, up to 320 MHz / 4x4",
+      "openness": "closed",
+      "arch": "Andes/AndeStar (reported; WM+WA+DSP images)",
       "re_tooling": [
         "ghidra",
-        "IDA",
-        "open mt76 mt7996 driver source"
+        "binwalk"
       ]
     },
     "common_hardware": [
-      "Wi-Fi 7 AP/router reference boards (Banana Pi BPI-R4, Filogic 880 routers)"
+      "dual-band Wi-Fi 7 APs and routers"
     ],
     "key_projects": [
       {
-        "name": "mt76 (mt7996 sub-driver)",
+        "name": "mt76",
         "url": "https://github.com/openwrt/mt76"
       }
     ],
     "status": "reported",
-    "notes": "Filogic 880 tri-band Wi-Fi 7 (802.11be, up to 320 MHz, 4x4) AP SoC, driven by the in-tree mt76 mt7996 sub-driver. Monitor mode is verified via mac80211; injection is present through the standard radiotap-TX path but EHT/be rate injection is still maturing on this newest silicon, hence Tier 1 reported rather than verified. No public CSI tool for MT7996 yet (the MediaTek CSI patches target the 11ax MT7915/MT7981/MT7986 family); no arbitrary-waveform TX. Catalogued to close the Wi-Fi 7 AP gap alongside the mt7925/mt7927 clients.",
+    "notes": "Lower-tier connac3 sibling of MT7996; shares the mt7996 sub-driver and firmware container format (mt7992_wm/wa/dsp/rom_patch under mediatek/mt7996/). Same open-driver / closed-firmware split. Firmware-version variants (_23/_24) exist in linux-firmware.",
     "references": [
       "https://github.com/openwrt/mt76",
-      "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/net/wireless/mediatek/mt76"
+      "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek/mt7996"
+    ]
+  },
+  {
+    "id": "mediatek-mt7996",
+    "vendor": "MediaTek",
+    "family": "MT7996 (Filogic, connac3)",
+    "aliases": [
+      "Filogic 880",
+      "MT7996AV"
+    ],
+    "part_numbers": [
+      "MT7996"
+    ],
+    "standards": [
+      "802.11be",
+      "802.11ax",
+      "802.11ac"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz"
+    ],
+    "sdr_tier": 2,
+    "sdr_capabilities": [
+      "monitor",
+      "injection",
+      "csi"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Andes/AndeStar (reported; WM+WA+DSP images) — confirm ISA from the blob",
+      "re_tooling": [
+        "ghidra",
+        "binwalk",
+        "mt76 in-kernel loader as format spec"
+      ]
+    },
+    "common_hardware": [
+      "BananaPi BPI-R4",
+      "OpenWrt One (companion)",
+      "tri-band Wi-Fi 7 APs"
+    ],
+    "key_projects": [
+      {
+        "name": "mt76 (in-kernel driver, open)",
+        "url": "https://github.com/openwrt/mt76"
+      },
+      {
+        "name": "linux-firmware mediatek/mt7996",
+        "url": "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek/mt7996"
+      }
+    ],
+    "status": "reported",
+    "notes": "Wi-Fi 7 connac3 flagship. mt76 driver is fully open (monitor+injection verified); firmware WM/WA/DSP/ROM-patch blobs are closed and are the RE target. CSI available only via out-of-tree MediaTek OpenWrt-feed vendor commands, hence reported. Adds a separate DSP core image (mt7996_dsp.bin) on top of the connac2 WM/WA split.",
+    "references": [
+      "https://github.com/openwrt/mt76",
+      "https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/mediatek/mt7996"
     ]
   },
   {
@@ -11641,8 +12809,41 @@
     "notes": "NXP's Trimension UWB line (802.15.4z): SR040 tag transceiver, SR150/SR160 anchors (SR150 integrates a Cortex-M33). Like other UWB, the channel-impulse-response is the SDR-relevant asset, but on Trimension it is reachable only through gated debug/UCI paths, not documented like the catalogued Qorvo DW1000/DW3000. Tier 1 by default, reaching Tier 2 only where CIR is unlocked (reported). Deep UWB CIR treatment is deferred to the UWB doc; u-blox short-range UWB is sold as modules over third-party silicon and is not minted separately. Net-new record."
   },
   {
+    "id": "onmicro-om6621",
+    "vendor": "OnMicro",
+    "family": "OM66xx",
+    "aliases": [
+      "OM6621",
+      "OM6621P"
+    ],
+    "part_numbers": [
+      "OM6621",
+      "OM6621P"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth LE 5"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Cortex-M0"
+    },
+    "common_hardware": [
+      "ultra-low-cost BLE tags/remotes"
+    ],
+    "references": [
+      "https://www.onmicro.com.cn/"
+    ],
+    "status": "reported",
+    "notes": "Commodity Cortex-M0 BLE from an RF house; closed SDK. Tier 0."
+  },
+  {
     "id": "peraso-w110x-w120x",
-    "vendor": "Peraso (formerly Peraso Technologies / MoSys)",
+    "vendor": "Peraso",
     "family": "W110x / W120x 60 GHz 802.11ad WiGig chipset",
     "aliases": [
       "W110x",
@@ -11682,6 +12883,54 @@
     ],
     "status": "reported",
     "notes": "Peraso's 60 GHz 802.11ad WiGig chipset: a baseband/MAC part (W110x) plus a beamforming phased-array RF transceiver (W120x). Architecturally comparable to the catalogued QCA9500, but with a decisive difference: NO open firmware-patching toolchain exists (there is no Peraso analog of SEEMOO's Talon Tools / nexmon-arc), so per-sector CSI and custom beam patterns are not publicly reachable. Tier 0 today; mmWave-sensing potential is theoretical pending an RE effort. Part numbers are reported, not verified. Net-new record."
+  },
+  {
+    "id": "phyplus-phy6222",
+    "vendor": "PhyPlus",
+    "family": "PHY62xx",
+    "aliases": [
+      "PHY6222",
+      "PHY6252",
+      "PHY6212"
+    ],
+    "part_numbers": [
+      "PHY6222",
+      "PHY6252"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth LE 5"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "Cortex-M0 (96 MHz)",
+      "re_tooling": [
+        "PhyPlus SDK (community mirrors)",
+        "Ghidra (Cortex-M0)"
+      ]
+    },
+    "common_hardware": [
+      "BLE beacons",
+      "cheap BLE remotes/tags"
+    ],
+    "key_projects": [
+      {
+        "name": "PHY6222 community SDK",
+        "url": "https://github.com/SoCXin/PHY6222"
+      }
+    ],
+    "references": [
+      "https://github.com/SoCXin/PHY6222"
+    ],
+    "status": "reported",
+    "notes": "96MHz Cortex-M0 BLE 5 SoC (verified core via community repos). Semi-open SDK makes it the most hackable BLE part in this sweep. BLE raw/sniffing possible at the link layer; no WiFi. Tier 1."
   },
   {
     "id": "qorvo-dw1000",
@@ -12048,6 +13297,42 @@
       "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
     ],
     "notes": "FastConnect 6200 is Qualcomm's Wi-Fi 6 mobile combo product built on QCA6391-class silicon (the QCA6390 family, which the kernel lists as QCA6390/QCA6391 hw2.0 under ath11k). Closed firmware; monitor practical (Tier 1). Distinct product entry from the catalogued QCA6390. Status reported."
+  },
+  {
+    "id": "qualcomm-fastconnect-7900",
+    "vendor": "Qualcomm",
+    "family": "FastConnect",
+    "aliases": [
+      "FastConnect 7900",
+      "QCC7900"
+    ],
+    "part_numbers": [
+      "FastConnect 7900"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz",
+      "6GHz",
+      "UWB"
+    ],
+    "standards": [
+      "802.11be (Wi-Fi 7)",
+      "Bluetooth 5.4",
+      "UWB (802.15.4z/ab)"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed"
+    },
+    "common_hardware": [
+      "Snapdragon 8-Elite-class flagship phones"
+    ],
+    "references": [
+      "https://www.qualcomm.com/products/technology/wi-fi/fastconnect-7900"
+    ],
+    "status": "reported",
+    "notes": "First mobile connectivity die to integrate Wi-Fi 7 + Bluetooth 5.4 + UWB together, across 2.4/5/6GHz plus UWB. Entirely closed: signed firmware, no public SDK, no monitor path. Shares none of the historical ath10k/ath11k openness. Tier 0."
   },
   {
     "id": "qualcomm-ipq4018",
@@ -16542,6 +17827,108 @@
     ]
   },
   {
+    "id": "realtek-ameba-z-rtl8710b",
+    "vendor": "Realtek",
+    "family": "Ameba (AmebaZ)",
+    "aliases": [
+      "RTL8710B",
+      "RTL8710BN",
+      "RTL8710BX",
+      "AmebaZ"
+    ],
+    "part_numbers": [
+      "RTL8710BN",
+      "RTL8710BX"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "Cortex-M4 (KM0/KM4)",
+      "re_tooling": [
+        "Realtek Ameba SDK",
+        "LibreTiny",
+        "Ghidra (Cortex-M)"
+      ]
+    },
+    "common_hardware": [
+      "Tuya RTL-die modules",
+      "low-cost WiFi IoT"
+    ],
+    "key_projects": [
+      {
+        "name": "LibreTiny",
+        "url": "https://github.com/libretiny-eu/libretiny"
+      }
+    ],
+    "references": [
+      "https://github.com/libretiny-eu/libretiny"
+    ],
+    "status": "verified",
+    "notes": "Realtek Ameba IoT line, the Realtek counterpart to Beken in Tuya modules. LibreTiny carries it (generic-rtl8710bn/bx board targets). Documented promiscuous/monitor mode (SmartConfig). Blob PHY; no verified CSI on this part (see AmebaD RTL8720DN for the CSI-capable sibling)."
+  },
+  {
+    "id": "realtek-ameba-z2-rtl8720c",
+    "vendor": "Realtek",
+    "family": "Ameba (AmebaZ2)",
+    "aliases": [
+      "RTL8720C",
+      "RTL8720CF",
+      "RTL8720CM",
+      "RTL8710C",
+      "AmebaZ2"
+    ],
+    "part_numbers": [
+      "RTL8720CF",
+      "RTL8720CM",
+      "RTL8710C"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "Cortex-M4F",
+      "re_tooling": [
+        "Realtek Ameba SDK",
+        "LibreTiny",
+        "Ghidra (Cortex-M)"
+      ]
+    },
+    "common_hardware": [
+      "Tuya CB-series RTL modules",
+      "low-cost WiFi IoT"
+    ],
+    "key_projects": [
+      {
+        "name": "LibreTiny",
+        "url": "https://github.com/libretiny-eu/libretiny"
+      }
+    ],
+    "references": [
+      "https://github.com/libretiny-eu/libretiny"
+    ],
+    "status": "verified",
+    "notes": "AmebaZ2 (Cortex-M4F). LibreTiny-supported (generic-rtl8720cf/cm targets). Documented promiscuous/monitor. Sibling of the already-catalogued RTL8720DN (AmebaD) which additionally exposes a documented CSI API; CSI on the Z2 part is plausible but unverified."
+  },
+  {
     "id": "realtek-rtl8180",
     "vendor": "Realtek",
     "family": "RTL818x (legacy PCI b)",
@@ -18733,6 +20120,57 @@
     "notes": "Realtek's first mass-market 2x2 Wi-Fi 6 + BT combo, the original rtw89 target. Mainline rtw89 supports monitor mode; injection is not a reliable path. Tier 1 (monitor only)."
   },
   {
+    "id": "realtek-rtl8852au",
+    "vendor": "Realtek",
+    "family": "RTL8852AU (Wi-Fi 6 USB)",
+    "aliases": [
+      "RTL8852AU",
+      "RTL8852BU",
+      "RTL8852"
+    ],
+    "part_numbers": [
+      "RTL8852AU",
+      "RTL8852BU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11ax",
+      "802.11ac"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "arch": "Realtek WiFi 6 MAC, closed firmware; driven by rtw89",
+      "re_tooling": []
+    },
+    "status": "reported",
+    "common_hardware": [
+      "USB WiFi 6 adapters using RTL8852AU",
+      "some AWUS036-class WiFi 6 units"
+    ],
+    "key_projects": [
+      {
+        "name": "rtw89 (mainline)",
+        "url": "https://github.com/lwfinger/rtw89"
+      },
+      {
+        "name": "morrownr/USB-WiFi",
+        "url": "https://github.com/morrownr/USB-WiFi"
+      }
+    ],
+    "notes": "CORRECTION (merge): injection removed, downgraded to monitor-only. Under mainline rtw89 monitor mode is experimental and injection is not dependable in 2025; unlike the older RTL8812AU/8821CU USB parts there is no mature out-of-tree injection driver to fall back on. Grade D.",
+    "references": [
+      "https://github.com/morrownr/USB-WiFi",
+      "https://www.aircrack-ng.org/doku.php?id=compatibility_drivers"
+    ]
+  },
+  {
     "id": "realtek-rtl8852be",
     "vendor": "Realtek",
     "family": "RTL8852B (rtw89 Wi-Fi 6)",
@@ -19157,6 +20595,41 @@
     ],
     "status": "verified",
     "notes": "Cortex-M33 SmartBond with coprocessor-driven radio, higher TX power, ble_test/radio test path and an SDK radio API. DA1470x extends flash/graphics. Documented proprietary 2.4 GHz modes on the newer parts."
+  },
+  {
+    "id": "rockchip-realtek-combo-pairing",
+    "vendor": "Rockchip",
+    "family": "RK-Realtek/Broadcom pairing",
+    "aliases": [
+      "RTL8723DS on RK",
+      "RTL8821CS on RK",
+      "AP6xxx on RK"
+    ],
+    "part_numbers": [
+      "RTL8723DS",
+      "RTL8821CS",
+      "RTL8188FU"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "(inherits mounted die)"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "unknown"
+    },
+    "common_hardware": [
+      "Rockchip RK33xx/RK35xx SBCs and TV boxes"
+    ],
+    "references": [
+      "https://www.rock-chips.com/"
+    ],
+    "status": "verified",
+    "notes": "Rockchip application SoCs ship no first-party WiFi silicon; their 'RTL-combo' boards pair an external Realtek (RTL8723DS/RTL8821CS/RTL8188FU) or AMPAK/Broadcom module over SDIO/USB. SDR capability is entirely that of the mounted die — chase the Realtek/Broadcom part, not the Rockchip label. Integration note, not net-new silicon."
   },
   {
     "id": "samsung-exynos-connect-u100",
@@ -20632,6 +22105,64 @@
     ]
   },
   {
+    "id": "ti-cc1352p7",
+    "vendor": "Texas Instruments",
+    "family": "SimpleLink CC13xx/CC26xx",
+    "aliases": [
+      "CC1352P7",
+      "CC1352P7-1",
+      "CatSniffer radio"
+    ],
+    "part_numbers": [
+      "CC1352P7"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.15.4 / 802.15.4g",
+      "Bluetooth 5 LE",
+      "Zigbee",
+      "Thread",
+      "proprietary sub-GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "arm-cortex-m4f + cortex-m0 radio core",
+      "re_tooling": [
+        "ghidra",
+        "TI SmartRF Studio",
+        "SmartRF Packet Sniffer 2"
+      ]
+    },
+    "common_hardware": [
+      "Electronic Cats CatSniffer v3",
+      "TI LAUNCHXL-CC1352P7"
+    ],
+    "key_projects": [
+      {
+        "name": "CatSniffer firmware",
+        "url": "https://github.com/ElectronicCats/CatSniffer"
+      },
+      {
+        "name": "TI SmartRF Sniffer Agent (Wireshark)",
+        "url": "https://www.ti.com/tool/PACKET-SNIFFER"
+      }
+    ],
+    "status": "verified",
+    "notes": "Multiprotocol SimpleLink part covering both sub-GHz (ISM) and 2.4 GHz (BLE/Zigbee/Thread/802.15.4) with an on-chip Cortex-M0 radio core driven by a Cortex-M4F. Powers the open-hardware CatSniffer v3; with SmartRF/CatSniffer sniffer firmware it does multiprotocol packet capture into Wireshark (tier 1). Registers documented in the TRM; radio ROM closed. One dongle sees ISM remotes and Zigbee/BLE.",
+    "references": [
+      "https://www.ti.com/product/CC1352P7",
+      "https://github.com/ElectronicCats/CatSniffer"
+    ]
+  },
+  {
     "id": "ti-cc13xx-cc26xx",
     "vendor": "Texas Instruments",
     "family": "SimpleLink CC13xx/CC26xx",
@@ -21346,5 +22877,96 @@
     "references": [
       "https://www.eetimes.com/uhnder-ships-digital-radar-on-chip/"
     ]
+  },
+  {
+    "id": "rda-rda5981",
+    "vendor": "Unisoc",
+    "family": "RDA598x",
+    "aliases": [
+      "RDA5981",
+      "RDA5981A"
+    ],
+    "part_numbers": [
+      "RDA5981",
+      "RDA5981A",
+      "RDA5991"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11b/g/n"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "documented",
+      "arch": "Cortex-M4",
+      "re_tooling": [
+        "Arm Mbed OS port",
+        "Ghidra (Cortex-M)"
+      ]
+    },
+    "common_hardware": [
+      "WiFi audio/IoT gadgets",
+      "smart-audio modules"
+    ],
+    "key_projects": [
+      {
+        "name": "Arm Mbed OS",
+        "url": "https://os.mbed.com/"
+      }
+    ],
+    "references": [
+      "https://os.mbed.com/"
+    ],
+    "status": "reported",
+    "notes": "Cortex-M4 2.4GHz 11n WiFi SoC (RDA, absorbed into Unisoc), notable for an Arm Mbed OS port that documents the RTOS/driver layer. WiFi PHY remains a blob; monitor via driver. Tier 1."
+  },
+  {
+    "id": "unisoc-uwe56xx",
+    "vendor": "Unisoc",
+    "family": "UWE56xx",
+    "aliases": [
+      "UWE5621",
+      "UWE5622",
+      "sprdwl"
+    ],
+    "part_numbers": [
+      "UWE5621",
+      "UWE5622",
+      "UWE5621E"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11n",
+      "802.11ac",
+      "Bluetooth"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "closed",
+      "re_tooling": [
+        "sprdwl_ng cfg80211 driver (AOSP/vendor kernels)"
+      ]
+    },
+    "common_hardware": [
+      "budget Android tablets/phones",
+      "TV dongles",
+      "IoT gateways"
+    ],
+    "references": [
+      "https://www.unisoc.com/"
+    ],
+    "status": "reported",
+    "notes": "Low-cost WiFi+BT combo. GPL sprdwl_ng kernel driver (AOSP vendor trees, not mainline) provides standard nl80211 monitor mode; on-chip firmware is a downloaded closed blob so SDR ceiling is plain monitor. UWE5621 = 2.4GHz 11n, UWE5622 adds 5GHz 11ac."
   }
 ]
