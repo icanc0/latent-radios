@@ -6,19 +6,19 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 
 | Capability | Count | Meaning |
 |---|---:|---|
-| `csi` | 91 | Per-subcarrier channel state (Tier 2 sensing) |
+| `csi` | 92 | Per-subcarrier channel state (Tier 2 sensing) |
 | `spectral-scan` | 71 | Raw PHY FFT bins (Tier 3) |
 | `raw-iq` | 48 | Time-domain IQ access |
 | `arbitrary-waveform` | 33 | Author & transmit baseband IQ (Tier 4) |
 | `radar` | 34 | Radar sensing mode |
 | `fmcw` | 16 | FMCW ranging radar |
 | `passive-radar` | 5 | Passive/bistatic radar |
-| `covert-channel` | 46 | Non-native / cross-technology emission |
+| `covert-channel` | 47 | Non-native / cross-technology emission |
 | `open-firmware` | 44 | Open or documented firmware/PHY |
-| `injection` | 321 | Byte-exact frame transmit |
-| `monitor` | 459 | RFMON capture of all frames |
+| `injection` | 325 | Byte-exact frame transmit |
+| `monitor` | 463 | RFMON capture of all frames |
 
-## `csi` — Per-subcarrier channel state (Tier 2 sensing) (91)
+## `csi` — Per-subcarrier channel state (Tier 2 sensing) (92)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -37,6 +37,8 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | AR9003 SoC (ath9k) | Qualcomm | 3 (spectral) | verified |
 | AR9003 SoC (ath9k) | Qualcomm | 3 (spectral) | verified |
 | AR9003 (ath9k) | Qualcomm | 3 (spectral) | verified |
+| QCN90xx (ath11k) | Qualcomm | 3 (spectral) | reported |
+| WCN685x / FastConnect 6900 | Qualcomm | 3 (spectral) | reported |
 | AR9002 (ath9k) | Qualcomm Atheros | 3 (spectral) | verified |
 | AR9002 (ath9k) | Qualcomm Atheros | 3 (spectral) | verified |
 | AR9002 (ath9k) | Qualcomm Atheros | 3 (spectral) | verified |
@@ -100,7 +102,6 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | DW1000/DW3000 UWB | Qorvo | 2 (CSI) | verified |
 | WiGig 60 GHz (802.11ad) | Qualcomm | 2 (CSI) | reported |
 | AR93xx SoC | Qualcomm Atheros | 2 (CSI) | verified |
-| QCA6174 (ath10k client 802.11ac) | Qualcomm Atheros | 2 (CSI) | reported |
 | AR9x SoC | Qualcomm Atheros | 2 (CSI) | verified |
 | QSR (Topaz/Ruby) | Quantenna | 2 (CSI) | reported |
 | Ameba D | Realtek | 2 (CSI) | verified |
@@ -351,7 +352,7 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | bladeRF 2.0 micro xA4 / xA9 | Nuand | 5 (open PHY / SDR) | verified |
 | RTL2832U + R820T2/R828D | Realtek | 5 (open PHY / SDR) | verified |
 
-## `covert-channel` — Non-native / cross-technology emission (46)
+## `covert-channel` — Non-native / cross-technology emission (47)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -401,6 +402,7 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | TLSR (825x / 827x / 921x) | Telink Semiconductor | 1 (monitor+inject) | verified |
 | CC120x high-performance sub-GHz FSK transceiver | Texas Instruments | 1 (monitor+inject) | verified |
 | CC25xx 2.4 GHz transceiver | Texas Instruments | 1 (monitor+inject) | verified |
+| CH58x RISC-V BLE + 2.4G | WCH | 1 (monitor+inject) | reported |
 
 ## `open-firmware` — Open or documented firmware/PHY (44)
 
@@ -451,23 +453,23 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | W60x | Winner Micro | 0 (black box) | reported |
 | W80x | Winner Micro | 0 (black box) | reported |
 
-## `injection` — Byte-exact frame transmit (321)
+## `injection` — Byte-exact frame transmit (325)
 
-321 modules across 63 vendors. Top: Qualcomm Atheros (36), Broadcom (32), Intel (29), MediaTek (29), Realtek (19), Espressif (14), Texas Instruments (13), Ralink (11), Qualcomm (8), u-blox (7). Full list in [`data/modules.csv`](../data/modules.csv).
+325 modules across 63 vendors. Top: Qualcomm Atheros (36), Broadcom (32), Intel (29), MediaTek (29), Realtek (19), Espressif (14), Texas Instruments (13), Ralink (11), Qualcomm (8), u-blox (7). Full list in [`data/modules.csv`](../data/modules.csv).
 
-## `monitor` — RFMON capture of all frames (459)
+## `monitor` — RFMON capture of all frames (463)
 
-459 modules across 75 vendors. Top: Realtek (54), Qualcomm (48), Broadcom (43), Qualcomm Atheros (37), Intel (37), MediaTek (33), Espressif (17), Texas Instruments (13), Ralink (11), u-blox (9). Full list in [`data/modules.csv`](../data/modules.csv).
+463 modules across 75 vendors. Top: Realtek (54), Qualcomm (48), Broadcom (43), Qualcomm Atheros (37), Intel (37), MediaTek (33), Espressif (17), Texas Instruments (13), Ralink (11), u-blox (9). Full list in [`data/modules.csv`](../data/modules.csv).
 
 ## By tier
 
 | Tier | Name | Count |
 |---|---|---:|
-| 0 | black box | 94 |
-| 1 | monitor+inject | 334 |
-| 2 | CSI | 59 |
+| 0 | black box | 97 |
+| 1 | monitor+inject | 339 |
+| 2 | CSI | 58 |
 | 3 | spectral | 61 |
 | 4 | arbitrary-IQ TX | 19 |
 | 5 | open PHY / SDR | 25 |
 
-*592 modules total.*
+*599 modules total.*

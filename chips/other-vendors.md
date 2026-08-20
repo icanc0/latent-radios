@@ -886,3 +886,51 @@ Already catalogued elsewhere — not repeated here: `marvell-88w8897`, `realtek-
 - Rajant Kinetic Mesh / InstaMesh: https://rajant.com/technology/
 - Silvus StreamCaster MN-MIMO: https://silvustechnologies.com/products/streamcaster-radios/
 - Atheros CSI Tool (ath9k CSI on QCA radios): https://wands.sg/research/wifi/AtherosCSI/
+
+
+---
+
+## Long-tail sweep — Cycle 9
+
+*Round 7 — final stragglers.* After six prior long-tail rounds the breadth is genuinely near-exhausted: the popular cheap-BLE RE targets (Telink TLSR825x/TLSR9, Beken BK3435/BK3633/BK7231, PHYPLUS/PhyPlusInc PHY62xx, Bouffalo BL602/BL616) were already catalogued in earlier cycles and are **not** repeated here. What remained were three genuinely un-catalogued classes:
+
+1. **RISC-V Chinese BLE + proprietary-2.4G SoCs** (WCH CH57x/CH58x/CH585) — cheap, well-documented, open toolchain, closed RF blob. Real tier-1 injection targets.
+2. **Bluetooth-audio SoCs** (Jieli AC63xx/AC69xx) — ubiquitous in TWS earbuds/dongles; fully closed RF, listed for completeness.
+3. **Professional MANET / kinetic-mesh radios** (Doodle Labs Mesh Rider, Persistent Systems MPU5, Rajant BreadCrumb, Silvus StreamCaster). Important honesty note: **these last three are already genuine software-defined radios internally, but their firmware is locked.** They are catalogued as *reference points* — what a fielded SDR-based waveform looks like — not as repurposing targets. Their tiers reflect the RE path available to an owner (near zero), not the hardware's intrinsic capability. The Doodle Labs radios are the exception: they ship an OpenWrt-derived "Mesh Rider OS" with shell access, so an owner reaches `mac80211` monitor/injection legitimately.
+
+Beyond these, the residual long tail (avionics VDL/ACARS datalink modules, marine AIS baseband ICs such as CML Microcircuits CMX7042/CMX994, Iridium 9603 SBD) is **off-theme**: those are dedicated single-purpose RF/baseband parts, not general wireless SoCs repurposable via firmware RE, so they are noted here but not given catalog entries. The long tail is effectively closed after this round.
+
+### Net-new entries
+
+| id | part(s) | bands | tier | RE path |
+|---|---|---|---|---|
+| `wch-ch58x` | CH581 / CH582 / CH583 | 2.4 GHz | 1 | Open RISC-V toolchain; RF blob; proprietary-2.4G raw TX/RX |
+| `wch-ch585` | CH584 / CH585 | 2.4 GHz | 1 | RV32IMBC; BLE 5.4 + 8 kHz-poll 2.4G + NFC |
+| `wch-ch57x` | CH571 / CH573 | 2.4 GHz | 1 | Older BLE 4.2 RISC-V sibling of CH58x |
+| `jieli-ac63xx` | AC632N / AC6329 / AC696N | 2.4 GHz | 0 | Closed BT-audio SoC; RF blob only |
+| `doodle-labs-mesh-rider-nano2` | Nano² / Mini | sub-GHz, 2.4 GHz | 1 | OpenWrt shell → mac80211 monitor/injection |
+| `doodle-labs-mesh-rider-boost` | Boost (4 W C-band) | 5 GHz, 6 GHz | 1 | Same OS, C-band front-end + PA |
+| `persistent-mpu5` | MPU5 Wave Relay | sub-GHz, 2.4 GHz, 5 GHz | 0 | Locked SDR MANET; reference point |
+| `rajant-breadcrumb` | ES1 / ME4 / LX5 / DX2 | sub-GHz, 2.4 GHz, 5 GHz | 0 | Multi-radio ath appliance; InstaMesh locked |
+| `silvus-streamcaster` | SC4200 / SC4400 | sub-GHz, 2.4 GHz, 5 GHz | 0 | Locked MN-MIMO SDR; reference point |
+
+### Notes on the WCH RISC-V family
+
+The CH57x/CH58x/CH585 parts are attractive because everything *except the radio* is open: the QingKe RISC-V core is documented, the WCH-Link debugger + `wlink`/`openocd`/`riscv-gdb` and Ghidra's RV32 loader give full firmware visibility, and WCH ships the SDK openly ([openwch/ch583](https://github.com/openwch/ch583), [openwch/ch585](https://github.com/openwch/ch585), [openwch/ch573](https://github.com/openwch/ch573)). The RF itself is a linked binary library (`LIBCH58xBLE.a` / RF lib) — the modulator/PHY is not source-available. However, the SDK exposes a **proprietary 2.4 GHz mode** (nRF24-class): arbitrary payload, selectable channel and data rate (125 kbps / 500 kbps / 1 / 2 Mbps), promiscuous RX, and CRC/whitening control. That is enough for real **packet injection and promiscuous monitoring** within the chip's framing — hence tier 1 — but it is *not* raw-IQ or arbitrary-waveform, so it does not climb higher. CH585/CH584 add BLE 5.4, an 8 kHz-polling 2.4G HID mode, and an NFC interface (~13.56 MHz, outside the SDR band enum here).
+
+### Notes on the professional MANET radios
+
+- **Doodle Labs Mesh Rider** (Nano², Mini, OEM, Boost, Wearable) are frequency-agile MIMO 802.11-derived radios tuning roughly 255 MHz–2510 MHz (L/S band models) up to 4400–6400 MHz (Boost, C-band, 36 dBm / 4 W). They run "Mesh Rider OS," an OpenWrt derivative on a Qualcomm/Atheros-class front-end, so an owner has a root shell and legitimate `mac80211` monitor + injection (tier 1); ath-style spectral scan *may* be reachable but is unverified on the shifted-frequency firmware, so it is not claimed.
+- **Persistent Systems MPU5 / Wave Relay** — a 3×3 MIMO MANET "smart radio," quad-core 1 GHz applications processor, software-defined OFDM waveform, band-specific (L/S/C) variants. Internally an SDR; firmware is locked, no owner RE path → tier 0, reference point only.
+- **Rajant BreadCrumb** (ES1, ME4, LX5, DX2, Peregrine) — multi-transceiver kinetic-mesh nodes built on Qualcomm/Atheros 802.11 radios (2.4/5 GHz, some 900 MHz) with proprietary *InstaMesh* routing. The underlying Atheros silicon is covered by the `qualcomm-atheros.md` entries; the appliance firmware is locked → tier 0.
+- **Silvus StreamCaster** (SC4200, SC4400, SC4240) — MN-MIMO MANET SDRs, 2×2/4×4, wide tuning across sub-GHz to ~6 GHz depending on model; locked firmware → tier 0, reference point.
+
+### References
+
+- WCH CH583 product page — https://www.wch-ic.com/products/CH583.html
+- openwch SDKs — https://github.com/openwch/ch583 · https://github.com/openwch/ch585 · https://github.com/openwch/ch573
+- Jieli (Zhuhai JieLi) — https://www.zh-jieli.com/ (AC63xx/AC69xx BT-audio SDKs distributed via the vendor's Gitee; RF is blob-only)
+- Doodle Labs Mesh Rider products — https://doodlelabs.com/products/
+- Persistent Systems MPU5 — https://www.persistentsystems.com/mpu5/
+- Rajant Kinetic Mesh — https://rajant.com/
+- Silvus Technologies StreamCaster — https://www.silvustechnologies.com/products/

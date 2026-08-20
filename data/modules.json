@@ -6186,6 +6186,95 @@
     ]
   },
   {
+    "id": "doodle-labs-mesh-rider-boost",
+    "vendor": "Doodle Labs",
+    "family": "Mesh Rider (Smart Radio)",
+    "aliases": [
+      "Mesh Rider Boost",
+      "C-band Boost"
+    ],
+    "part_numbers": [
+      "Boost"
+    ],
+    "bands": [
+      "5GHz",
+      "6GHz"
+    ],
+    "standards": [
+      "802.11-derived OFDM (frequency-shifted)",
+      "Mesh Rider OS (OpenWrt-based)"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "Qualcomm/Atheros-class front-end + SoC, 4 W PA",
+      "re_tooling": [
+        "Mesh Rider OS root shell",
+        "mac80211 / iw"
+      ]
+    },
+    "common_hardware": [
+      "Boost C-band radio (36 dBm / 4 W)"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://doodlelabs.com/products/"
+    ],
+    "status": "reported",
+    "notes": "C-band variant of the Mesh Rider line, ~4400-6400 MHz with 36 dBm (4 W) PA. Same OpenWrt-based OS and RE posture as Nano2/Mini; band spans the 5 GHz and low-6 GHz ranges."
+  },
+  {
+    "id": "doodle-labs-mesh-rider-nano2",
+    "vendor": "Doodle Labs",
+    "family": "Mesh Rider (Smart Radio)",
+    "aliases": [
+      "Nano2",
+      "Nano squared",
+      "Mesh Rider Mini"
+    ],
+    "part_numbers": [
+      "Nano2",
+      "Mini"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz"
+    ],
+    "standards": [
+      "802.11-derived OFDM (frequency-shifted)",
+      "Mesh Rider OS (OpenWrt-based)"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "Qualcomm/Atheros-class front-end + MIPS/ARM SoC",
+      "re_tooling": [
+        "Mesh Rider OS root shell",
+        "mac80211 / iw",
+        "OpenWrt userland"
+      ]
+    },
+    "common_hardware": [
+      "Nano2 OEM radio",
+      "Mini OEM radio",
+      "UAV/robotics data links"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://doodlelabs.com/products/"
+    ],
+    "status": "reported",
+    "notes": "Frequency-agile MIMO radio tuning ~255-2510 MHz (L/S band), ~80 Mbps in 20 MHz. Runs an OpenWrt-derived Mesh Rider OS with root shell, so mac80211 monitor + injection are legitimately available (tier 1). ath-style spectral scan may be reachable on the shifted-frequency firmware but is unverified, so not claimed."
+  },
+  {
     "id": "ebyte-nicerf-modules",
     "vendor": "Ebyte/NiceRF",
     "family": "Sub-GHz/2.4 GHz carrier modules over Semtech/TI/SiLabs die",
@@ -10883,6 +10972,51 @@
     "references": [
       "https://www.iridium.com/products/"
     ]
+  },
+  {
+    "id": "jieli-ac63xx",
+    "vendor": "Jieli",
+    "family": "AC63xx / AC69xx Bluetooth-audio SoC",
+    "aliases": [
+      "AC632N",
+      "AC6329",
+      "AC6328",
+      "AC696N",
+      "AC6969"
+    ],
+    "part_numbers": [
+      "AC632N",
+      "AC6329B",
+      "AC696N"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth 5.x (BLE + BR/EDR audio)"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "proprietary JieLi core + DSP",
+      "re_tooling": [
+        "JieLi downloader/flash tools",
+        "vendor SDK (Gitee)",
+        "community firmware dumps"
+      ]
+    },
+    "common_hardware": [
+      "TWS earbuds",
+      "BT audio dongles/receivers",
+      "cheap BT speakers"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://www.zh-jieli.com/"
+    ],
+    "status": "reported",
+    "notes": "Ubiquitous in TWS earbuds and BT-audio dongles. Vendor distributes an application SDK, but the RF PHY/baseband is a binary blob and the core is proprietary/undocumented -> no SDR RE path. Catalogued for completeness of the cheap-2.4G landscape; tier 0."
   },
   {
     "id": "krakenrf-krakensdr",
@@ -16112,6 +16246,43 @@
     "notes": "Peraso's 60 GHz 802.11ad WiGig chipset: a baseband/MAC part (W110x) plus a beamforming phased-array RF transceiver (W120x). Architecturally comparable to the catalogued QCA9500, but with a decisive difference: NO open firmware-patching toolchain exists (there is no Peraso analog of SEEMOO's Talon Tools / nexmon-arc), so per-sector CSI and custom beam patterns are not publicly reachable. Tier 0 today; mmWave-sensing potential is theoretical pending an RE effort. Part numbers are reported, not verified. Net-new record."
   },
   {
+    "id": "persistent-mpu5",
+    "vendor": "Persistent Systems",
+    "family": "Wave Relay MPU5 MANET",
+    "aliases": [
+      "MPU5",
+      "Wave Relay"
+    ],
+    "part_numbers": [
+      "MPU5"
+    ],
+    "bands": [
+      "sub-GHz",
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "Wave Relay MANET (software-defined OFDM waveform)",
+      "3x3 MIMO"
+    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
+    "firmware": {
+      "openness": "closed",
+      "arch": "quad-core ~1 GHz applications processor + SDR front-end",
+      "re_tooling": []
+    },
+    "common_hardware": [
+      "MPU5 handheld/embedded MANET radio (L/S/C-band variants)"
+    ],
+    "key_projects": [],
+    "references": [
+      "https://www.persistentsystems.com/mpu5/"
+    ],
+    "status": "reported",
+    "notes": "Genuine software-defined-radio MANET internally (3x3 MIMO, quad-core, band-specific L/S/C variants), but firmware is fully locked with no owner RE path. Catalogued as a reference point for what a fielded SDR waveform looks like, not as a repurposing target -> tier 0."
+  },
+  {
     "id": "phyplus-phy6222",
     "vendor": "PhyPlus",
     "family": "PHY62xx",
@@ -18398,7 +18569,8 @@
     "sdr_tier": 3,
     "sdr_capabilities": [
       "monitor",
-      "spectral-scan"
+      "spectral-scan",
+      "csi"
     ],
     "firmware": {
       "openness": "closed",
@@ -18420,9 +18592,11 @@
       }
     ],
     "references": [
-      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html",
+      "https://github.com/torvalds/linux/blob/master/drivers/net/wireless/ath/ath11k/cfr.c",
+      "https://github.com/torvalds/linux/blob/master/drivers/net/wireless/ath/ath11k/spectral.c"
     ],
-    "notes": "Wi-Fi 6E 6 GHz PCIe radio card, an explicitly ath11k-supported chip (kernel lists QCN9074 hw1.0). The most accessible ath11k target for validating the spectral FFT dump on 6 GHz. Tier 3 reported (in-tree spectral, thin public tooling). Injection gated; CSI not turnkey."
+    "notes": "KERNEL-SOURCE CROSS-CHECK (Cycle 9, merge on id): ADD 'csi'. ath11k ships drivers/net/wireless/ath/ath11k/cfr.c — Channel Frequency Response (CSI-equivalent) capture streamed to userspace via relayfs 'cfr_capture', toggled by debugfs 'enable_cfr', runtime-gated by hw_params.cfr_support + WMI_TLV_SERVICE_CFR_CAPTURE_SUPPORT. This is an in-tree per-subcarrier path the earlier record omitted. Kept 'reported' + Tier 3: CFR gating varies by firmware and public ath11k CFR decode tooling is nascent vs FFT_eval for spectral. Spectral itself is in-tree (ath11k/spectral.c, CONFIG_ATH11K_SPECTRAL). Injection gated. Verify hw_params.cfr_support on your board before relying on CFR."
   },
   {
     "id": "qualcomm-qcn9274",
@@ -18907,7 +19081,8 @@
     "sdr_tier": 3,
     "sdr_capabilities": [
       "monitor",
-      "spectral-scan"
+      "spectral-scan",
+      "csi"
     ],
     "firmware": {
       "openness": "closed",
@@ -18931,10 +19106,11 @@
         "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
       }
     ],
-    "notes": "Wi-Fi 6E (adds 6 GHz) flagship combo. Same story as QCA6390: FullMAC-locked under Android qcacld (Tier 0-1 pktlog); mainline ath11k (supported since Linux v5.17) provides monitor mode (verified in family) and spectral scan (reported on mobile part). No documented per-subcarrier host CSI.",
     "references": [
-      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html"
-    ]
+      "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath11k.html",
+      "https://github.com/torvalds/linux/blob/master/drivers/net/wireless/ath/ath11k/cfr.c"
+    ],
+    "notes": "KERNEL-SOURCE CROSS-CHECK (Cycle 9, merge on id): ADD 'csi' (CFR), caveated. ath11k's in-tree cfr.c provides CFR/CSI-equivalent capture (relayfs 'cfr_capture', debugfs 'enable_cfr'), but it is runtime-gated by hw_params.cfr_support and WMI_TLV_SERVICE_CFR_CAPTURE_SUPPORT — NOT guaranteed enabled on every WCN6855 firmware/board, so this stays 'reported' pending per-device confirmation. Monitor verified in family; spectral in-tree (ath11k/spectral.c). Under Android qcacld the part is FullMAC-locked (Tier 0-1 pktlog only); the CFR/spectral path is the mainline-ath11k story."
   },
   {
     "id": "qualcomm-wcn7850",
@@ -20709,16 +20885,15 @@
     "standards": [
       "802.11ac"
     ],
-    "sdr_tier": 2,
+    "sdr_tier": 1,
     "sdr_capabilities": [
-      "monitor",
-      "csi"
+      "monitor"
     ],
     "firmware": {
       "openness": "closed",
       "arch": "Qualcomm proprietary (ath10k firmware blob)",
       "re_tooling": [
-        "FFT_eval (if firmware exposes spectral)"
+        "FFT_eval (only if firmware exposes spectral)"
       ]
     },
     "status": "reported",
@@ -20728,14 +20903,15 @@
     ],
     "key_projects": [
       {
-        "name": "FFT_eval",
-        "url": "https://github.com/simonwunderlich/FFT_eval"
+        "name": "ath10k (mainline Linux driver)",
+        "url": "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath10k.html"
       }
     ],
     "references": [
+      "https://github.com/torvalds/linux/tree/master/drivers/net/wireless/ath/ath10k",
       "https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath10k/spectral.html"
     ],
-    "notes": "ANNOTATION/DOWNGRADE (merge on id): client-class ath10k. Spectral is firmware-image-dependent and often NOT exposed on QCA6174 mobile firmware, unlike AP chips (QCA988x/9984/9888). Do not claim clean Tier 3 without on-device confirmation; treated here as Tier 2/partial. AP-class QCA988x/QCA9984/QCA9888 remain verified Tier 3 and are unchanged."
+    "notes": "KERNEL-SOURCE CROSS-CHECK (Cycle 9, merge on id): DOWNGRADE T2->T1, drop 'csi'. drivers/net/wireless/ath/ath10k/ has NO CSI/CFR source file of any kind — CFR capture is an ath11k feature (ath11k/cfr.c), not ath10k. The only per-PHY surface ath10k exposes is spectral.c (magnitude FFT), and that is firmware-image-gated and typically ABSENT on QCA6174 client firmware. There is no reproducible mainline QCA6174 CSI path; the prior 'csi' mark was unsupported by the driver. Monitor works but is flaky per-firmware; injection unreliable. AP-class ath10k (QCA988x/9984/9888) remains verified Tier-3 spectral and is unchanged."
   },
   {
     "id": "qualcomm-qca6320",
@@ -21233,53 +21409,47 @@
   {
     "id": "rajant-breadcrumb",
     "vendor": "Rajant",
-    "family": "Kinetic Mesh BreadCrumb",
+    "family": "BreadCrumb Kinetic Mesh",
     "aliases": [
-      "BreadCrumb ME4",
-      "BreadCrumb LX5",
-      "BreadCrumb ES1",
-      "Cardinal",
+      "ES1",
+      "ME4",
+      "LX5",
+      "DX2",
+      "Peregrine",
       "InstaMesh"
     ],
     "part_numbers": [
+      "ES1",
       "ME4",
       "LX5",
-      "ES1"
+      "DX2"
     ],
     "bands": [
+      "sub-GHz",
       "2.4GHz",
       "5GHz"
     ],
     "standards": [
-      "802.11a",
-      "802.11b",
-      "802.11g",
-      "802.11n",
-      "802.11ac"
+      "802.11 (2.4/5 GHz, some 900 MHz)",
+      "InstaMesh proprietary routing"
     ],
-    "sdr_tier": 1,
-    "sdr_capabilities": [
-      "monitor",
-      "injection"
-    ],
+    "sdr_tier": 0,
+    "sdr_capabilities": [],
     "firmware": {
       "openness": "closed",
+      "arch": "multi-radio Qualcomm/Atheros 802.11 + embedded SoC",
       "re_tooling": []
     },
     "common_hardware": [
-      "Rajant BreadCrumb ruggedized mesh nodes"
+      "ES1 / ME4 / LX5 / DX2 mesh nodes",
+      "industrial/mining kinetic-mesh deployments"
     ],
-    "key_projects": [
-      {
-        "name": "Rajant technology",
-        "url": "https://rajant.com/technology/"
-      }
+    "key_projects": [],
+    "references": [
+      "https://rajant.com/"
     ],
     "status": "reported",
-    "notes": "Integrator: standard Atheros/QCA 802.11 a/b/g/n/ac radios wrapped in the closed InstaMesh protocol. The dies could do monitor/injection under ath9k/ath10k, but the shipped firmware exposes only the mesh stack → practically Tier 1. Score by die.",
-    "references": [
-      "https://rajant.com/technology/"
-    ]
+    "notes": "Multi-transceiver kinetic-mesh appliances built on Qualcomm/Atheros 802.11 radios (the underlying silicon is covered in qualcomm-atheros.md) with proprietary InstaMesh routing. Appliance firmware is locked -> tier 0 as a product, even though the radios themselves are ath-class."
   },
   {
     "id": "ralink-rt2400",
@@ -26127,12 +26297,12 @@
   {
     "id": "silvus-streamcaster",
     "vendor": "Silvus Technologies",
-    "family": "StreamCaster MANET",
+    "family": "StreamCaster MN-MIMO MANET",
     "aliases": [
-      "StreamCaster SC4200",
-      "StreamCaster SC4400",
-      "MN-MIMO",
-      "Mobile Networked MIMO"
+      "SC4200",
+      "SC4400",
+      "SC4240",
+      "StreamCaster"
     ],
     "part_numbers": [
       "SC4200",
@@ -26144,28 +26314,25 @@
       "5GHz"
     ],
     "standards": [
-      "proprietary MIMO-OFDM"
+      "MN-MIMO MANET (software-defined OFDM waveform)",
+      "2x2 / 4x4 MIMO"
     ],
     "sdr_tier": 0,
     "sdr_capabilities": [],
     "firmware": {
       "openness": "closed",
+      "arch": "SDR front-end + embedded SoC",
       "re_tooling": []
     },
     "common_hardware": [
-      "Silvus StreamCaster handheld/embedded MANET radios"
+      "SC4200 / SC4400 MANET radios (wide-tuning sub-GHz to ~6 GHz)"
     ],
-    "key_projects": [
-      {
-        "name": "StreamCaster radios",
-        "url": "https://silvustechnologies.com/products/streamcaster-radios/"
-      }
+    "key_projects": [],
+    "references": [
+      "https://www.silvustechnologies.com/products/"
     ],
     "status": "reported",
-    "notes": "Not a repurposable Wi-Fi die: an FPGA-based MIMO-OFDM soft radio running Silvus' proprietary MN-MIMO waveform (not 802.11). Genuinely software-defined internally but fully sealed — no open PHY, SDK, or driver. Black box, Tier 0; listed only for completeness of the ruggedized-mesh landscape.",
-    "references": [
-      "https://silvustechnologies.com/products/streamcaster-radios/"
-    ]
+    "notes": "Wide-tuning MN-MIMO MANET SDR. Like the MPU5, a genuine SDR internally but firmware-locked; catalogued as a reference point -> tier 0."
   },
   {
     "id": "sige-se4110-gnss-frontend",
@@ -28952,6 +29119,160 @@
     ],
     "status": "reported",
     "notes": "Carries a Broadcom BCM4330 die (dual-band 11n + BT). Monitor/injection only → Tier 1. USI (Universal Scientific Industrial) modules span Broadcom/Cypress/Qualcomm/NXP dies depending on the customer SKU — always confirm the die by FCC ID. See ../chips/broadcom-cypress.md."
+  },
+  {
+    "id": "wch-ch57x",
+    "vendor": "WCH",
+    "family": "CH57x RISC-V BLE + 2.4G",
+    "aliases": [
+      "CH571",
+      "CH573",
+      "CH573F"
+    ],
+    "part_numbers": [
+      "CH571",
+      "CH573"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth Low Energy 4.2",
+      "proprietary 2.4GHz"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "injection",
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "RISC-V QingKe V3A (RV32IMAC)",
+      "re_tooling": [
+        "WCH-Link + wlink/openocd",
+        "WCHISPTool",
+        "openwch/ch573 SDK"
+      ]
+    },
+    "common_hardware": [
+      "CH573F dev boards"
+    ],
+    "key_projects": [
+      {
+        "name": "openwch/ch573",
+        "url": "https://github.com/openwch/ch573"
+      }
+    ],
+    "references": [
+      "https://github.com/openwch/ch573"
+    ],
+    "status": "reported",
+    "notes": "Older BLE 4.2 sibling of CH58x with the same open-core / closed-RF-blob split and the same proprietary 2.4G raw-packet mode. Tier 1 for the same reason as CH58x."
+  },
+  {
+    "id": "wch-ch585",
+    "vendor": "WCH",
+    "family": "CH58x RISC-V BLE + 2.4G",
+    "aliases": [
+      "CH584",
+      "CH585"
+    ],
+    "part_numbers": [
+      "CH584",
+      "CH585"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth Low Energy 5.4",
+      "proprietary 2.4GHz (8kHz polling HID mode)"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "injection",
+      "monitor"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "RISC-V QingKe V3C (RV32IMBC + custom ext)",
+      "re_tooling": [
+        "WCH-Link + wlink/openocd",
+        "WCHISPTool",
+        "Ghidra RV32 loader",
+        "openwch/ch585 SDK"
+      ]
+    },
+    "common_hardware": [
+      "CH585 dev boards"
+    ],
+    "key_projects": [
+      {
+        "name": "openwch/ch585",
+        "url": "https://github.com/openwch/ch585"
+      }
+    ],
+    "references": [
+      "https://github.com/openwch/ch585"
+    ],
+    "status": "reported",
+    "notes": "Newer 2024/2025 generation of the CH58x line: BLE 5.4, an 8kHz-polling proprietary 2.4G mode (gaming/HID) and an added NFC interface (~13.56 MHz, outside the SDR band enum). RF remains a binary lib; RE posture identical to CH58x."
+  },
+  {
+    "id": "wch-ch58x",
+    "vendor": "WCH",
+    "family": "CH58x RISC-V BLE + 2.4G",
+    "aliases": [
+      "CH581",
+      "CH582",
+      "CH583",
+      "CH582F",
+      "CH583M"
+    ],
+    "part_numbers": [
+      "CH581",
+      "CH582",
+      "CH583"
+    ],
+    "bands": [
+      "2.4GHz"
+    ],
+    "standards": [
+      "Bluetooth Low Energy 5.3",
+      "proprietary 2.4GHz (nRF24-class)"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "injection",
+      "monitor",
+      "covert-channel"
+    ],
+    "firmware": {
+      "openness": "partially-documented",
+      "arch": "RISC-V QingKe V4A (RV32IMAC)",
+      "re_tooling": [
+        "WCH-Link + wlink/openocd/riscv-gdb",
+        "WCHISPTool",
+        "Ghidra RV32 loader",
+        "openwch/ch583 SDK"
+      ]
+    },
+    "common_hardware": [
+      "CH582F / CH583M dev boards",
+      "generic CH582/CH583 BLE modules"
+    ],
+    "key_projects": [
+      {
+        "name": "openwch/ch583",
+        "url": "https://github.com/openwch/ch583"
+      }
+    ],
+    "references": [
+      "https://www.wch-ic.com/products/CH583.html",
+      "https://github.com/openwch/ch583"
+    ],
+    "status": "reported",
+    "notes": "Everything but the RF is open: documented RISC-V core, WCH-Link debug, open SDK. Radio is a linked binary (LIBCH58xBLE.a / RF lib) with no source PHY. SDK's proprietary 2.4GHz mode allows arbitrary-payload TX at selectable channel/rate (125k/500k/1M/2M) and promiscuous RX with CRC/whitening control -> real injection + monitoring within its framing (tier 1). Not raw-IQ."
   },
   {
     "id": "winnermicro-w600",
