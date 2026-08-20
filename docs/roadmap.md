@@ -20,8 +20,8 @@ Cycles keep running as long as there are un‑cataloged parts — which is forev
 | 0 | Scaffold: taxonomy, schema, firmware‑RE methodology, tooling | seeded |
 | 1 | Core families: Broadcom/Cypress, Atheros, Intel, Realtek, MediaTek, Espressif, long‑tail vendors | ✅ done — 116 modules, 14 files |
 | 1 | Docs + projects: Nexmon, CSI toolchains, firmware‑RE, techniques, true‑SDR yardstick, glossary, RTL‑SDR lineage | ✅ done |
-| 2 | Deepen long tail + new part numbers; per‑chip firmware‑RE walkthroughs; verification pass on Tier‑4 claims | queued |
-| 3+ | Wi‑Fi 7 (802.11be), HaLow (802.11ah), UWB, 60 GHz radar, cross‑technology comms; ongoing new silicon | queued |
+| 2 | RE walkthroughs (Ghidra · D11 ucode · ESP32 · ath9k · Intel 5300) · PicoScenes/openwifi · Wi‑Fi 7 · 60 GHz · HaLow · hardware index · Tier‑4 audit | ✅ done — +28 modules, 14 files |
+| 3+ | UWB & FiRa ranging, cross‑technology comms, per‑vendor deep part sweeps, more walkthroughs, reproduce/verify Tier‑2/3 claims | queued |
 
 ## Vendor / family queue (feeds future cycles)
 

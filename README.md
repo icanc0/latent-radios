@@ -2,13 +2,13 @@
 
 **An exhaustive, structured catalog of Wi‑Fi and wireless modules that can be repurposed as software‑defined radios — to some extent — by reverse‑engineering and patching their firmware, or by tapping the PHY telemetry the silicon already exposes.**
 
-![modules](https://img.shields.io/badge/modules-116-brightgreen) ![vendors](https://img.shields.io/badge/vendors-25-blue) ![ladder](https://img.shields.io/badge/SDR%20ladder-tier%200--5-orange) ![license](https://img.shields.io/badge/license-CC0--1.0-lightgrey)
+![modules](https://img.shields.io/badge/modules-144-brightgreen) ![vendors](https://img.shields.io/badge/vendors-36-blue) ![ladder](https://img.shields.io/badge/SDR%20ladder-tier%200--5-orange) ![license](https://img.shields.io/badge/license-CC0--1.0-lightgrey)
 
 > Almost every Wi‑Fi chip is a fully programmable radio wearing a locked‑down costume. The RF front‑end, ADC/DAC, and a small MAC/PHY processor are all right there on the die — the vendor just hides them behind a signed firmware blob and a thin driver API. There is a **latent radio** in the silicon. This project maps, chip by chip, **how far each module can be pushed back toward a general radio**, and **what it takes to get there** (usually: dump the firmware, disassemble it, and patch it back into something you control).
 
 This is not "turn a $5 dongle into a HackRF." Real Wi‑Fi silicon is band‑limited, its converters are tuned for OFDM, and most of the interesting DSP is frozen in ROM. But there is a surprisingly deep spectrum between *"stock driver"* and *"true SDR"* — monitor mode, frame injection, channel‑state information (CSI), spectral scan, raw‑PHY FFTs, and — on a few heroically reversed chips — arbitrary waveform transmit. This repo catalogs that whole spectrum.
 
-**Catalog at a glance** — **116 modules across 25 vendors**, each scored on the SDR ladder: **63** reach monitor + injection (Tier 1), **23** expose CSI (Tier 2), **14** do spectral / raw‑PHY scan (Tier 3), **3** have demonstrated arbitrary‑waveform TX (Tier 4), and **11** are open‑firmware or true‑SDR references (Tier 5), plus 2 black‑box baselines. Full machine‑readable database: [data/modules.json](data/modules.json) · [modules.csv](data/modules.csv). *(These numbers grow every research cycle.)*
+**Catalog at a glance** — **144 modules across 36 vendors**, each scored on the SDR ladder: **78** reach monitor + injection (Tier 1), **28** expose CSI (Tier 2), **14** do spectral / raw‑PHY scan (Tier 3), **5** have demonstrated arbitrary‑waveform TX (Tier 4), and **15** are open‑firmware or true‑SDR references (Tier 5), plus 4 black‑box baselines. Full machine‑readable database: [data/modules.json](data/modules.json) · [modules.csv](data/modules.csv). *(These numbers grow every research cycle.)*
 
 ---
 
@@ -46,7 +46,19 @@ scripts/     Validation + CSV generation for the database.
 ### Start here
 - **New to the idea?** → [docs/taxonomy.md](docs/taxonomy.md), then [docs/firmware-reversing.md](docs/firmware-reversing.md)
 - **Looking for a specific chip?** → the [`chips/`](chips/) directory or [`data/modules.json`](data/modules.json)
+- **Want to buy the right hardware?** → [chips/hardware-index.md](chips/hardware-index.md) — product → chip → tier → what you can do
 - **Want to *do* something today?** → [projects/](projects/) — most people start with **Nexmon** (Broadcom, incl. Raspberry Pi) or an **ESP32** for CSI.
+
+### Hands‑on reverse‑engineering walkthroughs
+Reproducible, end‑to‑end, with real repos and no fabricated offsets — start with Ghidra setup, then pick your silicon:
+- [Setting up Ghidra for Wi‑Fi firmware](docs/walkthroughs/ghidra-setup-wifi-firmware.md) — the foundation the rest build on
+- [Nexmon on a Raspberry Pi (BCM43455c0)](docs/walkthroughs/bcm43455c0-raspberry-pi.md) — monitor, injection, CSI
+- [Reversing Broadcom D11 microcode](docs/walkthroughs/broadcom-d11-ucode.md) — b43‑tools + d11‑emu
+- [ESP32 Xtensa firmware in Ghidra + CSI](docs/walkthroughs/esp32-xtensa-ghidra.md)
+- [ath9k spectral scan + Atheros CSI Tool](docs/walkthroughs/atheros-ath9k-spectral-csi.md)
+- [The Intel 5300 802.11n CSI Tool](docs/walkthroughs/intel-5300-csi.md)
+
+**More deep‑dives:** [Nexmon](projects/nexmon.md) · [PicoScenes](projects/picoscenes.md) · [openwifi — open‑source 802.11 SDR](projects/openwifi.md) · [CSI toolchains](projects/csi-toolchains.md) · [sensing datasets](projects/wifi-sensing-datasets.md) · [techniques](docs/techniques.md) · [Wi‑Fi 7 / 6 GHz](docs/wifi7-and-6ghz.md) · [60 GHz mmWave radar](docs/mmwave-60ghz-radar.md) · [Wi‑Fi HaLow](docs/halow-subghz.md) · [Tier‑4 audit](docs/verification-tier4.md)
 
 ---
 
