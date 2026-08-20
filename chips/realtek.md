@@ -184,3 +184,122 @@ tooling. If you need cheap CSI, use the **Ameba MCUs** (official API) or cross t
   CSI path is reproducible; currently theoretical.
 - **Firmware RE** — no public Ghidra/IDA teardown of the 8051-class USB Wi-Fi ucode; a
   first real disassembly would be a genuinely new contribution.
+
+
+---
+
+## Extended parts — Cycle 3 sweep
+
+An exhaustive pass over the Realtek Wi-Fi line that the chip-by-chip section above skips:
+the legacy b/g softMACs, the whole `rtlwifi` PCIe/SDIO n/ac fleet, the `rtw88` and `rtw89`
+generations (Wi-Fi 5/6/6E/7), and the wider **Ameba** SoC family that carries the official
+Wi-Fi CSI API. The honest headline: **almost none of these climb past rung 1**, and many
+PCIe/SDIO parts stall *below* the USB dongles because their in-kernel drivers expose
+`monitor` but have famously unreliable **injection** (`rtlwifi`, `rtw88`, `rtw89`). The
+only genuine rung-2 story remains the **Ameba MCUs** — and Cycle 2 only catalogued the
+RTL8720DN, so the CSI-capable AmebaLite / AmebaDplus / AmebaSmart / AmebaPro2 SoCs are the
+real net-new depth here.
+
+### How to read the tiers below
+
+- **Tier 1 (monitor+injection)** — USB dongles with a community/out-of-tree driver
+  (`rtl8xxxu`, `rtl8812au`, `8821cu`, `88x2bu`, `r8712u`) that genuinely injects.
+- **Tier 1 (monitor only)** — PCIe/SDIO parts where mainline `rtlwifi`/`rtw88`/`rtw89`
+  register `NL80211_IFTYPE_MONITOR` and give you RX capture, but **injection is broken or
+  unreliable** — do not treat these as pentest TX cards. Honest, common, and not inflatable.
+- **Tier 2 (CSI)** — **only** the Ameba SoCs whose RTOS SDK ships the documented CSI API
+  (per-subcarrier I/Q, `S(8,x)`/`S(16,x)` fixed-point). Open/documented firmware.
+
+### Legacy 802.11 b/g (mac80211 softMAC — real injection)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8180 | b · 2.4 | `rtl818x_pci` (mainline) | 1 | monitor, injection | closed (thin) | original PCI softMAC; injection works |
+| RTL8185 / 8185L | g · 2.4 | `rtl818x_pci` (mainline) | 1 | monitor, injection | closed (thin) | g-era PCI card |
+| RTL8187B | g · 2.4 | `rtl8187` (mainline) | 1 | monitor, injection | closed (thin ucode) | USB sibling of the 8187L legend; slightly weaker TX |
+
+### 802.11n USB (softMAC / rtl8xxxu era)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8188CUS / 8188RU | n 1×1 · 2.4 | `rtl8192cu` / `rtl8xxxu` | 1 | monitor, injection | closed (8051) | Edimax EW-7811Un, RPi-era dongle; 8188RU = high-power |
+| RTL8192SU / 8191SU | n · 2.4 | `r8712u` (staging) | 1 | monitor(partial) | closed (8051) | early fullmac-ish USB n; injection flaky |
+| RTL8188GU | n 1×1 · 2.4 | `rtl8xxxu` (recent) | 1 | monitor(partial), injection | closed (8051) | late nano n part |
+
+### 802.11n PCIe / SDIO (rtlwifi — monitor OK, injection weak)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8188CE / 8192CE | n 1×1/2×2 · 2.4 | `rtl8192ce` (rtlwifi) | 1 | monitor | closed (8051) | mini-PCIe laptop cards; injection unreliable |
+| RTL8191SE / 8192SE | n · 2.4 | `rtl8192se` (rtlwifi) | 1 | monitor | closed (8051) | early n laptop PCIe |
+| RTL8188EE | n 1×1 · 2.4 | `rtl8188ee` (rtlwifi) | 1 | monitor | closed (8051) | budget laptop mini-PCIe |
+| RTL8192DE / 8192DU | n · 2.4/5 | `rtl8192de` / `rtl8192du` | 1 | monitor | closed (8051) | Realtek's dual-band n |
+
+### 802.11n + BT combos (rtlwifi / rtw88, PCIe·SDIO)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8723AE | n 1×1 +BT · 2.4 | `rtl8723ae` (rtlwifi) | 1 | monitor | closed (8051) | early combo mini-PCIe |
+| RTL8723BE / 8723BS | n 1×1 +BT · 2.4 | `rtl8723be` / `rtl8723bs` | 1 | monitor | closed (8051) | very common laptop/tablet combo |
+| RTL8723DE / 8723DS / 8723DU | n 1×1 +BT · 2.4 | `rtw88` | 1 | monitor | closed | rtw88-era combo (PCIe/SDIO/USB) |
+| RTL8723CS | n 1×1 +BT · 2.4 | `rtw88` (SDIO) | 1 | monitor | closed | SBC / TV-box SDIO combo |
+
+### 802.11ac PCIe (rtlwifi / rtw88 — monitor only)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8812AE | ac 2×2 · 2.4/5 | `rtl8821ae` (rtlwifi) | 1 | monitor | closed (8051) | PCIe sibling of the 8812AU dongle |
+| RTL8821AE | ac 1×1 +BT · 2.4/5 | `rtl8821ae` (rtlwifi) | 1 | monitor | closed (8051) | ubiquitous laptop ac+BT card |
+| RTL8814AE | ac 4×4 · 2.4/5 | out-of-tree `rtl8814ae` | 1 | monitor | closed (8051) | 4×4 PCIe; router/desktop |
+| RTL8822BE / 8822BS | ac 2×2 +BT · 2.4/5 | `rtw88` | 1 | monitor | closed | rtw88 flagship-ac laptop card |
+| RTL8822CE / 8822CS | ac 2×2 +BT · 2.4/5 | `rtw88` | 1 | monitor | closed | later 8822 revision, wide OEM use |
+| RTL8821CE / 8821CS | ac 1×1 +BT · 2.4/5 | `rtw88` | 1 | monitor | closed | budget ac+BT combo |
+
+### 802.11ac USB (net-new vs Cycle 2)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8812CU | ac 2×2 · 2.4/5 | `rtw88` (USB) | 1 | monitor, injection(partial) | closed (8051) | rtw88 USB ac; injection less proven than 8812AU |
+| RTL8822CU | ac 2×2 · 2.4/5 | `rtw88` / `morrownr` | 1 | monitor, injection(partial) | closed (8051) | 8822C USB combo |
+| RTL8811FU | ac 1×1 · 2.4/5 | out-of-tree `rtl8811fu` | 1 | monitor, injection(partial) | closed (8051) | cheap nano ac dongle |
+
+### Wi-Fi 6 / 6E (rtw89 — monitor only, injection unproven)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8851BE | ax 1×1 +BT · 2.4/5 | `rtw89` | 1 | monitor | closed | budget Wi-Fi 6 1×1 |
+| RTL8852AE | ax 2×2 +BT · 2.4/5 | `rtw89` | 1 | monitor | closed | first mass rtw89 Wi-Fi 6 card |
+| RTL8852BE | ax 2×2 +BT · 2.4/5 | `rtw89` | 1 | monitor | closed | most common OEM Wi-Fi 6 Realtek |
+| RTL8852CE | ax 2×2 +BT · 2.4/5/6 | `rtw89` | 1 | monitor | closed | Wi-Fi **6E** (6 GHz) |
+| RTL8852BU | ax 2×2 · 2.4/5 | out-of-tree rtw89-USB | 1 | monitor(partial) | closed | Wi-Fi 6 USB; early driver |
+| RTL8832AU / 8832CU | ax 2×2 · 2.4/5/6 | out-of-tree | 1 | monitor(partial) | closed | Wi-Fi 6E USB; sparse support |
+
+### Wi-Fi 7 (rtw89)
+
+| Part | Std / bands | Driver | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8922AE | be · 2.4/5/6 | `rtw89` | 1 | monitor | closed | Realtek's first Wi-Fi 7 PCIe (rtw89 explicit) |
+
+### Ameba SoCs — the rung-2 CSI family (net-new depth)
+
+| Part | Std / bands | SDK / core | Tier | Caps | FW | Note |
+|---|---|---|---|---|---|---|
+| RTL8195A / 8711AM | n · 2.4 | Ameba1 · Cortex-M3 | 1 | monitor, open-firmware | documented | original Ameba; open SDK, **no** CSI API |
+| RTL8710 (AF/BN/BX) | n · 2.4 | AmebaZ · Cortex-M0/M3 | 1 | monitor, open-firmware | documented | low-cost Wi-Fi MCU; RTL8710E variant adds CSI |
+| RTL8720E / 8710E / 8713E / 8726E | n · 2.4/5 | AmebaLite · Cortex-M55 | **2** | **csi**, monitor, open-firmware | documented | **official CSI API** — S(8,x)/S(16,x) I/Q |
+| RTL8721Dx / 8720DN(cat.) / 8721F | b/g/n +BLE · 2.4/5 | AmebaD/Dplus · M4F+M0 | **2** | **csi**, monitor, open-firmware | documented | 8720DN already catalogued; **8721F (Dplus)** is net-new CSI |
+| RTL8730E | ac · 2.4/5 | AmebaSmart · Cortex-A55 | **2** | **csi**, monitor, open-firmware | documented | Linux-class SoC, CSI API |
+| RTL8735C / 8735B | ac · 2.4/5 | AmebaPro2 · M33 +NPU | **2** | **csi**, monitor, open-firmware | documented | AI-camera SoC; CSI + on-chip NPU |
+
+**Cross-refs:** [rtw88 kernel driver](https://wireless.docs.kernel.org/en/latest/en/users/drivers/rtw88.html) ·
+[lwfinger/rtw89](https://github.com/lwfinger/rtw89) ·
+[Ameba Wi-Fi CSI API](https://aiot.realmcu.com/en/latest/rtos/wifi/csi/index.html) ·
+[morrownr/USB-WiFi](https://github.com/morrownr/USB-WiFi) ·
+[../projects/csi-toolchains.md](../projects/csi-toolchains.md) ·
+[hardware-index.md](hardware-index.md).
+
+> **Honest injection note.** For `rtlwifi` (PCIe/SDIO n & ac), `rtw88`, and `rtw89`, monitor
+> capture is real but **frame injection is unreliable-to-broken** — these are RX/observation
+> cards, not TX weapons. If you need injection, stay on the USB dongles in the chip-by-chip
+> section (8812AU / 8814AU / 8821CU). None of these parts expose spectral scan, raw-IQ, or
+> arbitrary-waveform TX — that door stays shut on Realtek Wi-Fi silicon (rungs 3–5 unbuilt).

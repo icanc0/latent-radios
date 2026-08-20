@@ -2,13 +2,13 @@
 
 **An exhaustive, structured catalog of Wi‑Fi and wireless modules that can be repurposed as software‑defined radios — to some extent — by reverse‑engineering and patching their firmware, or by tapping the PHY telemetry the silicon already exposes.**
 
-![modules](https://img.shields.io/badge/modules-144-brightgreen) ![vendors](https://img.shields.io/badge/vendors-36-blue) ![ladder](https://img.shields.io/badge/SDR%20ladder-tier%200--5-orange) ![license](https://img.shields.io/badge/license-CC0--1.0-lightgrey)
+![modules](https://img.shields.io/badge/modules-361-brightgreen) ![vendors](https://img.shields.io/badge/vendors-52-blue) ![ladder](https://img.shields.io/badge/SDR%20ladder-tier%200--5-orange) ![license](https://img.shields.io/badge/license-CC0--1.0-lightgrey)
 
 > Almost every Wi‑Fi chip is a fully programmable radio wearing a locked‑down costume. The RF front‑end, ADC/DAC, and a small MAC/PHY processor are all right there on the die — the vendor just hides them behind a signed firmware blob and a thin driver API. There is a **latent radio** in the silicon. This project maps, chip by chip, **how far each module can be pushed back toward a general radio**, and **what it takes to get there** (usually: dump the firmware, disassemble it, and patch it back into something you control).
 
 This is not "turn a $5 dongle into a HackRF." Real Wi‑Fi silicon is band‑limited, its converters are tuned for OFDM, and most of the interesting DSP is frozen in ROM. But there is a surprisingly deep spectrum between *"stock driver"* and *"true SDR"* — monitor mode, frame injection, channel‑state information (CSI), spectral scan, raw‑PHY FFTs, and — on a few heroically reversed chips — arbitrary waveform transmit. This repo catalogs that whole spectrum.
 
-**Catalog at a glance** — **144 modules across 36 vendors**, each scored on the SDR ladder: **78** reach monitor + injection (Tier 1), **28** expose CSI (Tier 2), **14** do spectral / raw‑PHY scan (Tier 3), **5** have demonstrated arbitrary‑waveform TX (Tier 4), and **15** are open‑firmware or true‑SDR references (Tier 5), plus 4 black‑box baselines. Full machine‑readable database: [data/modules.json](data/modules.json) · [modules.csv](data/modules.csv). *(These numbers grow every research cycle.)*
+**Catalog at a glance** — **361 modules across 52 vendors**, each scored on the SDR ladder: **207** reach monitor + injection (Tier 1), **35** expose CSI (Tier 2), **48** do spectral / raw‑PHY scan (Tier 3), **5** have demonstrated arbitrary‑waveform TX (Tier 4), and **19** are open‑firmware or true‑SDR references (Tier 5); a further **47** are catalogued as stock‑only (Tier 0 — the chip exists, but no public path off the ground floor yet). Full machine‑readable database: [data/modules.json](data/modules.json) · [modules.csv](data/modules.csv). *(These numbers grow every research cycle.)*
 
 ---
 
@@ -57,8 +57,12 @@ Reproducible, end‑to‑end, with real repos and no fabricated offsets — star
 - [ESP32 Xtensa firmware in Ghidra + CSI](docs/walkthroughs/esp32-xtensa-ghidra.md)
 - [ath9k spectral scan + Atheros CSI Tool](docs/walkthroughs/atheros-ath9k-spectral-csi.md)
 - [The Intel 5300 802.11n CSI Tool](docs/walkthroughs/intel-5300-csi.md)
+- [RTL8812AU monitor + injection](docs/walkthroughs/rtl8812au-monitor-injection.md) — the reliable Alfa AWUS036ACH setup
+- [MediaTek mt76: monitor, injection, CSI](docs/walkthroughs/mt76-monitor-injection-csi.md)
+- [nRF52 as a bare radio + BLE sniffing](docs/walkthroughs/nrf52-dtm-radiotest-ble-sniffing.md) — the non‑Wi‑Fi repurpose
+- [openwifi on a Zynq SDR](docs/walkthroughs/openwifi-zynq-bringup.md) — the genuinely open‑PHY path
 
-**More deep‑dives:** [Nexmon](projects/nexmon.md) · [PicoScenes](projects/picoscenes.md) · [openwifi — open‑source 802.11 SDR](projects/openwifi.md) · [CSI toolchains](projects/csi-toolchains.md) · [sensing datasets](projects/wifi-sensing-datasets.md) · [techniques](docs/techniques.md) · [Wi‑Fi 7 / 6 GHz](docs/wifi7-and-6ghz.md) · [60 GHz mmWave radar](docs/mmwave-60ghz-radar.md) · [Wi‑Fi HaLow](docs/halow-subghz.md) · [Tier‑4 audit](docs/verification-tier4.md)
+**More deep‑dives:** [Nexmon](projects/nexmon.md) · [PicoScenes](projects/picoscenes.md) · [openwifi — open‑source 802.11 SDR](projects/openwifi.md) · [CSI toolchains](projects/csi-toolchains.md) · [sensing datasets](projects/wifi-sensing-datasets.md) · [techniques](docs/techniques.md) · [Wi‑Fi 7 / 6 GHz](docs/wifi7-and-6ghz.md) · [60 GHz mmWave radar](docs/mmwave-60ghz-radar.md) · [Wi‑Fi HaLow](docs/halow-subghz.md) · [UWB / FiRa ranging](docs/uwb-fira-ranging.md) · [cross‑technology comms](docs/cross-technology-communication.md) · [FTM / Wi‑Fi RTT](docs/ftm-rtt-ranging.md) · [Tier‑4 audit](docs/verification-tier4.md) · [Tier‑2 CSI audit](docs/verification-tier2-csi.md)
 
 ---
 

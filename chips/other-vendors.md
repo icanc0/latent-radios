@@ -330,3 +330,84 @@ Nordic nRF52 record above. Ref: https://github.com/nccgroup/Sniffle
   — UWB CIR access on locked-down consumer parts.
 - **TI CC2400 standalone**, Nordic **nRF905** (sub-GHz), **Si24R1** (nRF24 clone),
   **Analog Devices ADF7xxx** ISM transceivers.
+
+
+---
+
+## Extended parts — Cycle 3 sweep
+
+Exhaustive pass over the long-tail Wi-Fi/connectivity silicon flagged in the TODO
+list above, plus the closed "network-processor" families that are the *anti-SDR*
+of this catalog. The recurring lesson of this sweep: **the driver model decides
+the tier, not the marketing.** A part with an open mac80211 driver that admits a
+`monitor` interface is Tier 1 no matter who made it; a part sealed behind a ROM
+"network processor" that only speaks BSD sockets is honestly **Tier 0**, however
+capable its radio. Two verified surprises this cycle:
+
+- **Marvell 88W8864 / 88W8964** reach Tier 1 through Kalle Valo/`kaloz`'s
+  **open `mwlwifi` AP driver**, which explicitly documents a `mon0` monitor
+  interface — a rare *open* Wi-Fi-AP driver.
+- **Silicon Labs WF200** looks like it should be Tier 1 (mainline `wfx`
+  mac80211 driver) but the driver's `add_interface` **rejects
+  `NL80211_IFTYPE_MONITOR`** — only STA/AP/ADHOC — and the firmware is signed and
+  closed. Accurate tier: **0**. Accuracy over bravado.
+
+The whole **TI SimpleLink Wi-Fi** line (CC3000 → CC3235) and Microchip's
+**WINC/PIC32MZW1/RNWF** families are the same story: the radio lives inside a
+closed, ROM-based network processor exposing only a sockets/AT API — Tier 0, no
+public monitor/raw path. Nothing to reverse short of glitching the NWP.
+
+### Marvell / NXP Avastar (net-new)
+
+| Part(s) | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| 88W8686 / 88W8688 (SD8686/8688) | 802.11b/g | 1 | monitor, injection | closed | `libertas`/`libertas_tf` mainline; `rtap` radiotap monitor iface (OLPC XO, Chumby) |
+| 88W8782 / 88W8787 / 88W8797 / 88W8801 | 802.11n (+BT combo) | 1 | monitor, injection | closed (ThreadX) | `mwifiex` SDIO/USB/PCIe; siblings of the P0-reversed 88W8897; limited net-mon |
+| 88W8864 / 88W8964 | 802.11ac 4×4 | 1 | monitor, injection | closed | **open `mwlwifi` AP driver** w/ documented `mon0`; WRT1900/3200ACM, high-end APs |
+| 88W9098 | 802.11ax 2×2 | 1 | monitor, injection | closed | NXP `moal/mlan` driver; i.MX8 boards; no public CSI path |
+| IW416 | 802.11n 1×1 + BT5.2 | 1 | monitor, injection | closed | NXP post-acquisition combo; `moal` net-mon; firmware in `linux-firmware/nxp` |
+| IW611 / IW612 | 802.11ax 1×1 + BT5 + 802.15.4 | 1 | monitor, injection | closed | **IW612 is a single-chip tri-radio** (Wi-Fi6/BLE/Thread-Zigbee) — 3 PHYs, one part |
+
+### TI (net-new)
+
+| Part(s) | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| CC3000 / CC3100 / CC3200 / CC3220 / CC3230 / CC3235 | 802.11b/g/n (a/b/g/n dual-band on CC3235) | 0 | — | closed | SimpleLink Wi-Fi = ROM "network processor," sockets/TLS API only; the anti-SDR |
+| WL1271 / WL1273 / WL128x (WiLink 6/7) | 802.11b/g/n | 1 | monitor, injection | closed blob | open `wl12xx` mac80211 driver; older sibling of the catalogued `ti-wl18xx` |
+
+### Nordic, Silabs, Microchip (net-new)
+
+| Part(s) | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| nRF54L15 / nRF54H20 (+L05/L10) | BLE, 802.15.4, proprietary 2.4 | 1 | monitor, injection | documented | new "global RADIO" generation; `radio_test` + register-documented PHY (nRF52 record covers 52805/810/811/820/833/840 + nRF5340) |
+| Silabs WF200 / WFM200 | 802.11b/g/n | **0** | — | closed (signed) | mainline `wfx` mac80211 driver but **monitor iftype rejected**; no raw path |
+| Silabs RS9116 (RS9113) | 802.11n + BT5 + 802.15.4 | 1 | monitor, injection | closed | Redpine→Silabs; open `rsi` mac80211 driver with sniffer/monitor mode |
+| Silabs SiWx917 (SiWG917) | 802.11ax + BLE | 0–1 | — | closed (NWP) | Wi-Fi 6 SoC = M4 + closed network processor; WiSeConnect socket API |
+| Silabs EFR32 Series 2 (xG21/22/23/24/25/27/28) | BLE/Zigbee/Thread/Matter, prop. sub-GHz+2.4 | 1 | monitor, injection, arbitrary-waveform | partially-documented | RAIL arbitrary-PHY builder; extends catalogued Series-1 `silabs-efr32` |
+| Microchip ATWILC1000 / ATWILC3000 | 802.11b/g/n (+BT4 on 3000) | 1 | monitor, injection | closed | open `wilc1000` mainline mac80211 driver; monitor + injection |
+| Microchip WINC1500 / WINC3400 | 802.11b/g/n (+BLE on 3400) | 0 | — | closed | "network controller," WiFi101 sockets API; no monitor/raw |
+| Microchip PIC32MZW1 / WFI32E | 802.11n + BLE | 0 | — | closed | MCU + closed Wi-Fi system service (Harmony); no public sniff path |
+| Microchip RNWF02 / RNWF11 | 802.11b/g/n (RNWF11 Wi-Fi 6) | 0 | — | closed | AT-command network controller; sealed like WINC |
+
+### Espressif, Quantenna, Celeno, Peraso, Semtech, UWB (net-new)
+
+| Part(s) | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| ESP32-C61 | 802.11ax (Wi-Fi 6, 20 MHz) + BLE5 | 2 | monitor, injection, csi | closed (RISC-V) | ESP-IDF `esp_wifi` promiscuous + raw 802.11 TX + CSI API, like other ESP32 |
+| ESP32-P4 | none (host MCU) | 0 | — | closed (RISC-V) | **no integrated RF**; Wi-Fi/BT only via ESP-Hosted companion (ESP32-C series) |
+| Quantenna QSR3610 / QSR3620 | 802.11ac 2×2 | 1 | monitor | closed | on-chip processor; sensing/CSI marketed on QSR10G but no public client tooling |
+| Celeno CL1800 | 802.11ac wave 2 | 0–1 | — | closed | pre-Doppler Celeno AP silicon; Doppler engine is on the catalogued CL2x4x/CL6000 |
+| Peraso W110x / W120x | 802.11ad (WiGig) 60 GHz | 0 | — | closed | 60 GHz baseband/MAC + RF; **no open RE tooling** (unlike QCA9500 Talon Tools) |
+| Semtech SX1280 / SX1281 | 2.4 GHz LoRa / FLRC / (G)FSK | 1 | — | documented | ranging engine (ToF distance telemetry); continuous FSK/OOK for replay/tones |
+| NXP Trimension SR040 / SR150 / SR160 | UWB 802.15.4z | 1–2 | — | closed (+M33 on SR150) | UWB anchor/tag; CIR access is vendor-gated (reported); deep UWB → UWB doc |
+
+**Bands/UWB note.** Deep UWB channel-impulse-response work stays in the UWB doc;
+the catalogued **Qorvo DW1000/DW3000** remains the one UWB part with a *documented*
+complex-CIR readout. NXP Trimension exposes CIR only through gated debug paths
+(status *reported*). **u-blox** short-range UWB is sold as *modules* wrapping
+third-party (Qorvo-class) silicon rather than u-blox radio IP, so it is not minted
+as a separate chip record here.
+
+See [../projects/nexmon.md](../projects/nexmon.md) for the firmware-surgery half of
+the ladder and [../docs/mmwave-60ghz-radar.md](../docs/mmwave-60ghz-radar.md) for
+why Peraso 60 GHz stays Tier 0 without a `nexmon-arc` equivalent.

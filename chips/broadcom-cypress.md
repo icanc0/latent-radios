@@ -134,3 +134,81 @@ The most *available* Nexmon target — a $35 Pi. 1×1 11ac, Cortex-R4. nexmon mo
 - **BCM4390 / BCM4398** — newest Wi-Fi 7 flagships (Pixel 9, Galaxy S24/S25); no Nexmon port, ROM layout unknown.
 - Confirm exact **Cortex core** (M3 vs R4 vs M7) and ROM base per part — several entries above are inferred from the Nexmon symbol maps and need datasheet confirmation.
 - **802.11ad / 60 GHz** Broadcom parts (BCM20130-class) — did any ship? 60 GHz FMCW-radar repurposing would be a distinct scope.
+
+
+---
+
+## Extended parts — Cycle 3 sweep (Broadcom / Cypress / Infineon)
+
+This section closes out the BCM43xx / BCM47xx / BCM67xx / CYW43xx family exhaustively, cataloguing every part not already in the database. Three primary sources anchor the tier calls:
+
+- **[Nexmon supported-devices table](https://github.com/seemoo-lab/nexmon)** — the authoritative "is it patchable today" list. Net-new parts it now names: **bcm43439a0** (Pi Pico W, fw `7_95_49`), **bcm43451b1** (iPhone 6, fw `7_63_43_0`), and **bcm6715b0** (Asus RT-AX86U Pro, fw `17_10_188_6401`). It *also* lists **bcm43596a0** (Galaxy S7, fw `9_75_155_45`/`9_96_4`) and **bcm43582** (Nexus 6P) — those map to ids already catalogued (`broadcom-bcm43596`, `broadcom-bcm4358`), so the standing entries should be read as *patchable*, not closed/tier-0, going forward.
+- **[Linux b43 / brcmsmac driver list](https://wireless.docs.kernel.org/en/latest/en/users/drivers/b43.html)** — the SoftMAC parts. On these the host runs mac80211, so monitor + injection are native (honest **tier 1**) with **no firmware patch required**. The proprietary D11 ucode is `closed`; only the OpenFWWF-covered G-PHY parts (4306/4311rev1/4318/4320) reach tier 5, and none of *those* are net-new here.
+- **[nexmon_csi](https://github.com/seemoo-lab/nexmon_csi)** — CSI (tier 2) remains limited to 4339 / 43455c0 / 4358 / 4366c0, all already catalogued. **No net-new part in this sweep reaches tier 2+.** Everything below is tier 0 or tier 1. Accuracy over bravado: most FullMAC router/Apple parts have no public port and are honestly **tier 0 black-box**.
+
+**Architecture reminder:** *SoftMAC (b43/brcmsmac)* = D11 ucode only, no application CPU, mac80211 on the host → tier 1 native. *FullMAC (brcmfmac/bcmdhd)* = D11 + on-die ARM (Cortex-M3 → R4 → M7); black-box until Nexmon RE's the symbol map, then `patchable`.
+
+### b43 / brcmsmac SoftMAC parts (native monitor+inject, tier 1)
+
+| Part | Std / PHY | Driver | Tier | Capability | FW openness | Note |
+|------|-----------|--------|------|-----------|-------------|------|
+| BCM4301 | 11b / B-PHY | b43legacy | 1 | monitor, injection | closed | 802.11b only; earliest catalogable Broadcom |
+| BCM4309 | 11g / G-PHY | b43 | 1 | monitor, injection | closed | Tri-band 4306 sibling; OpenFWWF *not* officially covered |
+| BCM4310 | 11g / LP-PHY | b43 | 1 | monitor, injection | closed | USB; low-power PHY |
+| BCM4312 | 11g / G+LP-PHY | b43 | 1 | monitor, injection | closed | Very common 2007–2010 laptop part |
+| BCM4313 | 11n 1×1 / LCN-PHY | brcmsmac / b43 | 1 | monitor, injection | closed | Single-stream; Dell/Lenovo/HP laptops |
+| BCM4322 | 11n 2×2 / N-PHY | b43 | 1 | monitor, injection | closed | b43 since kernel 3.18 |
+| BCM4331 | 11n 3×3 / HT-PHY | b43 | 1 | monitor, injection | closed | MacBook Pro 2011–2013, iMac |
+| BCM43217 | 11n 2×2 / N-PHY | b43 | 1 | monitor, injection | closed | b43 since 3.17 |
+| BCM43222 | 11n 2×2 / N-PHY | b43 | 1 | monitor, injection | closed | b43 since 3.8 |
+| BCM43227 | 11n 1×1 / N-PHY | brcmsmac / b43 | 1 | monitor, injection | closed | b43 since 3.17 |
+| BCM43228 | 11n 2×2 dual-band / N-PHY | brcmsmac / b43 | 1 | monitor, injection | closed | Dual-band 43227 |
+
+### FullMAC 11n/11ac consumer & Apple parts
+
+| Part | Std | Driver | Tier | Capability | FW openness | Note |
+|------|-----|--------|------|-----------|-------------|------|
+| BCM4319 | 11n combo | brcmfmac/wl | 0 | — | closed | FullMAC; e-readers/tablets; no port |
+| BCM4333 | 11n combo | bcmdhd | 0 | — | closed | iPhone 4S, iPad 2/3; no port |
+| BCM43142 | 11n 1×1 / LCN40 | wl/brcmfmac | 0 | — | closed | Notoriously poor Linux support |
+| BCM4350 | 11ac 2×2 | bcmdhd | 0 | — | closed | Galaxy Note 4 SKUs; no Nexmon port |
+| BCM4352 | 11ac 2×2 | wl | 0 | — | closed | AC1200 half-mini adapters, Mac; `wl`-only |
+| BCM4360 | 11ac 3×3 | wl/brcmfmac | 1 | monitor | closed | Netgear R7000, MBP 2013–15; brcmfmac monitor flaky |
+| BCM4361 | 11ac 2×2 | bcmdhd | 0 | — | closed | iPhone 8/X, Galaxy S9/Note9 |
+| BCM4364 | 11ac 3×3 | brcmfmac | 1 | monitor | closed | iMac Pro, MBP 2018–19; brcmfmac monitor |
+| BCM4371 | 11ac 2×2 combo | brcmfmac | 0 | — | closed | 12" MacBook 2016/17 |
+| BCM43570 | 11ac 2×2 | brcmfmac | 0 | — | closed | Surface Pro 4/Book, laptops |
+| BCM43602 | 11ac 3×3 PCIe | brcmfmac | 1 | monitor | closed | Netgear R7000P, Fritz!Box, Mac Pro 2013 |
+| BCM43451 | 11ac 1×1 | **Nexmon** | 1 | monitor, injection | patchable | **iPhone 6**; Nexmon fw `7_63_43_0` (verified) |
+| BCM4377 | 11ac 2×2 | brcmfmac (Asahi) | 1 | monitor | closed | Intel/T2 Macs 2019–21; Asahi Linux |
+| BCM4378 | 11ax 2×2 | brcmfmac (Asahi) | 1 | monitor | closed | M1 Macs, iPhone 11/12/SE2; Asahi |
+| BCM4388 | 11ax/6E 2×2 | brcmfmac (Asahi WIP) | 0 | — | closed | M2/M3 Macs, iPhone 14/15 |
+
+### Router radios & Northstar SoCs
+
+| Part | Std | Role | Tier | Capability | FW openness | Note |
+|------|-----|------|------|-----------|-------------|------|
+| BCM4365 | 11ac 3×3 | router radio | 0 | — | closed | AC-class router PHY; no port |
+| BCM43684 | 11ax 4×4 | router radio | 0 | — | closed | Asus RT-AX88U/AX86U, Netgear RAX |
+| BCM6710 | 11ax 2×2 | router radio | 0 | — | closed | Wi-Fi 6 integrated radio |
+| BCM6715 | 11ax 4×4 | router radio | 1 | monitor, injection | patchable | **Asus RT-AX86U Pro**; Nexmon fw `17_10_188_6401` (verified) |
+| BCM6717 | 11be tri-band | router radio | 0 | — | closed | Wi-Fi 7; no port |
+| BCM6726 | 11be 4×4 | router radio | 0 | — | closed | Wi-Fi 7; RT-BE96U, GT-BE98 class |
+| BCM6755 | 11ax | router SoC+radio | 0 | — | closed | Integrated Wi-Fi 6 gateway SoC |
+| BCM67263 | 11be (unconfirmed) | router radio | — | — | unknown | Appears in router BSPs; PHY unverified (theoretical) |
+| BCM4708 | — | Northstar dual-A9 host SoC | 0 | — | closed | *Not a radio* — pairs with BCM4360/4366 |
+| BCM4709 | — | Northstar+ host SoC | 0 | — | closed | *Not a radio* — R8000/RT-AC68U host CPU |
+
+### Cypress / Infineon AIROC & IoT
+
+| Part | Std | Driver | Tier | Capability | FW openness | Note |
+|------|-----|--------|------|-----------|-------------|------|
+| CYW43439 | 11n 1×1 combo | **Nexmon** (cyfmac) | 1 | monitor, injection | patchable | **Raspberry Pi Pico W**; Nexmon fw `7_95_49` (verified) |
+| CYW4343W | 11n 1×1 combo | brcmfmac | 0 | — | closed | = BCM4343W; many IoT boards, older Pi HATs |
+| CYW43022 | 11ac 1×1 low-power | brcmfmac | 0 | — | unknown | Ultra-low-power wearable combo (2023) |
+| CYW54591 | 11ac 2×2 combo | AIROC | 0 | — | closed | AIROC Wi-Fi 5 + BT 5 |
+| CYW55572 | 11ax/6E 2×2 | AIROC | 0 | — | closed | AIROC Wi-Fi 6E combo |
+| BCM43340/43341/43342 | 11n combo | brcmfmac | 0 | — | closed | 4334-family tablet combos |
+| CYW43362 | 11n SoftAP | WICED | 0 | — | closed | WICED IoT (Particle Photon) |
+
+**Bottom line:** the only *climbable* net-new parts are the three Nexmon-blessed FullMAC chips (**BCM43451 / iPhone 6, CYW43439 / Pico W, BCM6715 / RT-AX86U Pro** — all tier 1, patchable) and the eleven SoftMAC b43/brcmsmac parts (tier 1, native, closed ucode). Everything else is a black-box FullMAC PHY awaiting a symbol map, or a router application SoC that carries no radio at all. No net-new part reaches CSI or above.

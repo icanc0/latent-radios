@@ -191,3 +191,120 @@ Bastian Bloessl's [ath9k spectrum-scanning writeup](https://www.bastibl.net/ath9
 - **QCA6595 / QCA6696 / WCN7850** — Wi-Fi 7 / next-gen mobile (`ath12k`) — firmware fully closed, RE status unknown.
 - ath10k **CSI** research extractions — confirm whether any reached turnkey/public-tool status.
 - `ath11k` **spectral** on desktop cards (QCN9074) — verify FFT dump path end-to-end.
+
+
+---
+
+## Extended parts — Cycle 3 sweep
+
+This section exhaustively enumerates the Atheros/Qualcomm Wi-Fi parts **not** already
+profiled above, and pins each to its Linux driver (`ath5k`/`ath9k`/`ath10k`/`ath11k`/
+`ath12k`/`wcn36xx`) and to an honest SDR-ladder tier.
+
+The single organizing fact of this vendor line: **which driver a part lands on decides
+its ceiling.**
+
+- `ath5k` / `ath9k` PCI(e)/AHB parts are **SoftMAC with no protocol firmware** — the
+  open GPL driver *is* the MAC. Monitor + injection are free (Tier 1); the **AR9002
+  (AR9280-class) and later baseband** adds the `spectral_scan` FFT interface (Tier 3)
+  and per-subcarrier CSI via the [Atheros-CSI-Tool](https://github.com/xieyaxiongfly/Atheros-CSI-Tool)
+  / [PicoScenes](https://ps.zpj.io). Pre-AR9002 baseband (AR5xxx, AR5416/AR5418,
+  AR9160) has **no spectral/CSI** → honestly **Tier 1**.
+- `ath10k` (11ac) and `ath11k` (11ax/6E) run **closed Tensilica/Qualcomm firmware**.
+  Both ship an in-tree **spectral-scan** path (Tier 3), but injection is firmware-gated
+  and CSI is not turnkey. `ath11k` spectral on router radio cards is in-tree yet less
+  battle-tested end-to-end → **status: reported**.
+- `wcn36xx` mobile parts are an **open mac80211 driver over a closed Riva firmware
+  blob**, 11a/b/g/n only, no injection, monitor limited → **Tier 1**.
+- `ath12k` (Wi-Fi 7, FastConnect 7800 / WCN785x) is early; PHY telemetry is
+  **theoretical** on these closed combos.
+
+### AR5xxx — 802.11a/b/g SoftMAC (`ath5k`) — Tier 1
+
+| Part | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| AR5210 | 11a | 1 | monitor+inj | open (SoftMAC) | First Atheros MAC; 5 GHz only, `ath5k` |
+| AR5211 | 11a/b | 1 | monitor+inj | open (SoftMAC) | Dual-band MAC, `ath5k` |
+| AR5212 | 11a/b/g | 1 | monitor+inj | open (SoftMAC) | The classic aircrack-ng NIC, `ath5k` |
+| AR5213 | 11a/b/g | 1 | monitor+inj | open (SoftMAC) | AR5213A MAC + AR5112 radio |
+| AR5413 | 11a/b/g | 1 | monitor+inj | open (SoftMAC) | "Super AG" single-chip |
+| AR5414 | 11a/b/g | 1 | monitor+inj | open (SoftMAC) | 11abg single-chip mini-PCI |
+| AR2413 | 11b/g | 1 | monitor+inj | open (SoftMAC) | 2.4 GHz-only (AR5005G) |
+| AR2417 | 11b/g | 1 | monitor+inj | open (SoftMAC) | 2.4 GHz-only (AR5007G) |
+
+### 11n SoftMAC without spectral (`ath9k`, pre-AR9002 baseband) — Tier 1
+
+| Part | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| AR5418 | 11n | 1 | monitor+inj | open (SoftMAC) | PCIe sibling of AR5416 (AR5008); no spectral |
+| AR9160 | 11n | 1 | monitor+inj | open (SoftMAC) | AR9001 MAC + AR9103 radio (AP81/AP83); pre-spectral |
+
+### AR9002/AR9003 with spectral + CSI (`ath9k`) — Tier 3
+
+| Part | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| AR9220 | 11n 2×2 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | AR9002 dual-band PCIe |
+| AR9223 | 11n 2×2 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | AR9002 2.4 GHz PCIe |
+| AR9227 | 11n 2×2 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | AR9002 2.4 GHz PCI |
+| AR9330 | 11n 1×1 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | "Hornet" SoC, `ath9k`/AHB |
+| AR9331 | 11n 1×1 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | "Hornet" SoC — TL-WR703N, MR3020, Onion Omega |
+| AR9341 | 11n 2×2 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | "Wasp" 2.4 GHz SoC |
+| AR9342 | 11n 2×2 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | "Wasp" dual-band SoC |
+| AR9382 | 11n 2×2 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | AR9003 (QCA9300 family), PicoScenes |
+| QCA9531 | 11n 2×2 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | "Dragonfly" SoC (= AR9531) |
+| QCA9563 | 11n 3×3 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | 3×3 AP SoC |
+| QCA9565 | 11n 1×1 | 3 | mon/inj + spectral + CSI | open (SoftMAC) | 1×1 + BT combo (= AR9565) |
+
+### 802.11ac (`ath10k`, closed FW) — Tier 3 (spectral), injection gated
+
+| Part | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| QCA9377 | 11ac 1×1 | 1 | monitor | closed (Xtensa) | Low-end combo; spectral reported only |
+| QCA9882 | 11ac 2×2 | 3 | monitor + spectral | closed (Xtensa) | Wave-1 AP radio |
+| QCA9886 | 11ac 2×2 | 3 | monitor + spectral | closed (Xtensa) | Wave-2 |
+| QCA9888 | 11ac 2×2 | 3 | monitor + spectral | closed (Xtensa) | Wave-2 5 GHz; 8-byte FFT header quirk |
+| QCA9994 | 11ac 4×4 | 3 | monitor + spectral | closed (Xtensa) | Wave-2 4×4 |
+| IPQ4018 | 11ac 2×2 | 3 | monitor + spectral | closed (Xtensa) | "Dakota" integrated radio (`qca4019`) |
+| IPQ4019 | 11ac 2×2 | 3 | monitor + spectral | closed (Xtensa) | "Dakota" integrated dual-band |
+| IPQ8064 | 11ac* | 3 | monitor + spectral | closed | App-processor; radio is companion QCA9880/9980 |
+| IPQ8065 | 11ac* | 3 | monitor + spectral | closed | App-processor; radio is companion QCA998x |
+
+### 802.11ax / 6E router radios (`ath11k`, closed FW) — Tier 3 spectral (reported)
+
+| Part | Standards | Tier | Capability | Firmware | Note |
+|---|---|---|---|---|---|
+| IPQ6000 | 11ax | 3 | monitor + spectral | closed | "Cypress" Wi-Fi 6 SoC |
+| IPQ6010 | 11ax | 3 | monitor + spectral | closed | Wi-Fi 6 SoC |
+| IPQ8070 | 11ax | 3 | monitor + spectral | closed | "Hawkeye" Wi-Fi 6 SoC + QCN radios |
+| IPQ8071 | 11ax | 3 | monitor + spectral | closed | "Hawkeye" |
+| IPQ8072 | 11ax | 3 | monitor + spectral | closed | "Hawkeye" |
+| IPQ8074 | 11ax 8×8 | 3 | monitor + spectral | closed | `ath11k` reference SoC |
+| QCN5024 | 11ax 2.4G | 3 | monitor + spectral | closed | Companion 2.4 GHz radio |
+| QCN5054 | 11ax 5G | 3 | monitor + spectral | closed | Companion 5 GHz radio |
+| QCN6024 | 11ax/6E | 3 | monitor + spectral | closed | Wi-Fi 6E radio |
+| QCN9024 | 11ax 6E | 3 | monitor + spectral | closed | 6 GHz radio card |
+| QCN9074 | 11ax 6E | 3 | monitor + spectral | closed | 6 GHz PCIe radio card (`ath11k`) |
+
+### Mobile / automotive combos (closed FW) — Tier 1
+
+| Part | Standards | Driver | Tier | Firmware | Note |
+|---|---|---|---|---|---|
+| QCA6420 | 11ax | ath11k | 1 | closed | Mobile FastConnect-class combo |
+| QCA6430 | 11ax/6E | ath11k | 1 | closed | Mobile 6E combo |
+| QCA6595 | 11ax 6E | ath11k | 1 | closed | Automotive (QCA6595AU) |
+| QCA6696 | 11ax 6E | ath11k | 1 | closed | Automotive combo |
+| WCN3610 | 11n 1×1 | wcn36xx | 1 | closed (Riva) | Open driver, no injection |
+| WCN3620 | 11n 2.4G | wcn36xx | 1 | closed (Riva) | Open driver, monitor limited |
+| WCN3660 | 11n dual | wcn36xx | 1 | closed (Riva) | Officially `wcn36xx`-supported |
+| WCN3680 | 11ac*/11n | wcn36xx | 1 | closed (Riva) | 11ac HW, 11ac not in driver |
+| WCN6740 | 11ax 6E | ath11k | 1 | closed | FastConnect 6700 |
+| WCN6750 | 11ax 6E | ath11k | 1 | closed | Mobile Wi-Fi 6E |
+| WCN6855 | 11ax 6E | ath11k | 1 | closed | FastConnect 6900 (laptops); spectral aspirational |
+| WCN7851 | Wi-Fi 7 | ath12k | 1 | closed | FastConnect 7800 (die beside WCN7850) |
+| FastConnect 6200 | 11ax | (PCIe) | 1 | closed | QCA6391-class mobile combo |
+
+`*` = hardware supports the standard but the open driver does not expose it.
+Spectral/CSI decoders: [FFT_eval](https://github.com/simonwunderlich/FFT_eval),
+[CSIKit](https://github.com/Gi-z/CSIKit), [PicoScenes](https://ps.zpj.io).
+See [`../docs/techniques.md`](../docs/techniques.md) and
+[`../projects/csi-toolchains.md`](../projects/csi-toolchains.md).

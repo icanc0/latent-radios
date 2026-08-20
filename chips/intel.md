@@ -98,3 +98,61 @@ All run closed, increasingly signed `iwlwifi` ucode (LMAC + UMAC firmware split 
 - **In-kernel iwlwifi CSI host command** — document exactly which mainline kernel/firmware versions expose the `csi`/channel-estimation notification FeitCSI depends on, and which NIC PCI IDs it gates on.
 - **Killer/Rivet vs Intel firmware** — determine if Killer NICs use identical `iwlwifi-*.ucode` blobs (they should) so tool support transfers.
 - **FTM / 802.11mc ranging** — several iwlwifi parts expose Fine Timing Measurement; assess whether the ToF/phase data there is separately exploitable.
+
+
+---
+
+## Extended parts — Cycle 3 sweep
+
+The records above cover Intel's CSI-capable and headline generations. This sweep enumerates **every remaining Intel Wi-Fi adapter** — from the pre-`iwlwifi` `ipw` era through the CNVi companion parts and the Killer-branded Wi-Fi 6E/7 rebrands — that is *not* already catalogued. The honest verdict is uniform: **all of these are Tier 1** (ordinary `mac80211` monitor/injection radios) or, on the earliest `ipw` silicon, monitor-only sub-Tier-1. None exposes a public CSI, spectral-scan, raw-IQ, or arbitrary-waveform path. The three Intel parts that reach **Tier 2 CSI** — IWL5300, AX200/AX201, AX210/AX211 — are already catalogued above with their toolchains (`intel-iwl5300-csi`, `intel-ax210-csi`, and the `AX-CSI`/`FeitCSI`/`PicoScenes` projects); the parts below only *reference* those and do not duplicate them.
+
+Two recurring "almost" cases worth flagging honestly:
+
+- **WiMAX/Wi-Fi Link 5350** is a genuine **3×3:3** NIC — the same MIMO geometry the Halperin CSI tool exploits on the 5300 — but the tool hard-codes the 5300's PCI ID and its patched `iwlwifi-5000` connector ucode; the 5350's WiMAX-oriented firmware image is different and no maintained CSI build targets it. It stays Tier 1.
+- **AX203 / AX411 / BE202** are the same Garfield-Peak / Gale-Peak-class silicon as the catalogued AX210/AX211/BE200, so CSI extraction is *plausibly* bindable through the mainline `iwlwifi` CSI host-command surface or FeitCSI — but no published tool run confirms these specific CNVi/dual-band SKUs. CSI is therefore **reported/theoretical for these**, and the module tier stays 1.
+
+**Firmware openness is `closed` for every part below** — the `ipw` blobs and the `iwlwifi` LMAC/UMAC ucode are proprietary and (on 7000-series and later) cryptographically signed. See [../projects/csi-toolchains.md](../projects/csi-toolchains.md) and [../docs/firmware-reversing.md](../docs/firmware-reversing.md).
+
+### Pre-iwlwifi `ipw` era (802.11b/g/a)
+
+| Part | Codename | Std | MIMO / Bands | Tier | Capability | FW | Note |
+|---|---|---|---|---|---|---|---|
+| PRO/Wireless 2100 | Calexico | 11b | 1×1 · 2.4 | 1 (monitor only) | monitor | closed | `ipw2100`; rfmon yes, **no injection** |
+| PRO/Wireless 2200BG / 2915ABG | Calexico2 | 11b/g (/a) | 1×1 · 2.4 (2915: +5) | 1 | monitor, injection\* | closed | `ipw2200`; \*injection only via legacy `ipwraw-ng` |
+| PRO/Wireless 3945ABG | Golan | 11a/b/g | 1×1 · 2.4/5 | 1 | monitor, injection | closed | `iwl3945` (iwlegacy, `mac80211`) — clean monitor+inject |
+
+### `iwlwifi` 802.11n generations (1000/5000/6000/2000/100 families)
+
+| Part | Codename | Std | MIMO / Bands | Tier | Capability | FW | Note |
+|---|---|---|---|---|---|---|---|
+| WiFi Link 1000 / Centrino Wireless-N 1000 | Kelsey Peak | 11n | 1×2 · 2.4 | 1 | monitor, injection | closed | `iwlwifi-1000` |
+| WiMAX/Wi-Fi Link 5350 | Shirley Peak | 11n | **3×3** · 2.4/5 (+WiMAX) | 1 | monitor, injection | closed | `iwlwifi-5000`; 3×3 like 5300 but **not** CSI-tool supported |
+| Centrino Wireless-N 100 / 105 | — | 11n | 1×1 · 2.4 | 1 | monitor, injection | closed | `iwlwifi-100` / `-105` |
+| Centrino Wireless-N 130 / 135 | — | 11n | 1×1 · 2.4 (+BT) | 1 | monitor, injection | closed | `iwlwifi-135` |
+| Centrino Wireless-N 1030 | Rainbow Peak | 11n | 1×2 · 2.4 (+BT) | 1 | monitor, injection | closed | `iwlwifi-6030` |
+| Centrino Wireless-N 2200 | — | 11n | 2×2 · 2.4 | 1 | monitor, injection | closed | `iwlwifi-2000` |
+| Centrino Wireless-N 2230 | — | 11n | 2×2 · 2.4 (+BT) | 1 | monitor, injection | closed | `iwlwifi-2030` |
+| Centrino Advanced-N 6205 | Taylor Peak | 11n | 2×2 · 2.4/5 | 1 | monitor, injection | closed | `iwlwifi-6005` |
+| Centrino Advanced-N 6230 / 6235 | Rainbow Peak | 11n | 2×2 · 2.4/5 (+BT) | 1 | monitor, injection | closed | `iwlwifi-6030` |
+| Centrino Advanced-N + WiMAX 6150 / 6250 | Kilmer Peak | 11n | 1×2 / 2×2 · 2.4/5 (+WiMAX) | 1 | monitor, injection | closed | `iwlwifi-6050` |
+
+### `iwlwifi` 802.11ac generations (7260/3160/8000/9000 families)
+
+| Part | Codename | Std | MIMO / Bands | Tier | Capability | FW | Note |
+|---|---|---|---|---|---|---|---|
+| Wireless-AC 3160 | Wilkins Peak | 11ac | 1×1 · 2.4/5 (+BT) | 1 | monitor, injection | closed | `iwlwifi-7260`/`-3160` |
+| Dual Band Wireless-AC 3165 / 3168 | Stone Peak | 11ac | 1×1 · 2.4/5 (+BT) | 1 | monitor, injection | closed | `iwlwifi-7265D` / `-3168` |
+| Wireless-AC 9461 / 9462 | Jefferson Peak | 11ac | 1×1 · 2.4/5 | 1 | monitor, injection | closed | `iwlwifi-9000`, CNVi companion |
+
+### `iwlwifi` Wi-Fi 6/6E/7 companion & Killer rebrands (cc/gf/bz families)
+
+| Part | Codename | Std | MIMO / Bands | Tier | Capability | FW | Note |
+|---|---|---|---|---|---|---|---|
+| Wi-Fi 6 AX101 | Garfield Peak | 11ax | 1×1 · 2.4/5 | 1 | monitor, injection | closed | CNVi companion |
+| Wi-Fi 6 AX203 | Garfield Peak | 11ax | 2×2 · 2.4/5 | 1 | monitor, injection | closed | CNVi; CSI *reported*, not verified on this SKU |
+| Wi-Fi 6E AX411 (Killer AX1690) | Garfield Peak | 11ax | 2×2 · 2.4/5/6 | 1 | monitor, injection | closed | CNVi; AX210-class, CSI *reported* |
+| Wi-Fi 7 BE202 | — | 11be | 2×2 · 2.4/5 (**no 6 GHz**) | 1 | monitor, injection | closed | dual-band Wi-Fi 7; CSI *reported* like BE200 |
+
+**Killer rebrands that map onto already-catalogued silicon (no new record):** Killer Wi-Fi 6 AX1650 = `intel-ax200-ax201`; Killer Wi-Fi 6E AX1675 = `intel-ax210-ax211`; Killer Wi-Fi 7 BE1750 = `intel-be200`. Their `iwlwifi-*.ucode` blobs are identical to the Intel-branded parts, so all tool support transfers unchanged.
+
+**Sources:** [kernel.org iwlwifi driver / supported devices](https://wireless.docs.kernel.org/en/latest/en/users/drivers/iwlwifi.html) · [ipw2100 driver](https://ipw2100.sourceforge.net/) · [ipw2200 driver](https://ipw2200.sourceforge.net/) · [aircrack-ng driver/injection compatibility](https://www.aircrack-ng.org/doku.php?id=compatibility_drivers) · [Wikipedia: Centrino](https://en.wikipedia.org/wiki/Centrino) · [FeitCSI supported NICs](https://feitcsi.kuskosoft.com/) · [AX-CSI paper](https://ans.unibs.it/assets/documents/axcsi.pdf)

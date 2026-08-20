@@ -217,3 +217,76 @@ partially-documented posture as the AP family.
   client MCUs; currently theoretical.
 - **Firmware RE depth** — a public ghidra loader / annotated map for the ConnAC WM/WA
   (and Filogic WO) MCU blobs; nothing nexmon-grade exists for MediaTek yet.
+
+
+---
+
+## Extended parts — Cycle 3 sweep
+
+The Cycle-1/2 file above covers the headline Ralink dongles and the modern `mt76`
+CSI platform. This sweep enumerates **every remaining MediaTek/Ralink Wi-Fi part**
+not yet catalogued — the legacy `rt2x00` PCI/USB/SoC silicon, the `mt76`-era router
+SoCs and combos, the IoT Wi-Fi MCUs, and the newest Filogic Wi-Fi 6E/7 branding.
+
+The through-line is unchanged: **almost everything with a Linux `rt2x00`/`mt76`
+driver is honestly Tier 1** (open SoftMAC driver → clean monitor + injection over
+mac80211), the closed MAC/MCU microcode is the ceiling, and **CSI only appears on the
+ConnAC Wi-Fi 6 AP silicon** (MT7915/MT7916/MT7981 already catalogued; **MT7986 /
+Filogic 830 added here at Tier 2** because it shares the exact `mt7915` sub-driver and
+CSI vendor command). Nothing in this family reaches Tier 3+ with public tooling.
+
+Two honesty notes carried into the records below:
+
+- **Radio-less network processors** (MT7621, MT7629) have *no integrated Wi-Fi PHY* —
+  they are the ARM/MIPS hosts that carry an `mt76` PCIe radio. They are Tier 0 and
+  listed only so the catalog is not silently missing the part numbers people see on
+  router boards.
+- **RF front-ends** (MT7975/MT7976, and the unverifiable "MT7900/MT7905" labels) are
+  analog companion chips slaved to a baseband — not independently repurposable. Tier 0.
+- **MT7650/MT7650E** is simply the pre-production engineering name of the MT76x0/MT76x2
+  802.11ac generation already catalogued (MT7610U / MT7612U) — no separate record.
+- Filogic client branding maps to already-catalogued silicon: **Filogic 380 = MT7921/
+  MT7922**, **Filogic 630 = MT7916**, **Filogic 680 = MT7925**, **Filogic 820 =
+  MT7981**. Only the net-new **Filogic 330 (MT7920)**, **830 (MT7986)**, **860 (MT7990)**
+  and **880 (MT7992/MT7996)** get their own rows.
+
+### Legacy Ralink `rt2x00` — PCI / USB / SoC (net-new)
+
+| Part(s) | Driver | Std / streams | Band | Tier | Firmware | Note |
+|---------|--------|---------------|------|:----:|----------|------|
+| RT2400 (RT2460) | rt2400pci | 802.11b 1T1R | 2.4 | 1 | closed | earliest Ralink; b-only monitor/injection, obsolete |
+| RT2561/RT2661 (RT61), RT2571/RT2573 (RT73) | rt61pci / rt73usb | 802.11g | 2.4 | 1 | closed | the 802.11g generation ("RT2600"-class); classic g injection |
+| RT2760/RT2770/RT2790/RT2860/RT2880 | rt2800pci | 802.11n 2–3T | 2.4 | 1 | closed | PCI/mini-PCIe counterpart to the catalogued RT2870/RT3070 USB |
+| RT3060/RT3090/RT3390 | rt2800pci | 802.11n 1T1R | 2.4 | 1 | closed | low-cost 1×1 11n mini-PCIe |
+| RT3290 | rt2800pci + BT | 802.11n 1T1R + BT | 2.4 | 1 | closed | Wi-Fi/BT combo (HP laptops); Wi-Fi is normal rt2800 |
+| RT3050/RT3052/RT3350/RT3352 | rt2800soc | 802.11n 2T2R | 2.4 | 1 | closed | MIPS router SoC, integrated 11n radio |
+| RT5350 | rt2800soc | 802.11n 1T1R | 2.4 | 1 | closed | cheap MIPS router/IoT SoC, integrated 11n |
+| RT5390 / RT5392 | rt2800pci | 802.11n 1T1R / 2T2R | 2.4 | 1 | closed | late Ralink low-power PCIe 11n |
+
+### Modern MediaTek `mt76` / SoC / combo (net-new)
+
+| Part(s) | Driver | Std / streams | Bands | Tier | CSI | Firmware | Note |
+|---------|--------|---------------|-------|:----:|:---:|----------|------|
+| MT7602E / MT7603E / MT7603U | mt7603 | 802.11n 2T2R | 2.4 | 1 | no | closed | strong SoftMAC injection; 2.4 GHz companion radio |
+| MT7613BE | mt76 (connac) | 802.11ac 2T2R | 5 | 1 | no | partially-documented | 5 GHz 11ac companion to MT7603 |
+| MT7620 | rt2800soc | 802.11n 2T2R | 2.4 | 1 | no | closed | MIPS router SoC, integrated 11n |
+| MT7628 / MT7688 | mt76 (mt7628) | 802.11n 2T2R / 1T1R | 2.4 | 1 | no | closed | `mt76`-driven MIPS SoC (README lists MT7628/MT7688) |
+| MT7621 / MT7629 | — | no integrated Wi-Fi | — | 0 | no | closed | network processors; host an `mt76` PCIe radio |
+| MT7622 | mt7615 (`mt7622_wmac`) | 802.11n 2T2R | 2.4 | 1 | no | partially-documented | ARM A53 SoC w/ built-in 11n; PCIe for MT7915 |
+| MT7668 | mt76 / btmtk | 802.11ac 1T1R + BT5 | 2.4/5 | 1 | no | closed | combo (Chromebooks/IoT); limited mainline Wi-Fi |
+| MT7686 / MT7687 / MT7697 | RTOS SDK (not mac80211) | 802.11n 1T1R (+BLE) | 2.4 | 0 | no | closed | Cortex-M4 Wi-Fi MCU (LinkIt 7697); no open monitor path |
+| MT7920 (Filogic 330) | mt7921-class (ConnAC2) | 802.11ax 2×2 6E | 2.4/5/6 | 1 | reported | partially-documented | Wi-Fi 6E client combo; connac2 lineage |
+| **MT7986 (Filogic 830)** | mt7915 (+mt7976 RF) | 802.11ax 4×4 6E | 2.4/5/6 | **2** | **yes** | partially-documented | **CSI via same `mt76` path as MT7981/MT7915** |
+| MT7996 / MT7992 / MT7990 (Filogic 880/860) | mt7996 | 802.11be Wi-Fi 7 | 2.4/5/6 | 1 | reported | partially-documented | Wi-Fi 7 AP SoCs; CSI path maturing |
+| MT6631 / MT6632 | proprietary Android | 802.11ac + BT/GNSS | 2.4/5 | 0 | no | closed | mobile connectivity combos; no open SoftMAC route |
+| MT7975 / MT7976 (+ "MT7900/MT7905") | slaved to baseband | RF front-end | 2.4/5/6 | 0 | no | closed | analog companion RF, not independently SDR-capable |
+
+**Bottom line:** the sweep adds **21 net-new records** but moves the ceiling only once —
+**MT7986 / Filogic 830 to Tier 2** (CSI), because it is the same `mt7915` driver +
+`mt7976` radio as the already-verified MT7981. Everything else is honest Tier 1 (open
+SoftMAC injection) or Tier 0 (radio-less hosts, RF front-ends, closed IoT/mobile combos).
+The Wi-Fi 7 `mt7996` family (Filogic 860/880) is Tier 1 today with CSI *reported* — the
+natural next target, since it inherits the ConnAC3 MCU-command lineage that made
+MediaTek CSI reachable without a firmware patch (see
+[../projects/csi-toolchains.md](../projects/csi-toolchains.md) and
+[MtkCSIdump](https://github.com/MtkWifiRev/MtkCSIdump)).
