@@ -411,3 +411,138 @@ as a separate chip record here.
 See [../projects/nexmon.md](../projects/nexmon.md) for the firmware-surgery half of
 the ladder and [../docs/mmwave-60ghz-radar.md](../docs/mmwave-60ghz-radar.md) for
 why Peraso 60 GHz stays Tier 0 without a `nexmon-arc` equivalent.
+
+
+---
+
+## Long-tail sweep — Cycle 4
+
+This round pushes past the Wi-Fi/BLE core into the **genuine-radar** and **UWB** adjacencies, plus a
+handful of Wi-Fi/BT parts that earlier cycles missed. The honest framing matters here:
+
+- **Automotive/industrial mmWave radar** (TI AWR/IWR, NXP TEF810x + S32R, NXP SAF85xx, Infineon BGT,
+  Uhnder, Arbe) are *actual raw-IQ radars*. You get the ADC cube off the chip through a documented
+  capture path — no firmware jailbreak required. These sit high on the ladder **for radar/FMCW work
+  specifically** (Tier 4), but they are *not* general-purpose SDRs: the TX is a chirp/code generator,
+  not an arbitrary baseband DAC, and the RF is a fixed 24/60/77/79/120 GHz front-end. See
+  [`../docs/true-sdr-comparison.md`](../docs/true-sdr-comparison.md) for where "raw-IQ radar" lands
+  versus a HackRF/USRP.
+- **UWB** (NXP Trimension SR040/SR150/SR160, 3db Access) behaves like the already-catalogued Qorvo
+  `dw1000`: the useful export is the **channel-impulse-response (CIR)**, a per-tap channel snapshot
+  analogous to Wi-Fi CSI (Tier 2 where the CIR is reachable, Tier 1 for ranging-only, closed silicon).
+  Qorvo remains the more open path; NXP's UWB firmware is signed/closed. **Zebra** (DART/UWB RTLS) and
+  **Sewio** are *system integrators*, not silicon vendors — Sewio's anchors are built on Qorvo DW1000/
+  DW3000, so they carry no net-new chip record here.
+- **Missed Wi-Fi/BT** parts are mostly closed vendor blobs (Airoha, SigmaStar, Amlogic, On-Semi/
+  Quantenna, Methods2Business) — Tier 0–1 — with two bright spots: **Espressif ESP32-C5/-C61**, which
+  inherit the open ESP-IDF CSI path (Tier 2), the C5 notably offering **5 GHz CSI**. Note **ESP32-P4
+  has no radio at all** (verified against Espressif's SoC page) and is therefore excluded as a module.
+
+Cross-references: FMCW/radar theory in [`../docs/techniques.md`](../docs/techniques.md); UWB ranging in
+[`../docs/uwb-fira-ranging.md`](../docs/uwb-fira-ranging.md) and
+[`../docs/ftm-rtt-ranging.md`](../docs/ftm-rtt-ranging.md); the already-catalogued anchors
+`ti-iwr6843`, `infineon-bgt60tr13c`, `qorvo-dw1000`, `quantenna-qsr10g`, `celeno-cl6000`,
+`morsemicro-mm6108/mm8108`, `newracom-nrc7292/nrc7394` are not repeated below.
+
+### Compact summary
+
+| Module | Band | Class | Tier | Key capability | FW openness | Status |
+|---|---|---|---|---|---|---|
+| ti-awr1243 | 60/76–81 GHz | FMCW transceiver (cascade) | 4 | raw ADC via DCA1000/LVDS | closed | verified |
+| ti-awr1443 | 76–81 GHz | Single-chip FMCW radar | 4 | raw ADC (mmWave Studio) | closed | verified |
+| ti-awr1642 | 76–81 GHz | FMCW radar + C674x DSP | 4 | raw-IQ + on-chip DSP | closed | verified |
+| ti-awr1843 | 76–81 GHz | FMCW radar + DSP + HWA | 4 | raw-IQ radar cube | closed | verified |
+| ti-awr2243 | 76–81 GHz | 2G cascade transceiver | 4 | imaging-radar raw ADC | closed | verified |
+| ti-awr2944 | 76–81 GHz | 2G single-chip radar | 4 | raw-IQ, 4TX/4RX MIMO | closed | verified |
+| nxp-tef810x | 76–81 GHz | RFCMOS radar transceiver | 4 | raw ADC to S32R MCU | closed | reported |
+| nxp-s32r274 | n/a (RF-less) | Radar signal processor | 0 | SPT/FFT, no RF of its own | partially-documented | reported |
+| nxp-saf85xx | 76–81 GHz | Single-chip radar SoC | 4 | on-chip radar cube + raw ADC | closed | reported |
+| infineon-bgt24ltr11 | 24 GHz | CW/Doppler front-end | 3 | analog I/Q IF (ext. ADC) | documented | verified |
+| infineon-bgt60atr24c | 60 GHz | Automotive FMCW radar | 4 | raw ADC (Radar SDK) | documented | reported |
+| infineon-bgt120 | 120 GHz | FMCW transceiver | 4 | raw-IQ radar | closed | reported |
+| uhnder-s80 | 76–81 GHz | Digital-code (PMCW) radar | 4 | digital-modulation radar cube | closed | reported |
+| arbe-phoenix | 76–81 GHz | Imaging FMCW radar chipset | 4 | 2304-ch raw radar | closed | reported |
+| nxp-sr150 | 6–9 GHz UWB | FiRa UWB + Cortex-M33 | 2 | CIR / AoA readout | closed | reported |
+| nxp-sr040 | 6–9 GHz UWB | FiRa UWB controlee tag | 1 | ranging, signed FW | closed | reported |
+| nxp-sr160 | 6–9 GHz UWB | Mid-range UWB IC | 1 | ranging (+CIR debug) | closed | reported |
+| 3dbaccess-3db6830 | 6–9 GHz UWB | Low-power 15.4z UWB | 1 | ranging (CIR reported) | closed | reported |
+| airoha-ab1565 | 2.4 GHz | BT 5.x TWS audio SoC | 0 | black-box BT | closed | reported |
+| sigmastar-ssw101b | 2.4 GHz | 802.11n IoT combo | 1 | monitor (limited) | closed | reported |
+| allwinner-xr829 | 2.4 GHz | 11n + BT combo (xradio) | 1 | monitor (poor) | partially-documented | reported |
+| amlogic-w2 | 2.4/5 GHz | Wi-Fi 6 combo | 1 | vendor-driver monitor | closed | reported |
+| quantenna-qsr1000 | 2.4/5 GHz | 802.11ac 4×4 | 1 | monitor/injection | closed | reported |
+| m2b-halow | sub-GHz | 802.11ah HaLow IP/SoC | 1 | 11ah PHY (licensed IP) | closed | theoretical |
+| espressif-esp32-c5 | 2.4/5 GHz | Wi-Fi 6 + BLE + 15.4 | 2 | **5 GHz CSI**, monitor | partially-documented | verified |
+| espressif-esp32-c61 | 2.4 GHz | Wi-Fi 6 + BLE | 2 | CSI, monitor | partially-documented | verified |
+
+### Automotive & industrial mmWave radar (raw-IQ, not general SDR)
+
+The **TI AWR** line is the most accessible: `MMWAVE-STUDIO`/`mmWave Studio` drives the device over SPI,
+streams **raw ADC samples over LVDS to the `DCA1000EVM`** capture card (UDP-to-PC), and the community
+tooling ([OpenRadar](https://github.com/PreSenseRadar/OpenRadar), [pymmw](https://github.com/m6c7l/pymmw))
+parses the resulting radar cube in Python. AWR1443 folds a Cortex-R4F + hardware accelerator on-die;
+AWR1642/1843 add a **C674x DSP** for on-chip range/Doppler FFTs; AWR1243/AWR2243 are TX/RX-only
+**transceivers** meant for cascade imaging (`MMWCAS-RF-EVM`, 4-chip 12TX×16RX). The **2G** family
+(AWR2944, AWR2544) is the current automotive generation with `MMWAVE-STUDIO-2G`. All expose the ADC
+cube through a documented path — you never touch a firmware jailbreak — but the TX is a programmable
+**FMCW chirp** generator, not an arbitrary IQ DAC, so this is Tier 4 *for radar/FMCW only*. `IWR`
+variants are the industrial-temp siblings (the already-catalogued `ti-iwr6843` is the 60 GHz one).
+
+**NXP** splits the chain: **TEF810x** is the 77 GHz RFCMOS transceiver (3TX/4RX) that hands raw ADC to
+an **S32R274/S32R294** radar MCU (PowerPC e200 + the **SPT** "Signal Processing Toolbox" for FFT/CFAR).
+The S32R part is *RF-less* — a processor, not a radio — so it is recorded only for completeness at
+Tier 0. **SAF85xx** (SAF8544/SAF8510) is the newer **single-chip** RFCMOS radar SoC that integrates
+transceiver + processing and can emit either a processed point cloud or raw ADC. Access is gated behind
+NDA'd tooling, hence `reported`.
+
+**Infineon** spans the widest frequency range. **BGT24LTR11** is a low-cost 24 GHz Doppler/CW
+front-end that outputs **analog I/Q IF** you digitize with any external ADC (Tier 3, well-documented in
+app notes — a hobbyist favorite). The 60 GHz **BGT60ATR24C** (automotive) and the already-catalogued
+**BGT60TR13C** (consumer, XENSIV) stream raw ADC through the **Radar Development Kit** / `ifxradarsdk`
+Python/C SDK. **BGT120** pushes to 120 GHz for short-range industrial sensing. The 60/120 GHz FMCW
+parts are Tier 4; the 24 GHz CW part is Tier 3 (simpler modulation, external ADC).
+
+**Uhnder S80** is the outlier modulation: a 79 GHz **digital-code-modulation (PMCW/DCM)** "radar-on-chip"
+in 28 nm RFCMOS with up to ~192 virtual channels and on-chip correlation — closer to a spread-spectrum
+digital transmitter than an FMCW ramp, which is why it earns an `arbitrary-waveform`-adjacent flag.
+Uhnder wound down operations in 2024, so its tooling is effectively orphaned (`reported`). **Arbe
+Phoenix** is a two-chip imaging set (RFIC + radar processor) fielding **48TX × 48RX ≈ 2304 virtual
+channels** of 79 GHz FMCW for high-resolution 4D point clouds; raw access is OEM-only.
+
+### Ultra-wideband (CIR ≈ CSI, mostly closed)
+
+NXP's **Trimension** UWB family implements IEEE 802.15.4z HRP / FiRa. **SR150** integrates an Arm
+**Cortex-M33** and 3-antenna AoA, and can surface the **channel impulse response** for research-grade
+sensing (Tier 2 where reachable). **SR040** is a controlee/tag optimized for low power (ranging-only,
+Tier 1); **SR160** is a mid-range single-chip device. All run **signed/closed** firmware — unlike Qorvo,
+there is no Nexmon-style patch path — so the more open UWB route remains `qorvo-dw1000`/DW3000 (see
+[`../docs/uwb-fira-ranging.md`](../docs/uwb-fira-ranging.md)). **3db Access 3DB6830** is a low-power
+15.4z ranging IC in the same closed camp. **Zebra** (DART UWB RTLS) and **Sewio** are location-system
+vendors rather than chip makers — Sewio's hardware is built on Qorvo DecaWave silicon — so neither adds
+a net-new chip record.
+
+### Missed Wi-Fi / BT (closed long-tail, plus two open ESP32s)
+
+- **Airoha AB1562/AB1565** are Bluetooth 5.x dual-mode **TWS earbud audio** SoCs (not Wi-Fi), closed
+  firmware, no public off-the-ground path → Tier 0.
+- **SigmaStar SSW101B** — 2.4 GHz 802.11n IoT combo paired with SigmaStar camera SoCs; closed vendor
+  driver, limited monitor → Tier 1.
+- **Allwinner XR829** — 2.4 GHz 11n + BT combo (the `xradio`/`xr819` lineage, common on Allwinner SBCs).
+  A partially-documented staging-style driver exists but monitor/injection support is poor → Tier 1.
+- **Amlogic W1/W2** — Amlogic's own Wi-Fi silicon (W1 = 11n 1×1, **W2** = Wi-Fi 6 dual-band) for
+  set-top/AIoT SoCs; closed firmware, vendor-driver monitor only → Tier 1.
+- **On-Semi / Quantenna QSR1000** — 802.11ac 4×4 (the pre-`qsr10g` "Topaz/Rurik" generation). Closed,
+  with some GPL driver fragments in OpenWrt trees; CSI work exists on the newer `qsr10g` but not here →
+  Tier 1.
+- **Methods2Business HaLow** — a Dutch design house's 802.11ah **HaLow IP/SoC** (acquired by Renesas,
+  2021). Sub-GHz 11ah PHY, licensed IP with no public reversing path → Tier 1, `theoretical`.
+- **Espressif ESP32-C5 / -C61** — the open ESP-IDF CSI/monitor path applies (Tier 2). The **C5 is
+  dual-band Wi-Fi 6**, giving a rare cheap route to **5 GHz CSI**; C61 is single-band 2.4 GHz Wi-Fi 6.
+  PHY is a blob but the driver/API is documented. **ESP32-P4 has no radio and is excluded.**
+
+**Regulatory/TX note:** every radar part above transmits in licensed/ISM mmWave bands (24/60/77/79/120
+GHz) under regional EIRP and duty-cycle limits (e.g., FCC Part 15.253/15.256, ETSI EN 305 550 / EN 302
+264 for automotive 76–81 GHz). Automotive 76–81 GHz emission is generally restricted to vehicular use;
+bench operation should use shielded enclosures or absorptive fixtures. UWB TX is governed by FCC Part 15
+Subpart F / ETSI EN 302 065. Never radiate a modified FMCW/UWB waveform on-air outside a chamber without
+confirming your license class.
