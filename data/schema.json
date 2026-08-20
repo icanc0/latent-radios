@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/icanc0/latent-radios/blob/main/data/schema.json",
+  "title": "Latent Radios — module database",
+  "description": "Array of wireless modules/chips catalogued by how far they can be repurposed toward a software-defined radio.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/module" },
+  "$defs": {
+    "module": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "vendor", "family", "sdr_tier", "sdr_capabilities", "firmware", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "description": "Unique kebab-case identifier, e.g. 'broadcom-bcm43455c0'."
+        },
+        "vendor": {
+          "type": "string",
+          "description": "Silicon vendor, e.g. 'Broadcom', 'Qualcomm Atheros', 'Espressif'."
+        },
+        "family": {
+          "type": "string",
+          "description": "Chip family or the specific part, e.g. 'BCM4345 / CYW43455', 'ESP32'."
+        },
+        "part_numbers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "All concrete part numbers this record covers."
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Other names, module names, marketing names, board names."
+        },
+        "standards": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Wireless standards, e.g. '802.11n', '802.11ac', '802.11ax', 'BT5', '802.15.4', 'LoRa'."
+        },
+        "bands": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["sub-GHz", "2.4GHz", "5GHz", "6GHz", "60GHz", "UWB"] },
+          "description": "RF bands the part operates in."
+        },
+        "sdr_tier": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "Highest rung on the SDR ladder reachable with public tooling. See docs/taxonomy.md."
+        },
+        "sdr_capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "monitor", "injection", "csi", "spectral-scan", "raw-iq",
+              "arbitrary-waveform", "radar", "fmcw", "passive-radar",
+              "covert-channel", "open-firmware"
+            ]
+          },
+          "description": "Specific capabilities unlocked, orthogonal to tier."
+        },
+        "firmware": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["openness"],
+          "properties": {
+            "arch": {
+              "type": "string",
+              "description": "MAC/PHY processor and firmware arch, e.g. 'Broadcom D11 ucode + ARM Cortex-M3', 'Xtensa LX6', 'ARC', 'MIPS'."
+            },
+            "openness": {
+              "type": "string",
+              "enum": ["open", "documented", "patchable", "partially-documented", "closed", "unknown"],
+              "description": "How reachable the firmware is for repurposing."
+            },
+            "re_tooling": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "Tools used to reverse/patch, e.g. 'nexmon', 'b43-tools', 'ghidra', 'ida', 'radare2'."
+            }
+          }
+        },
+        "key_projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          },
+          "description": "Tools/frameworks that unlock this chip's capabilities."
+        },
+        "common_hardware": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Buyable hardware carrying this chip: dongles, dev boards, phones, routers, Raspberry Pi models."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Free-form: caveats, what works, what's fragile, band limits."
+        },
+        "references": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "URLs: papers, repos, wiki pages, datasheets."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["verified", "reported", "theoretical"],
+          "description": "verified = works with public tooling; reported = demonstrated in a paper/talk; theoretical = plausible but unproven."
+        }
+      }
+    }
+  }
+}
