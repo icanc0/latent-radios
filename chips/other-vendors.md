@@ -740,3 +740,71 @@ The analog‑FPV ecosystem is full of cheap, SPI‑controllable **5.8 GHz FM tra
 - NXP TEF810X 77 GHz radar transceiver: https://www.nxp.com/products/radio-frequency/radar-transceivers:MC_71571
 - RTC6705 driver in Betaflight: https://github.com/betaflight/betaflight/blob/master/src/main/drivers/vtx_rtc6705.c
 - Renesas DA16200 ultra‑low‑power Wi‑Fi SoC: https://www.renesas.com/en/products/wireless-connectivity/wi-fi/low-power-wi-fi/da16200-ultra-low-power-wi-fi-soc-battery-powered-iot-devices
+
+
+---
+
+## Long-tail sweep — Cycle 7
+
+*Round 5: stragglers & retro.* This sweep closes out the pre-mac80211 "retro" era (the chips that first made monitor mode and injection real) plus a handful of modern module-vendor parts that slipped past earlier cycles. Historical parts are catalogued for provenance: several are the *reason* SDR-style Wi-Fi hacking exists, even though by the tier ladder they only reach **tier 1** (monitor + injection). Net-new ids only; `marvell-88w8897` and `realtek-rtl8187l` are already catalogued and are **not** repeated here.
+
+### Why the retro chips matter
+
+The tier ladder rewards raw-IQ and PHY access, so almost everything below sits at **tier 1**. But tier 1 undersells their place in history. Before mac80211/cfg80211 existed, the MAC layer lived either in host software (softMAC) or in firmware (fullMAC). The softMAC and host-driven parts — Prism2, ADM8211, ACX1xx, ZD1211, the Libertas thin-firmware — are precisely the ones that let researchers craft, inject, and capture 802.11 frames arbitrarily, which is the direct ancestor of today's Nexmon/`ath9k` injection work. The fullMAC/closed-firmware parts (Hermes/Orinoco, Aironet, DA16600) needed patched firmware or vendor cooperation to expose even monitor mode, which foreshadows the whole premise of this catalog.
+
+### Net-new parts
+
+| id | vendor | part(s) | era / std | tier | why it's here |
+|---|---|---|---|---|---|
+| `intersil-prism2` | Intersil (Harris → Conexant → GlobespanVirata) | HFA3841 / ISL3874 (Prism2), ISL3872 (2.5), ISL3880/3890 (3) | 1999, 802.11b | 1 | **The original monitor-mode + injection chipset.** `hostap` driver. |
+| `agere-hermes-orinoco` | Lucent / Agere (ex-NCR/AT&T WaveLAN) | Hermes (WaveLAN/IEEE, Orinoco Gold/Silver) | 1999, 802.11b | 1 | WaveLAN = the original 802.11; monitor via `orinoco` patches. |
+| `cisco-aironet-350` | Cisco (ex-Aironet Wireless Comms.) | Aironet 340/350 (AIR-PCM/LMC350) | 2000, 802.11b | 1 | Enterprise LEAP/MIC radio; `airo` driver monitor mode. |
+| `symbol-spectrum24` | Symbol Technologies | Spectrum24 LA-4121/LA-4137 | 2000, 802.11b | 1 | Prism2-derived; `orinoco`/`hostap` "Symbol" firmware path. |
+| `admtek-adm8211` | ADMtek (→ Infineon) | ADM8211 | 2001, 802.11b | 1 | Extreme softMAC — host builds beacons/frames; `adm8211`. |
+| `ti-acx1xx` | Texas Instruments | ACX100 (11b) / ACX111 = TNETW1130 (11g) | 2002–03, 802.11b/g | 1 | Reverse-engineered open `acx` driver, uploaded firmware blob. |
+| `zydas-zd1211` | ZyDAS (→ Atheros/Qualcomm) | ZD1211 / ZD1211B (USB); ZD1201 (older 11b) | 2004, 802.11b/g USB | 1 | Open softMAC `zd1211rw`; long an aircrack-ng favorite. |
+| `marvell-libertas-8388` | Marvell | 88W8388 (Libertas; SDIO/USB/CF) | 2006, 802.11b/g | 1 | **OLPC XO-1 radio**; 802.11s mesh; `libertas_tf` thin-firmware. |
+| `renesas-da16600` | Renesas (ex-Dialog) | DA16600 module (DA16200 SoC + DA14531 BLE) | 2020, 802.11b/g/n + BLE 5 | 0 | Ultra-low-power Wi-Fi IoT; closed FreeRTOS SDK. |
+| `telit-we310f5` | Telit Cinterion | WE310F5 (rebrand of Redpine/Silicon Labs RS9113) | 2018, 802.11abgn + BT | 0 | Module rebrand — tier inherits from the RS9113 die. |
+| `quectel-fgh100m` | Quectel | FGH100M-H (Wi-Fi HaLow; Newracom NRC7292/NRC7394) | 2022, 802.11ah **sub-GHz** | 1 | Sub-GHz HaLow; Newracom host driver is open-ish on GitHub. |
+| `quectel-fcu630` | Quectel | FCU630 / FC41D combo modules | 2021, 802.11a/b/g/n/ac + BT | 0 | Combo module; underlying die varies (ASR/Realtek class). |
+| `sparklan-wpeq-series` | SparkLAN | WPEQ-/WNFQ-series (MediaTek MT7915, Qualcomm QCAxxxx) | 2019+, 802.11ac/ax | 0 | Pure carrier board — tier inherits from the MediaTek/QCA die. |
+
+### Detail & provenance
+
+**`intersil-prism2` — Prism 2 / 2.5 / 3 (802.11b, 2.4 GHz).** The historically decisive part. Because the MAC ran host-side under Jouni Malinen's `hostap` driver, a card could be forced into AP mode, monitor mode, and arbitrary frame injection from userspace — this is what made AirSnort, early WEP cracking, and the first practical rogue-AP work possible. Datasheets and register maps were widely circulated (partially-documented), though the on-chip firmware itself stayed closed. Kernel `hostap` lists it as "Intersil/Conexant." No PHY/IQ access — **tier 1**, caps monitor + injection. Verified. See [Prism (chipset)](https://en.wikipedia.org/wiki/Prism_(chipset)) and [hostap](https://w1.fi/hostap.html).
+
+**`agere-hermes-orinoco` — Lucent/Agere Hermes (WaveLAN/Orinoco, 802.11b).** Direct descendant of NCR/AT&T WaveLAN, the very first 802.11 product line. FullMAC: the MAC lived in closed firmware, so the mainline `orinoco` driver (vendors listed as "Agere/Intersil/Symbol") originally had *no* monitor mode; the community shim/patch and later the `orinoco_cs` monitor support unlocked capture, with injection only partial. Agere was notoriously reluctant to document, which is exactly the closed-firmware wall this catalog exists to climb. **Tier 1**, openness closed. Verified via kernel driver docs and [WaveLAN](https://en.wikipedia.org/wiki/WaveLAN).
+
+**`cisco-aironet-350` — Cisco Aironet 340/350 (802.11b).** Cisco absorbed Aironet in 1999; the 350-series PCMCIA/PCI radios were the enterprise workhorse (LEAP, Cisco MIC). The open `airo` driver (kernel: "Aironet/Cisco") supports monitor mode; injection support was limited and firmware closed. **Tier 1**, caps monitor. Verified via kernel `airo` driver.
+
+**`symbol-spectrum24` — Symbol Spectrum24 (802.11b).** Symbol's barcode-scanner and warehouse radios were largely Prism2-derived; several are driven by `orinoco`/`hostap` with Symbol-specific firmware download. Same softMAC lineage → monitor + injection reachable. **Tier 1**, status reported (firmware-variant dependent).
+
+**`admtek-adm8211` — ADMtek ADM8211 (802.11b PCI).** Unusually thin hardware: the `adm8211` driver builds beacon frames and does much of the MAC in host software, which made the part a favorite for frame-injection experimentation despite mediocre RX. Register interface was reverse-engineered (partially-documented). Kernel lists "ADMtek/Infineon." **Tier 1**, caps monitor + injection.
+
+**`ti-acx1xx` — TI ACX100 / ACX111 (TNETW1130) (802.11b/g).** The `acx` project reverse-engineered a fully open Linux driver around a closed firmware blob uploaded at init — an early template for exactly the "open driver, opaque firmware" split this catalog tracks. ACX111 added 802.11g. Monitor works; injection partial. **Tier 1**, openness partially-documented. See [acx100 project](https://acx100.sourceforge.net/).
+
+**`zydas-zd1211` — ZyDAS ZD1211 / ZD1211B (USB, 802.11b/g).** Open softMAC `zd1211rw` (kernel: "ZyDAS/Atheros" — Atheros acquired ZyDAS in 2006). Clean monitor + injection support made ZD1211 USB dongles a long-running aircrack-ng recommendation. Older sibling ZD1201 was 802.11b-only. **Tier 1**, openness partially-documented/patchable. Verified via kernel `zd1211rw`.
+
+**`marvell-libertas-8388` — Marvell 88W8388 "Libertas" (802.11b/g; SDIO/USB/CF).** The **OLPC XO-1** radio, and the most open-firmware-relevant retro part here. Two firmware personalities: the standard fullMAC `libertas` firmware (with hardware 802.11s mesh, the XO-1's headline feature), and `libertas_tf` — a **thin-firmware** variant that pushes the MAC up into `mac80211`, giving softMAC-style monitor/injection. Genuinely open firmware never shipped: Red Hat/OLPC operated under a Marvell NDA that drew sustained criticism from open-source advocates (documented in the OLPC coverage), so the firmware stayed closed even as the drivers went upstream. **Tier 1**, openness partially-documented (thin-firmware offload, closed blob). Distinct from the already-catalogued modern `marvell-88w8897`. Verified via kernel `libertas`/`libertas_tf` and the OLPC/Marvell NDA history.
+
+**`renesas-da16600` — Renesas (ex-Dialog) DA16600 (802.11b/g/n 2.4 GHz + BLE 5).** Ultra-low-power Wi-Fi IoT module pairing the DA16200 Wi-Fi SoC with a DA14531 BLE die. Vendor FreeRTOS SDK only; no host driver source for the PHY, no IQ path. Modern, closed, **tier 0** — catalogued so the modern IoT long-tail is complete. See [Renesas DA16600](https://www.renesas.com/en/products/wireless-connectivity/wi-fi/low-power-wi-fi).
+
+**`telit-we310f5` — Telit WE310F5.** A module-vendor rebrand of the Redpine Signals (later Silicon Labs) RS9113 single-die abgn+BT/BLE part. No independent silicon; SDR potential is whatever the RS9113 die offers, which in the shipping firmware is nil. **Tier 0**, closed. Status reported (rebrand).
+
+**`quectel-fgh100m` — Quectel FGH100M-H (Wi-Fi HaLow, 802.11ah, sub-GHz).** The one genuinely interesting modern straggler: **sub-GHz** (sub-1 GHz ISM) 802.11ah HaLow built on a **Newracom** NRC7292/NRC7394 SoC. Newracom publishes an open host driver package (`nrc7292_sw_pkg`) with monitor-mode support and a CSPI/host interface, though the firmware image is a supplied binary — a HaLow analogue of the ath9k story worth a deeper look in a future cycle. **Tier 1** (monitor reported), openness partially-documented, band **sub-GHz**. See [Newracom nrc7292_sw_pkg](https://github.com/newracom/nrc7292_sw_pkg).
+
+**`quectel-fcu630` — Quectel FCU630 / FC41D.** Wi-Fi 5 (11ac) + Bluetooth combo modules; the underlying die is an ASR/Realtek-class combo part depending on SKU. Closed. **Tier 0**, status reported. Catalogued as the "combo module" placeholder — chase the die, not the module.
+
+**`sparklan-wpeq-series` — SparkLAN WPEQ/WNFQ modules.** SparkLAN is a carrier-board/module house, not a silicon vendor: WPEQ-series wraps MediaTek MT7915 (Wi-Fi 6), WNFQ-series wraps Qualcomm QCA parts. SDR capability inherits entirely from the underlying die (see the MediaTek and Qualcomm-Atheros chip files). **Tier 0** as a module record; the real tier lives with the silicon. Status reported.
+
+### Cross-references & consolidated retro references
+
+- Linux mainline drivers for every retro part above (chip↔vendor mapping): [kernel wireless drivers list](https://wireless.docs.kernel.org/en/latest/en/users/drivers.html) — `hostap`, `orinoco`, `airo`, `adm8211`, `acx`, `zd1211rw`, `libertas`/`libertas_tf`.
+- Prism2/hostap lineage: [Prism (chipset)](https://en.wikipedia.org/wiki/Prism_(chipset)), [hostap](https://w1.fi/hostap.html) — historical bridge to modern injection (`../chips/qualcomm-atheros.md`, `../projects/nexmon.md`).
+- WaveLAN/Orinoco origin: [WaveLAN](https://en.wikipedia.org/wiki/WaveLAN).
+- TI ACX open-driver-over-closed-firmware pattern: [acx100.sourceforge.net](https://acx100.sourceforge.net/) — compare methodology in `../docs/firmware-reversing.md`.
+- ZyDAS: [ZyDAS](https://en.wikipedia.org/wiki/ZyDAS).
+- Newracom HaLow (sub-GHz, forward-looking): [github.com/newracom/nrc7292_sw_pkg](https://github.com/newracom/nrc7292_sw_pkg).
+
+**Honest-tier reminder:** none of these retro parts reach tier 2+. Their value is provenance and softMAC frame-level control (tier 1), not IQ/PHY access. Modern rebrand modules (Telit, Quectel combo, SparkLAN) are tier 0 pointers whose true capability is the die they carry — always resolve the module to its silicon before assigning a tier.

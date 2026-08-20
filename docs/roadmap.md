@@ -25,7 +25,8 @@ Cycles keep running as long as there are un‑cataloged parts — which is forev
 | 4 | Adjacent PHYs (BLE/802.15.4 · LoRa/sub‑GHz · router SoCs · radar/UWB) · gr‑ieee802‑11 · open‑AR9271 · nexmon‑CSI · Flipper walkthroughs · Tier‑3 audit · passive radar · 802.11az · RF‑safety · GNU Radio OOT · canon | ✅ done — +72 modules, 14 files |
 | 5 | Firmware‑RE deep dives (BCM4339 Shadow‑Wi‑Fi · ESP32 raw TX · mt76 · BL602) · RISC‑V/open Wi‑Fi · 802.11bf · CSI‑ML + HAR pipeline · driver/lib indexes · decision guide · Tier‑1 audit | ✅ done — +33 modules, 14 files |
 | 6 | Cellular baseband/diag & GNSS repurposing · productized + defensive sensing · Tier‑5 open‑fw audit · regulatory/front‑end refs · methodology · capability index | ✅ done — +39 modules, 16 files |
-| 7+ | Per‑vendor RE deep dives, more long‑tail parts, historical/retro radios, integration guides, re‑verify older tiers — keep sweeping | queued |
+| 7 | Open‑firmware classics (OpenFWWF · carl9170 · AX‑CSI) · Linux/Android stack integration · 802.11 standards ref · history · comparison tables · FAQ · datasheet audit | ✅ done — +14 modules, 13 files |
+| 8+ | Long‑tail continues (retro/regional/IoT), per‑chip RE, site‑ification, re‑verification — running on the loop | queued |
 
 ## Vendor / family queue (feeds future cycles)
 
