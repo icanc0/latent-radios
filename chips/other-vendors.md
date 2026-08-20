@@ -808,3 +808,81 @@ The tier ladder rewards raw-IQ and PHY access, so almost everything below sits a
 - Newracom HaLow (sub-GHz, forward-looking): [github.com/newracom/nrc7292_sw_pkg](https://github.com/newracom/nrc7292_sw_pkg).
 
 **Honest-tier reminder:** none of these retro parts reach tier 2+. Their value is provenance and softMAC frame-level control (tier 1), not IQ/PHY access. Modern rebrand modules (Telit, Quectel combo, SparkLAN) are tier 0 pointers whose true capability is the die they carry — always resolve the module to its silicon before assigning a tier.
+
+
+---
+
+## Long-tail sweep — Cycle 8
+
+Round 6 of the straggler sweep: retro client cards, Chinese IoT Wi-Fi SoCs/modules, and ruggedized MANET mesh radios that had not yet been catalogued. As always for **modules/integrators**, the SDR ceiling is the ceiling of the underlying **die** — a Murata/AzureWave/Doodle Labs/Rajant assembly inherits its radio's tier and nothing more. Tiers here are deliberately low; almost everything in this batch is Tier 0–1. Where a part is a repackaged die already in the catalog, score by the die and cross-reference it rather than inventing new offsets.
+
+Already catalogued elsewhere — not repeated here: `marvell-88w8897`, `realtek-rtl8187l`, and the Intersil **Prism2/2.5** family (referenced below only as the *die* inside retro modules).
+
+### Retro client cards
+
+| id | Part(s) | Die / radio | Linux driver | Tier | Notes |
+|----|---------|-------------|--------------|------|-------|
+| `cisco-aironet-cb21ag` | AIR-CB21AG, AIR-PI21AG | **Atheros AR5212** (a/b/g) | `ath5k` / MadWifi | 1 | Genuine Atheros die → monitor + injection. Best retro pick. |
+| `cisco-aironet-350` | AIR-PCM350, AIR-LMC352, AIR-PCI350 | Cisco proprietary 802.11b MAC | `airo` | 1 | `airo` supports monitor mode; no injection; closed firmware blob. |
+| `symbol-spectrum24` | Symbol/Motorola/Zebra Spectrum24 HR (LA-4121, etc.) | **Intersil Prism2** | `hostap` / `orinoco` | 1 | Prism2 die → classic monitor + injection. Score by Prism2. |
+| `proxim-orinoco-gold` | Orinoco Gold/Silver, WaveLAN Gold | **Lucent/Agere Hermes** (WaveLAN) | `orinoco_cs` | 1 | Gold vs Silver = 128- vs 64-bit WEP only; same Hermes die. Monitor via patched `orinoco`; no injection. |
+| `dlink-legacy-wlan` | DWL-650, DWL-520, DWL-G650, DWL-G122 | mixed: **Prism2/2.5**, **AR5212**, **Ralink RT2570**, **Marvell** | `hostap`/`ath5k`/`rt2500usb` | 1 | Integrator — tier = whichever die the revision carries. |
+| `3com-usr-legacy-wlan` | 3Com OfficeConnect 11g, USRobotics USR2210/5410/5416 | mixed: **Prism2**, **Atmel AT76C503**, **Atheros**, **Broadcom** | `hostap`/`atmel`/`ath5k`/`b43` | 1 | Rebadge integrator — score by the specific die per revision. |
+
+**Notes on the retro batch**
+
+- **CB21AG is the standout.** Cisco's a/b/g client is a bog-standard **Atheros AR5212** behind a Cisco sticker, so it does full RFMON monitor + frame injection under `ath5k`/MadWifi exactly like any AR5212 (cross-reference `chips/qualcomm-atheros.md`). The older **Aironet 340/350** 802.11b cards are a *different, proprietary* Cisco radio driven by the in-tree `airo` module — monitor mode works, injection does not, and the on-card firmware is an opaque flashable blob.
+- **Prism2 lives on inside other people's plastic.** Symbol/Motorola/Zebra **Spectrum24 High-Rate**, many **D-Link DWL-650**, and a good fraction of **3Com/USR** cards are Intersil **Prism2/2.5** dies — the canonical monitor/injection retro chipset. These modules add no capability of their own; their tier is the Prism2 die's tier.
+- **Hermes (Orinoco Gold/Silver)** is the Lucent/Agere WaveLAN die. It predates cheap monitor mode: the `orinoco` driver needs the monitor-mode patch and cannot inject, so it tops out at Tier 1 monitor-only. Historically important (it was the "classic" WarDriving card with NetStumbler/Kismet) but weak as an SDR.
+
+### Chinese IoT Wi-Fi SoCs & modules
+
+| id | Part(s) | Core | Radio | Tier | Notes |
+|----|---------|------|-------|------|-------|
+| `winnermicro-w600` | WinnerMicro W600/W601, TW-01/02/03 modules | ARM Cortex-M3 | 2.4 GHz 802.11 b/g/n | 0 | Open **WM SDK**, but PHY/MAC closed — no monitor/CSI path. Flashable (open-firmware) only. |
+| `winnermicro-w800` | WinnerMicro W800/W801/W806, HLK-W806 | ARM Cortex-M3 | 2.4 GHz 802.11 b/g/n + BLE | 0 | Wi-Fi+BLE combo; open SDK, closed PHY. Popular ESP-alternative. |
+| `tuya-wifi-modules` | TYWE1S/2S/3S, WB2/WB3, WBR series | — | 2.4 GHz | 1 | Integrator: TYWE=**ESP8266**, WB=**Beken BK7231N/T** or **Realtek RTL8720**. Tier = die (ESP8266 → monitor/CSI via `chips/espressif.md`). |
+| `aithinker-modules` | ESP-01/12 (ESP8266), ESP-32S, RTL-02/03 (RTL8710), BW12/BW15 (BK7231) | — | 2.4 GHz (+5 GHz on RTL8720/BW15) | 1 | Integrator: score by die — ESP → `chips/espressif.md`; RTL87xx/BK72xx → `chips/realtek.md` / Beken. |
+| `lierda-modules` | Lierda NB/Wi-Fi combo modules | — | 2.4 GHz | 1 | Integrator carrying **ESP32/ESP8266** or **Realtek RTL87xx** dies; tier per die. |
+
+**Notes on the Chinese IoT batch**
+
+- **Winner Micro W60x/W80x** are the "domestic ESP" — cheap Cortex-M3 Wi-Fi SoCs (the W800 adds BLE) from Beijing Winner Microelectronics, widely reflashed with the open **WM SDK**, Arduino cores, MicroPython and community forks. Crucially the SDK is open but the **PHY/baseband is a closed blob**: there is no published monitor/CSI/injection interface, so despite `open-firmware` they sit at **Tier 0**. Treat any Tuya/Lierda/Ai-Thinker module built on a W60x/W80x the same way.
+- **Tuya, Ai-Thinker and Lierda are packagers, not silicon vendors.** A Tuya `TYWE3S` is an **ESP8266**; a `WB3S` is a **Beken BK7231**; a `WBR3` is a **Realtek RTL8720**. An Ai-Thinker `ESP-12F` is an ESP8266, an `RT-02` is an RTL8710. So the SDR ceiling is entirely the die's: an ESP8266-based module reaches the ESP8266's monitor/injection/CSI tier (see `chips/espressif.md`), a BK7231/RTL8710 module is a closed Tier 0–1. Do not double-count these as new capabilities.
+
+### Ruggedized / MANET mesh radios
+
+| id | Part(s) | Underlying radio | Stack | Tier | Notes |
+|----|---------|-----------------|-------|------|-------|
+| `doodle-labs-mesh-rider` | Mesh Rider / Smart Radio (RM-2450, RM-915, embedded H/W-series) | **QCA IPQ40xx + QCA9880/9882/9888**, some **AR9xxx** | OpenWrt + ath9k/ath10k | 3 | Standard QCA dies on OpenWrt → monitor, injection, ath9k CSI, ath10k spectral. Tier = die (`chips/qualcomm-atheros.md`). |
+| `rajant-breadcrumb` | Rajant BreadCrumb (ME4, LX5, ES1, Cardinal) + InstaMesh | **Atheros/QCA 802.11 a/b/g/n/ac** | proprietary InstaMesh over 802.11 | 1 | Integrator: standard Atheros radios behind a closed mesh protocol; die gives monitor/injection at best. |
+| `silvus-streamcaster` | Silvus StreamCaster SC4200/SC4400 (MN-MIMO) | proprietary FPGA MIMO-OFDM baseband | closed "Mobile Networked MIMO" waveform | 0 | A genuine *soft* radio but fully proprietary/black-box — not a repurposable Wi-Fi die. No user PHY access. |
+
+**Notes on the mesh batch**
+
+- **Doodle Labs Mesh Rider** is the useful one: it is **OpenWrt on Qualcomm Atheros silicon** (IPQ40xx SoCs with QCA9880/9882/9888 or older AR9xxx radios), including sub-GHz (900 MHz), 2.4, and 5 GHz variants. Because the die is mainline `ath9k`/`ath10k`, you inherit the full Atheros SDR ladder — monitor + injection, **Atheros CSI Tool** on `ath9k` (Tier 2), and **`ath10k` spectral scan** (Tier 3) on the QCA988x radios. The tier belongs to the die; cross-reference `chips/qualcomm-atheros.md` and `projects/csi-toolchains.md`.
+- **Rajant BreadCrumb** wraps ordinary Atheros 802.11 a/b/g/n/ac radios in the closed **InstaMesh** protocol. The radios themselves are Atheros dies (monitor/injection possible if you can get to the driver), but the shipped firmware exposes only the mesh stack → practically Tier 1.
+- **Silvus StreamCaster** is the odd one out: it is *already* a software radio (FPGA-based MIMO-OFDM "MN-MIMO" waveform, not 802.11), but it is a sealed defense/industrial product with no open PHY, SDK, or driver — a black box, **Tier 0**, listed only for completeness.
+
+### Cross-references
+
+- Prism2/2.5 dies inside Symbol/D-Link/3Com cards → the Intersil Prism family entries and `chips/monitor-injection-support.md`.
+- Atheros AR5212 (CB21AG, DWL-G650) and QCA988x (Doodle Labs) → `chips/qualcomm-atheros.md`.
+- ESP8266/ESP32 inside Tuya/Ai-Thinker/Lierda modules → `chips/espressif.md`; RTL87xx modules → `chips/realtek.md`.
+- Monitor-mode retro landscape → `chips/monitor-injection-support.md`; timeline of WaveLAN/Prism/Aironet → `docs/history-timeline.md`.
+
+### References
+
+- Linux `airo` driver (Cisco Aironet 340/350): https://www.kernel.org/doc/html/latest/networking/device_drivers/wifi/airo.html
+- Linux `ath5k` (Atheros AR5212, incl. Cisco CB21AG, D-Link DWL-G650): https://wireless.docs.kernel.org/en/latest/en/users/drivers/ath5k.html
+- Linux `orinoco` / Hermes (Orinoco Gold/Silver, WaveLAN): https://wireless.docs.kernel.org/en/latest/en/users/drivers/orinoco.html
+- Linux `hostap` (Intersil Prism2/2.5 — Symbol Spectrum24, D-Link DWL-650, 3Com/USR): https://wireless.docs.kernel.org/en/latest/en/users/drivers/hostap.html
+- WaveLAN / Hermes background: https://en.wikipedia.org/wiki/WaveLAN
+- Cisco Aironet series: https://en.wikipedia.org/wiki/Cisco_Aironet_series
+- WinnerMicro (W600/W800 vendor): https://www.winnermicro.com/
+- Tuya module cross-reference (die-per-module): https://tasmota.github.io/docs/devices/
+- Ai-Thinker modules: https://docs.ai-thinker.com/en/wifi
+- Doodle Labs Mesh Rider (OpenWrt / QCA): https://doodlelabs.com/products/mesh-rider-radio/
+- Rajant Kinetic Mesh / InstaMesh: https://rajant.com/technology/
+- Silvus StreamCaster MN-MIMO: https://silvustechnologies.com/products/streamcaster-radios/
+- Atheros CSI Tool (ath9k CSI on QCA radios): https://wands.sg/research/wifi/AtherosCSI/

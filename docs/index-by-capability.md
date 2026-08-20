@@ -6,19 +6,19 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 
 | Capability | Count | Meaning |
 |---|---:|---|
-| `csi` | 73 | Per-subcarrier channel state (Tier 2 sensing) |
-| `spectral-scan` | 65 | Raw PHY FFT bins (Tier 3) |
+| `csi` | 91 | Per-subcarrier channel state (Tier 2 sensing) |
+| `spectral-scan` | 71 | Raw PHY FFT bins (Tier 3) |
 | `raw-iq` | 48 | Time-domain IQ access |
-| `arbitrary-waveform` | 32 | Author & transmit baseband IQ (Tier 4) |
+| `arbitrary-waveform` | 33 | Author & transmit baseband IQ (Tier 4) |
 | `radar` | 34 | Radar sensing mode |
 | `fmcw` | 16 | FMCW ranging radar |
-| `passive-radar` | 6 | Passive/bistatic radar |
-| `covert-channel` | 44 | Non-native / cross-technology emission |
-| `open-firmware` | 41 | Open or documented firmware/PHY |
-| `injection` | 262 | Byte-exact frame transmit |
-| `monitor` | 396 | RFMON capture of all frames |
+| `passive-radar` | 5 | Passive/bistatic radar |
+| `covert-channel` | 46 | Non-native / cross-technology emission |
+| `open-firmware` | 44 | Open or documented firmware/PHY |
+| `injection` | 321 | Byte-exact frame transmit |
+| `monitor` | 459 | RFMON capture of all frames |
 
-## `csi` — Per-subcarrier channel state (Tier 2 sensing) (73)
+## `csi` — Per-subcarrier channel state (Tier 2 sensing) (91)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -31,6 +31,9 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | openwifi on Zynq-7020 + AD9361 (NeptuneSDR clone) | Analog Devices | 5 (open PHY / SDR) | reported |
 | openwifi — open-PHY 802.11a/g/n baseband on Zynq + AD9361/AD9364 | Analog Devices | 5 (open PHY / SDR) | verified |
 | ANTSDR / E310 (openwifi) | MicroPhase | 5 (open PHY / SDR) | verified |
+| BCM2711 (Raspberry Pi 4 / 400 / CM4) | Raspberry Pi | 4 (arbitrary-IQ TX) | verified |
+| BCM2712 (Raspberry Pi 5 / CM5) | Raspberry Pi | 4 (arbitrary-IQ TX) | reported |
+| Mesh Rider / Smart Radio | Doodle Labs | 3 (spectral) | reported |
 | AR9003 SoC (ath9k) | Qualcomm | 3 (spectral) | verified |
 | AR9003 SoC (ath9k) | Qualcomm | 3 (spectral) | verified |
 | AR9003 (ath9k) | Qualcomm | 3 (spectral) | verified |
@@ -51,6 +54,12 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | ath9k (AR9003) | Qualcomm Atheros | 3 (spectral) | verified |
 | ath9k (AR9003) | Qualcomm Atheros | 3 (spectral) | verified |
 | AR93xx | Qualcomm Atheros | 3 (spectral) | verified |
+| SX-PCEGN | Silex Technology | 3 (spectral) | reported |
+| WPEA | SparkLAN | 3 (spectral) | reported |
+| AP62xx | AMPAK | 2 (CSI) | reported |
+| AP62xx | AMPAK | 2 (CSI) | reported |
+| AP63xx | AMPAK | 2 (CSI) | reported |
+| AW-CM | AzureWave | 2 (CSI) | reported |
 | BCM433x (802.11ac 1x1) | Broadcom | 2 (CSI) | reported |
 | BCM434xx (802.11ac 1x1) | Broadcom | 2 (CSI) | reported |
 | BCM434xx (Nexmon) | Broadcom | 2 (CSI) | verified |
@@ -60,12 +69,16 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | CL2x4x / CL6000 Denali | Celeno | 2 (CSI) | reported |
 | ESP32 | Espressif | 2 (CSI) | verified |
 | ESP32-C3 | Espressif | 2 (CSI) | verified |
+| ESP32-C3-WROOM | Espressif | 2 (CSI) | verified |
 | ESP32-C (RISC-V) | Espressif | 2 (CSI) | verified |
 | ESP32-C6 | Espressif | 2 (CSI) | verified |
+| ESP32-C6-WROOM | Espressif | 2 (CSI) | verified |
 | ESP32-C (RISC-V) | Espressif | 2 (CSI) | verified |
 | ESP32 CSI | Espressif | 2 (CSI) | verified |
 | ESP32-S2 | Espressif | 2 (CSI) | verified |
 | ESP32-S3 | Espressif | 2 (CSI) | verified |
+| ESP32-S3-WROOM | Espressif | 2 (CSI) | verified |
+| ESP32-WROOM | Espressif | 2 (CSI) | verified |
 | ESP32 (Xtensa LX6) | Espressif | 2 (CSI) | verified |
 | ESP8266 | Espressif | 2 (CSI) | reported |
 | AX200 (Cyclone Peak) | Intel | 2 (CSI) | verified |
@@ -82,6 +95,7 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | Filogic | MediaTek | 2 (CSI) | reported |
 | MT7996 (Filogic, connac3) | MediaTek | 2 (CSI) | reported |
 | MT7996 (Filogic, connac3) | MediaTek | 2 (CSI) | reported |
+| Type 1LD | Murata | 2 (CSI) | reported |
 | NXP Trimension UWB | NXP | 2 (CSI) | reported |
 | DW1000/DW3000 UWB | Qorvo | 2 (CSI) | verified |
 | WiGig 60 GHz (802.11ad) | Qualcomm | 2 (CSI) | reported |
@@ -94,9 +108,13 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | Ameba (AmebaDplus MCU) | Realtek | 2 (CSI) | verified |
 | Ameba (AmebaSmart SoC) | Realtek | 2 (CSI) | verified |
 | Ameba (AmebaPro2 SoC) | Realtek | 2 (CSI) | verified |
+| u-blox NORA-W (ESP32 carrier) | u-blox | 2 (CSI) | verified |
+| u-blox NORA-W | u-blox | 2 (CSI) | verified |
+| Wi-Fi IoT modules | Ai-Thinker | 1 (monitor+inject) | reported |
 | BCM43xx (FullMAC / Nexmon) | Broadcom | 1 (monitor+inject) | verified |
+| Wi-Fi IoT modules | Tuya | 1 (monitor+inject) | reported |
 
-## `spectral-scan` — Raw PHY FFT bins (Tier 3) (65)
+## `spectral-scan` — Raw PHY FFT bins (Tier 3) (71)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -112,6 +130,9 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | ANTSDR / E310 (openwifi) | MicroPhase | 5 (open PHY / SDR) | verified |
 | RTL2832U + R820T2/R828D | Realtek | 5 (open PHY / SDR) | verified |
 | RSP1A / RSPdx-R2 | SDRplay | 5 (open PHY / SDR) | verified |
+| BCM2711 (Raspberry Pi 4 / 400 / CM4) | Raspberry Pi | 4 (arbitrary-IQ TX) | verified |
+| BCM2712 (Raspberry Pi 5 / CM5) | Raspberry Pi | 4 (arbitrary-IQ TX) | reported |
+| Mesh Rider / Smart Radio | Doodle Labs | 3 (spectral) | reported |
 | Ubertooth (CC2400 + LPC17xx) | Great Scott Gadgets | 3 (spectral) | verified |
 | IPQ40xx (ath10k) | Qualcomm | 3 (spectral) | verified |
 | IPQ40xx Dakota | Qualcomm | 3 (spectral) | verified |
@@ -158,6 +179,9 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | AR93xx | Qualcomm Atheros | 3 (spectral) | verified |
 | ath10k (11ac wave-1) | Qualcomm Atheros | 3 (spectral) | verified |
 | ath10k (11ac wave-2) | Qualcomm Atheros | 3 (spectral) | verified |
+| SX-PCEGN | Silex Technology | 3 (spectral) | reported |
+| WPEA | SparkLAN | 3 (spectral) | reported |
+| WPEQ | SparkLAN | 3 (spectral) | reported |
 | SimpleLink CC13xx/CC26xx | Texas Instruments | 3 (spectral) | verified |
 | CC24xx transceiver | Texas Instruments | 3 (spectral) | verified |
 | AR93xx SoC | Qualcomm Atheros | 2 (CSI) | verified |
@@ -219,7 +243,7 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | QM33xxx FiRa-Certified HRP-UWB transceiver | Qorvo | 3 (spectral) | reported |
 | SE4110 / SE4120 | Skyworks | 3 (spectral) | reported |
 
-## `arbitrary-waveform` — Author & transmit baseband IQ (Tier 4) (32)
+## `arbitrary-waveform` — Author & transmit baseband IQ (Tier 4) (33)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -244,7 +268,8 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | HackRF PortaPack | Great Scott Gadgets | 4 (arbitrary-IQ TX) | verified |
 | XENSIV 60 GHz FMCW radar (Google Soli) | Infineon | 4 (arbitrary-IQ TX) | verified |
 | AT86RF215 dual-band 802.15.4g + I/Q radio | Microchip | 4 (arbitrary-IQ TX) | verified |
-| mmWave single-chip FMCW radar (IWR/AWR) | Texas Instruments | 4 (arbitrary-IQ TX) | verified |
+| BCM2711 (Raspberry Pi 4 / 400 / CM4) | Raspberry Pi | 4 (arbitrary-IQ TX) | verified |
+| BCM2712 (Raspberry Pi 5 / CM5) | Raspberry Pi | 4 (arbitrary-IQ TX) | reported |
 | Uhnder digital radar | Uhnder | 4 (arbitrary-IQ TX) | reported |
 | RTC6705 5.8 GHz analog-FM video Tx | Richwave | 3 (spectral) | verified |
 | SimpleLink CC13xx/CC26xx | Texas Instruments | 3 (spectral) | verified |
@@ -316,7 +341,7 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | NXP 77 GHz automotive radar transceiver | NXP | 3 (spectral) | reported |
 | CL2x4x / CL6000 Denali | Celeno | 2 (CSI) | reported |
 
-## `passive-radar` — Passive/bistatic radar (6)
+## `passive-radar` — Passive/bistatic radar (5)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -325,9 +350,8 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | KrakenSDR coherent RTL-SDR array | KrakenRF | 5 (open PHY / SDR) | verified |
 | bladeRF 2.0 micro xA4 / xA9 | Nuand | 5 (open PHY / SDR) | verified |
 | RTL2832U + R820T2/R828D | Realtek | 5 (open PHY / SDR) | verified |
-| DW1000/DW3000 UWB | Qorvo | 2 (CSI) | verified |
 
-## `covert-channel` — Non-native / cross-technology emission (44)
+## `covert-channel` — Non-native / cross-technology emission (46)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -341,12 +365,14 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | BCM43xx D11 SoftMAC (OpenFWWF open firmware) | Broadcom | 5 (open PHY / SDR) | verified |
 | HackRF PortaPack | Great Scott Gadgets | 4 (arbitrary-IQ TX) | verified |
 | RTC6705 5.8 GHz analog-FM video Tx | Richwave | 3 (spectral) | verified |
+| AP62xx | AMPAK | 2 (CSI) | reported |
 | ESP32 | Espressif | 2 (CSI) | verified |
 | ESP32-C3 | Espressif | 2 (CSI) | verified |
 | ESP32-C6 | Espressif | 2 (CSI) | verified |
 | ESP32-S2 | Espressif | 2 (CSI) | verified |
 | ESP32-S3 | Espressif | 2 (CSI) | verified |
 | ESP8266 | Espressif | 2 (CSI) | reported |
+| Type 1LD | Murata | 2 (CSI) | reported |
 | NXP Trimension UWB | NXP | 2 (CSI) | reported |
 | 3db UWB | 3db Access | 1 (monitor+inject) | reported |
 | ASR58xx | ASR Microelectronics | 1 (monitor+inject) | reported |
@@ -376,7 +402,7 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | CC120x high-performance sub-GHz FSK transceiver | Texas Instruments | 1 (monitor+inject) | verified |
 | CC25xx 2.4 GHz transceiver | Texas Instruments | 1 (monitor+inject) | verified |
 
-## `open-firmware` — Open or documented firmware/PHY (41)
+## `open-firmware` — Open or documented firmware/PHY (44)
 
 | Chip / family | Vendor | Tier | Status |
 |---|---|---|---|
@@ -395,6 +421,7 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | HackRF | Great Scott Gadgets | 5 (open PHY / SDR) | verified |
 | ANTSDR / E310 (openwifi) | MicroPhase | 5 (open PHY / SDR) | verified |
 | HackRF PortaPack | Great Scott Gadgets | 4 (arbitrary-IQ TX) | verified |
+| Mesh Rider / Smart Radio | Doodle Labs | 3 (spectral) | reported |
 | Ubertooth (CC2400 + LPC17xx) | Great Scott Gadgets | 3 (spectral) | verified |
 | CC24xx transceiver | Texas Instruments | 3 (spectral) | verified |
 | 802.11ad WiGig router (QCA9500) | Netgear | 2 (CSI) | reported |
@@ -421,24 +448,26 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | Ameba (AmebaZ MCU) | Realtek | 1 (monitor+inject) | verified |
 | STM32WL LoRa SoC (SX126x radio + Cortex-M4/M0+) | STMicroelectronics | 1 (monitor+inject) | verified |
 | TLSR (825x / 827x / 921x) | Telink Semiconductor | 1 (monitor+inject) | verified |
+| W60x | Winner Micro | 0 (black box) | reported |
+| W80x | Winner Micro | 0 (black box) | reported |
 
-## `injection` — Byte-exact frame transmit (262)
+## `injection` — Byte-exact frame transmit (321)
 
-262 modules across 41 vendors. Top: Qualcomm Atheros (36), Broadcom (32), Intel (29), MediaTek (29), Realtek (19), Texas Instruments (12), Espressif (9), Ralink (9), Qualcomm (8), Nordic Semiconductor (7). Full list in [`data/modules.csv`](../data/modules.csv).
+321 modules across 63 vendors. Top: Qualcomm Atheros (36), Broadcom (32), Intel (29), MediaTek (29), Realtek (19), Espressif (14), Texas Instruments (13), Ralink (11), Qualcomm (8), u-blox (7). Full list in [`data/modules.csv`](../data/modules.csv).
 
-## `monitor` — RFMON capture of all frames (396)
+## `monitor` — RFMON capture of all frames (459)
 
-396 modules across 56 vendors. Top: Realtek (54), Qualcomm (48), Broadcom (43), Qualcomm Atheros (37), Intel (37), MediaTek (32), Texas Instruments (12), Espressif (12), Nordic Semiconductor (9), Ralink (9). Full list in [`data/modules.csv`](../data/modules.csv).
+459 modules across 75 vendors. Top: Realtek (54), Qualcomm (48), Broadcom (43), Qualcomm Atheros (37), Intel (37), MediaTek (33), Espressif (17), Texas Instruments (13), Ralink (11), u-blox (9). Full list in [`data/modules.csv`](../data/modules.csv).
 
 ## By tier
 
 | Tier | Name | Count |
 |---|---|---:|
-| 0 | black box | 85 |
-| 1 | monitor+inject | 287 |
-| 2 | CSI | 48 |
-| 3 | spectral | 57 |
-| 4 | arbitrary-IQ TX | 17 |
+| 0 | black box | 94 |
+| 1 | monitor+inject | 334 |
+| 2 | CSI | 59 |
+| 3 | spectral | 61 |
+| 4 | arbitrary-IQ TX | 19 |
 | 5 | open PHY / SDR | 25 |
 
-*519 modules total.*
+*592 modules total.*

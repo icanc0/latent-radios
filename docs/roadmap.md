@@ -26,7 +26,8 @@ Cycles keep running as long as there are un‑cataloged parts — which is forev
 | 5 | Firmware‑RE deep dives (BCM4339 Shadow‑Wi‑Fi · ESP32 raw TX · mt76 · BL602) · RISC‑V/open Wi‑Fi · 802.11bf · CSI‑ML + HAR pipeline · driver/lib indexes · decision guide · Tier‑1 audit | ✅ done — +33 modules, 14 files |
 | 6 | Cellular baseband/diag & GNSS repurposing · productized + defensive sensing · Tier‑5 open‑fw audit · regulatory/front‑end refs · methodology · capability index | ✅ done — +39 modules, 16 files |
 | 7 | Open‑firmware classics (OpenFWWF · carl9170 · AX‑CSI) · Linux/Android stack integration · 802.11 standards ref · history · comparison tables · FAQ · datasheet audit | ✅ done — +14 modules, 13 files |
-| 8+ | Long‑tail continues (retro/regional/IoT), per‑chip RE, site‑ification, re‑verification — running on the loop | queued |
+| 8 | Module integrators (Murata/AMPAK/AzureWave/Laird) · SoC‑integrated & IoT/M2M Wi‑Fi · retro lineage (Prism2/HostAP · rt2x00) · gesture/occupancy CSI · sensing limits · audit 2 · awesome‑tools · troubleshooting | ✅ done — +73 modules, 14 files |
+| 9+ | More long‑tail & per‑chip RE, additional sensing apps, re‑verification, site‑ification — running on the loop | queued |
 
 ## Vendor / family queue (feeds future cycles)
 
