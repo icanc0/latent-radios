@@ -29,7 +29,8 @@ Cycles keep running as long as there are un‑cataloged parts — which is forev
 | 8 | Module integrators (Murata/AMPAK/AzureWave/Laird) · SoC‑integrated & IoT/M2M Wi‑Fi · retro lineage (Prism2/HostAP · rt2x00) · gesture/occupancy CSI · sensing limits · audit 2 · awesome‑tools · troubleshooting | ✅ done — +73 modules, 14 files |
 | 9 | Consolidation: unified verification summary · kernel‑source cross‑check · Nexus 5 reference build · CSI calibration · testbed & repro checklist · sensing‑app catalog · ethics · sweep 7 | ✅ done — +7 modules, 13 files |
 | 10 | Modern‑HW walkthroughs (MT7921/25 · AX210+FeitCSI · PlutoSDR) · multi‑antenna AoA · real‑time CSI viz · Wi‑Fi 7 sensing frontier · changelog · final sweep (long‑tail exhausted: +2) | ✅ done — 8 agents, +2 modules |
-| 11+ | Polish / site‑ification / re‑verification — the long‑tail is effectively exhausted at ~600 modules | queued |
+| 11 | **Primary-source** entry: AICSemi **AIC8800** (RivieraWaves RW‑nX, ARM Cortex‑M) reversed first‑hand off the host machine's own USB module (`a69c:8d81`, fw v6.4.3.1) — new `chips/aicsemi.md`, Ghidra walkthrough, Tier‑1 verified | ✅ done — +1 module, +1 vendor (602 / 108) |
+| 12+ | Polish / site‑ification / re‑verification — the long‑tail is effectively exhausted at ~600 modules; net-new entries now come from **first-hand hardware** rather than web sweeps | queued |
 
 ## Vendor / family queue (feeds future cycles)
 

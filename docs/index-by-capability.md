@@ -15,8 +15,8 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | `passive-radar` | 5 | Passive/bistatic radar |
 | `covert-channel` | 47 | Non-native / cross-technology emission |
 | `open-firmware` | 44 | Open or documented firmware/PHY |
-| `injection` | 327 | Byte-exact frame transmit |
-| `monitor` | 465 | RFMON capture of all frames |
+| `injection` | 328 | Byte-exact frame transmit |
+| `monitor` | 466 | RFMON capture of all frames |
 
 ## `csi` — Per-subcarrier channel state (Tier 2 sensing) (92)
 
@@ -453,23 +453,23 @@ A capability-first view of the catalog, generated directly from [`data/modules.j
 | W60x | Winner Micro | 0 (black box) | reported |
 | W80x | Winner Micro | 0 (black box) | reported |
 
-## `injection` — Byte-exact frame transmit (327)
+## `injection` — Byte-exact frame transmit (328)
 
-327 modules across 63 vendors. Top: Qualcomm Atheros (36), Broadcom (32), Intel (29), MediaTek (29), Realtek (19), Espressif (14), Texas Instruments (13), Ralink (11), Qualcomm (8), Nordic Semiconductor (8). Full list in [`data/modules.csv`](../data/modules.csv).
+328 modules across 64 vendors. Top: Qualcomm Atheros (36), Broadcom (32), Intel (29), MediaTek (29), Realtek (19), Espressif (14), Texas Instruments (13), Ralink (11), Qualcomm (8), Nordic Semiconductor (8). Full list in [`data/modules.csv`](../data/modules.csv).
 
-## `monitor` — RFMON capture of all frames (465)
+## `monitor` — RFMON capture of all frames (466)
 
-465 modules across 75 vendors. Top: Realtek (54), Qualcomm (48), Broadcom (43), Qualcomm Atheros (37), Intel (37), MediaTek (33), Espressif (17), Texas Instruments (13), Ralink (11), Nordic Semiconductor (10). Full list in [`data/modules.csv`](../data/modules.csv).
+466 modules across 76 vendors. Top: Realtek (54), Qualcomm (48), Broadcom (43), Qualcomm Atheros (37), Intel (37), MediaTek (33), Espressif (17), Texas Instruments (13), Ralink (11), Nordic Semiconductor (10). Full list in [`data/modules.csv`](../data/modules.csv).
 
 ## By tier
 
 | Tier | Name | Count |
 |---|---|---:|
 | 0 | black box | 97 |
-| 1 | monitor+inject | 341 |
+| 1 | monitor+inject | 342 |
 | 2 | CSI | 58 |
 | 3 | spectral | 61 |
 | 4 | arbitrary-IQ TX | 19 |
 | 5 | open PHY / SDR | 25 |
 
-*601 modules total.*
+*602 modules total.*

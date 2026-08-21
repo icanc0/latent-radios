@@ -231,6 +231,73 @@
     ]
   },
   {
+    "id": "aicsemi-aic8800",
+    "vendor": "AICSemi",
+    "family": "AIC8800 (RivieraWaves RW-nX)",
+    "aliases": [
+      "AIC8800",
+      "AIC8801",
+      "AIC8800DC",
+      "AIC8800DW",
+      "AIC8800D80",
+      "AIC8800D81"
+    ],
+    "part_numbers": [
+      "AIC8800",
+      "AIC8801",
+      "AIC8800DC",
+      "AIC8800DW",
+      "AIC8800D80",
+      "AIC8800D81"
+    ],
+    "bands": [
+      "2.4GHz",
+      "5GHz"
+    ],
+    "standards": [
+      "802.11b/g/n",
+      "802.11ac",
+      "802.11ax"
+    ],
+    "sdr_tier": 1,
+    "sdr_capabilities": [
+      "monitor",
+      "injection"
+    ],
+    "firmware": {
+      "openness": "patchable",
+      "arch": "ARM Cortex-M (Thumb-2), RivieraWaves RW-nX full-MAC; fmacfw RAM image base 0x110000, SP 0x184000; separate lmacfw_rf lower-MAC/RF core",
+      "re_tooling": [
+        "Ghidra (ARM:LE:32:Cortex, Thumb)",
+        "binwalk + cpu_rec",
+        "open aic8800 DKMS driver source (lmac_msg.h, rwnx_*.c)",
+        "RivieraWaves rwnx/ecrnx driver trees for symbol names",
+        "fw_patch_table.bin {addr->replacement} hook"
+      ]
+    },
+    "common_hardware": [
+      "RK3588 / RK3566 SBCs (Radxa/Orange Pi/etc.)",
+      "cheap AIC8800 USB Wi-Fi 6 dongles",
+      "Android TV boxes"
+    ],
+    "key_projects": [
+      {
+        "name": "aic8800 DKMS driver + firmware (Debian/Radxa packaging)",
+        "url": "https://github.com/radxa-pkg/aic8800"
+      },
+      {
+        "name": "Ghidra",
+        "url": "https://ghidra-sre.org/"
+      }
+    ],
+    "references": [
+      "https://github.com/radxa-pkg/aic8800",
+      "https://ghidra-sre.org/"
+    ],
+    "status": "verified",
+    "notes": "PRIMARY-SOURCE: analyzed first-hand on an RK3588 SBC, AIC8800D81 USB module a69c:8d81, firmware v6.4.3.1 (build Jan 04 2024, g32003198), driver aic8800-usb 3.0+git20240327.3561b08f. Firmware CPU is ARM Cortex-M Thumb-2 (vector table: SP=0x184000, reset=0x110191), base 0x110000. MAC is licensed RivieraWaves RW-nX ('rwnx'/'nxmac'/'ke_state'/TASK_SCANU) whose function names leak via assert strings; named PHY entry points present (phy_set_channel, phy_hw_set_channel, wfrf calib, wf dccalib). Tier 1 VERIFIED: driver registers NL80211_IFTYPE_MONITOR and has an ieee80211_radiotap/mgmt_tx injection path. Openness=patchable because a vendor fw_patch_table.bin uploads {ROM addr -> replacement} at load (a built-in Nexmon-style hook, no reflash). NOT tagged csi/spectral/radar: no CSI readout in the driver; only cfg80211 survey (per-channel NOISE dBm) and a DFS-only radar PULSE detector (rwnx_radar.c, regulatory detection, not steerable/readable). A CSI or spectral firmware mod is plausible (named PHY fns + beamformer rwnx_bfmer.c + patch table) but UNPROVEN => higher tiers remain theoretical. Family bands: D80/D81 are dual-band Wi-Fi 6; base/DC/DW variants are 2.4GHz-only 11n. See chips/aicsemi.md and docs/walkthroughs/aic8800-rivierawaves-firmware-re.md."
+  },
+  {
     "id": "airoha-ab1565",
     "vendor": "Airoha",
     "family": "Airoha BT audio",
